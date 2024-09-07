@@ -1,0 +1,26 @@
+name = "bloggingapp"
+compatibility_date = "2024-09-07"
+# compatibility_flags = [ "nodejs_compat" ]
+
+[vars]
+# MY_VAR = "my-variable"
+
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiODkyOWU1ODItM2YzYy00NTljLWE2OTktODNhNGZlOTMwOTQxIiwidGVuYW50X2lkIjoiNDNjNzkyZDJlOWU2ODY1OWMxZTYwMWIwY2YzN2Y4NjU2NWE5OWEyMWQ1ZmM1MzNmYzBmMzliZjAwZDA0ZmI1MiIsImludGVybmFsX3NlY3JldCI6IjBjNGZkMDEwLTMzZmYtNDhiZi05ZTVlLThhM2RiYzcxYTQzOCJ9.wlMH_0Zdf0bVXtbYyC1y-ITw23BRIV9lW8EKPaOE9xU"
+
+JWT_SECRET = "blog"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
