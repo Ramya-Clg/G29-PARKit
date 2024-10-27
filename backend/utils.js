@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const axios = require('axios')
 require('dotenv').config();
 
 const sendMail = ({ receiver, otp }) => {
@@ -35,5 +36,7 @@ const sendMail = ({ receiver, otp }) => {
             });
 
 }
+
+
 
 module.exports = { sendMail }
