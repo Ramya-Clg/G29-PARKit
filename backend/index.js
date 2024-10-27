@@ -7,9 +7,9 @@ const PORT = 3000
 
 app.get('/otp',(req,res)=>{
     const otp  = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets: false });
-    
+
     sendMail({
-        receiver: "notuseful.com.01@gmail.com",
+        receiver: "@gmail.com",
         otp: otp
     })
     res.json({
