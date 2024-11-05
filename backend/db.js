@@ -20,3 +20,15 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+
+
+// Parking Slot
+const parkingSlotSchema = new mongoose.Schema({
+    slotNumber: { type: String, required: true, unique: true },
+    isOccupied: { type: Boolean, default: false },
+    assignedUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    level: { type: String, required: true } // e.g., "Level 1", "Basement"
+}, { timestamps: true });
+
+const ParkingSlot = mongoose.model('ParkingSlot', parkingSlotSchema);
+module.exports = ParkingSlot;
