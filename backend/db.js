@@ -17,25 +17,27 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    vehicle: {
-      plateNumber: {
-        type: String,
-        required: true,
-        unique: true,
-      },
-      model: {
-        type: String,
-        required: true,
-      },
-      color: {
-        type: String,
-      },
+    checkInTime: {
+      type: Date,
+      default: null,
     },
-    // otp: { type: String, default: null },
-    // checkInTime: { type: Date, default: null },
-    // checkOutTime: { type: Date, default: null },
-    // isCheckedIn: { type: Boolean, default: false },
-    // parkingSlot: { type: mongoose.Schema.Types.ObjectId, ref: 'ParkingSlot', default: null }
+    checkOutTime: {
+      type: Date,
+      default: null,
+    },
+    otp: {
+      type: Number,
+      default: null,
+    },
+    isCheckedIn: {
+      type: Boolean,
+      default: false,
+    },
+    parkingSlot: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ParkingSlot",
+      default: null,
+    },
   },
   { timestamps: true },
 );
@@ -65,6 +67,19 @@ const parkingSlotSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+const vehicleSchema = new mongoose.Schema({
+  plateNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+});
 
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
