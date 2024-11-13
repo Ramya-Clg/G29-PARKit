@@ -5,7 +5,7 @@ const otpGenerator = require("otp-generator");
 const { User } = require("./db");
 const app = express();
 const PORT = 3000;
-const  jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 
@@ -54,20 +54,19 @@ app.post("/login", (req, res) => {
 app.post("/signup", async (req, res) => {
     const parsedObj = SignupSchema.safeParse(req.body)
     if (!parsedObj.success) return res.status(400).json({ msg: "Invalid Format" })
-    const { name, email, password, phone } = parsedObj.data
+    const { name, email, password } = parsedObj.data
     const user = await User.findOne({ email })
     if (user) return res.status(400).json({ msg: "User Already Exists" })
-    
-       try {
-        const newUser = new User({ name, email, password, phone })
+    try {
+        const newUser = new User({ name, email, password })
         await newUser.save()
         const token = jwt.sign({ email, name }, process.env.JWT_SECRET)
         res.json({ token })
-       } catch (err) {
+    } catch (err) {
         console.log(err)
         res.status(500).json({ msg: "user already exists" })
-       }
-    
+    }
+
 })
 
 app.listen(PORT, () => {
