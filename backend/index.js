@@ -57,7 +57,6 @@ app.post("/signup", async (req, res) => {
     const { name, email, password, phone } = parsedObj.data
     const user = await User.findOne({ email })
     if (user) return res.status(400).json({ msg: "User Already Exists" })
-    
        try {
         const newUser = new User({ name, email, password, phone })
         await newUser.save()
@@ -67,7 +66,6 @@ app.post("/signup", async (req, res) => {
         console.log(err)
         res.status(500).json({ msg: "user already exists" })
        }
-    
 })
 
 app.listen(PORT, () => {
