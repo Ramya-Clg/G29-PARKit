@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect(`${process.env.MONGODB_URL}parkit`);
+mongoose.connect(`${process.env.MONGODB_URL}testing`);
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,10 +12,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    phone: {
+    password: {
       type: String,
       required: true,
-      unique: true,
     },
     checkInTime: {
       type: Date,
