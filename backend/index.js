@@ -57,16 +57,15 @@ app.post("/signup", async (req, res) => {
     const { name, email, password } = parsedObj.data
     const user = await User.findOne({ email })
     if (user) return res.status(400).json({ msg: "User Already Exists" })
-    try {
-        const newUser = new User({ name, email, password })
+       try {
+        const newUser = new User({ name, email, password, phone })
         await newUser.save()
         const token = jwt.sign({ email, name }, process.env.JWT_SECRET)
         res.json({ token })
     } catch (err) {
         console.log(err)
         res.status(500).json({ msg: "user already exists" })
-    }
-
+       }
 })
 
 app.listen(PORT, () => {
