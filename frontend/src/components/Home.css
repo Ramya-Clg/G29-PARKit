@@ -1,0 +1,167 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main_container{
+    height: 100vh;
+    width: 100vw;
+    /* background: url(./Frame-1.jpeg); */
+   
+}
+#background_home{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    z-index: -1;
+}
+
+#gaddi{
+    position: absolute;
+    width: 35%;
+    right: 2rem;
+    bottom: 12rem;
+    animation: car_transition;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+}
+
+@keyframes car_transition {
+    0%   {
+        right: -400px;
+    }
+    
+    100% {right: 2rem;}
+  }
+
+.inside_container1{
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.container1_navbar{
+    height: 10%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 10px;
+
+}
+
+#navimg{
+    
+    height: 80%;
+}
+
+.navtags{
+    text-decoration: none;
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-weight:bolder; 
+    font-size: 1.2rem;  
+}
+
+#login{
+    background-color: #65b0b3;
+    border: none;
+    border-radius: 5px;
+    width: 8%;
+    height: 50%;
+    color: white;
+    font-weight: bold;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+}
+
+ .content_home{
+  width: 45%;
+  height: 50%;
+
+  margin-top: 9.5rem;
+  margin-left: 5rem;
+  color: rgb(81, 78, 78);
+  display: flex;
+  flex-direction: column;
+
+  
+} 
+
+.welcome{
+font-size:2.5rem;
+margin-top: 2rem;
+letter-spacing: 4px;
+font-family: "Inter", sans-serif;
+
+}
+.parkit{
+font-size:6rem;
+font-family: "Inter", sans-serif;
+
+}
+.des{
+font-size: 2rem;
+margin-top: 2rem;
+font-family: "Inter", sans-serif;
+}
+.booknow{
+background-color: #65b0b3;
+border: none;
+border-radius: 5px;
+height: 2.5rem;
+color: white;
+font-size: 1.3rem;
+margin-top: 3rem;
+}
+
+.aboutus{
+
+height: 40rem;
+display: flex;
+font-family: "Inter", sans-serif;
+}
+
+#rec{
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+}
+
+
+.left{
+width: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+#cars{
+    width: 80%;
+
+}
+
+.right{
+    width: 50%;
+
+display: flex;
+flex-direction: column;
+gap: 2rem;
+justify-content: center;
+align-items: center;
+}
+
+.right_content{
+    width: 90%;
+    font-size: 1.2rem;
+    
+}
+
+.right h1{ 
+             font-size: 4rem;
+}
+
