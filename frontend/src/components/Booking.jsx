@@ -127,5 +127,5 @@ export default function ResponsiveParkingSlotBooking() {
         Book Parking Slot
       </Button>
     </div>
-    
+  )
 }
