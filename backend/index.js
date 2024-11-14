@@ -1,10 +1,14 @@
 import express from "express";
-const app = express();
-const PORT = 3000;
 import loginRouter from "./routes/auth/login.js";
 import signupRouter from "./routes/auth/signup.js";
 import otpRouter from "./routes/otp/index.js";
+import parkingSlotRouter from "./routes/parkingSlot/index.js";
+import cors from "cors";
+import deleteAllData from "./db/delete.js";
 
+const app = express();
+const PORT = 3000;
+app.use(cors());
 app.use(express.json());
 
 app.use("/login", loginRouter);
