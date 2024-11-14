@@ -5,20 +5,20 @@ import otpGenerator from "otp-generator";
 const otpRouter = Router();
 
 otpRouter.get("/", (req, res) => {
-    const otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: false,
-        specialChars: false,
-        lowerCaseAlphabets: false,
-    });
+  const otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    specialChars: false,
+    lowerCaseAlphabets: false,
+  });
 
-    sendMail({
-        receiver: "@gmail.com",
-        otp: otp,
-    });
+  sendMail({
+    receiver: "@gmail.com",
+    otp: otp,
+  });
 
-    res.json({
-        msg: "otp sent",
-    });
+  res.json({
+    msg: "otp sent",
+  });
 });
 
 export default otpRouter;
