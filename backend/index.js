@@ -4,7 +4,6 @@ import signupRouter from "./routes/auth/signup.js";
 import otpRouter from "./routes/otp/index.js";
 import parkingSlotRouter from "./routes/parkingSlot/index.js";
 import cors from "cors";
-import deleteAllData from "./db/delete.js";
 
 const app = express();
 const PORT = 3000;
