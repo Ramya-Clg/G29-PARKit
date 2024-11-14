@@ -13,6 +13,7 @@ async function connectDB() {
 
 connectDB();
 
+// User Schema
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -55,9 +56,10 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
+// Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
   {
     slotNumber: {
@@ -81,9 +83,10 @@ const parkingSlotSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
+// Vehicle Schema
 const vehicleSchema = new mongoose.Schema({
   plateNumber: {
     type: String,
@@ -97,41 +100,78 @@ const vehicleSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", userSchema);
-const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
+// Rate Schema
+const rateSchema = new mongoose.Schema(
+  {
+    type: {
+      type: String,
+      enum: ["hourly", "daily", "monthly"],
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-export { User, ParkingSlot };
 
 
-//Rate
-const rateSchema = new mongoose.Schema({
-    type: { type: String, enum: ['hourly', 'daily', 'monthly'], required: true },
+// Payment Schema
+const paymentSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    reservation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reservation",
+      default: null,
+    },
     amount: { type: Number, required: true },
-    description: { type: String }
-}, { timestamps: true });
+    status: {
+      type: String,
+      enum: ["pending", "completed", "failed"],
+      default: "pending",
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "card", "online"],
+      required: true,
+    },
+    paymentDate: { type: Date, default: Date.now },
+  },
+  { timestamps: true }
+);
 
-const Rate = mongoose.model('Rate', rateSchema);
-module.exports = Rate;
 
-//Payment
-const paymentSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    reservation: { type: mongoose.Schema.Types.ObjectId, ref: 'Reservation', default: null },
-    amount: { type: Number, required: true },
-    status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
-    paymentMethod: { type: String, enum: ['cash', 'card', 'online'], required: true },
-    paymentDate: { type: Date, default: Date.now }
-  }, { timestamps: true });
 
-  const Payment = mongoose.model('Payment', paymentSchema);
-  module.exports = Payment;
-
-//Admin
-const adminSchema = new mongoose.Schema({
+// Admin Schema
+const adminSchema = new mongoose.Schema(
+  {
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['manager', 'staff'], default: 'staff' }
-}, { timestamps: true });
+    role: {
+      type: String,
+      enum: ["manager", "staff"],
+      default: "staff",
+    },
+  },
+  { timestamps: true }
+);
 
-const Admin = mongoose.model('Admin', adminSchema);
-module.exports = Admin;
+
+
+// Models
+const User = mongoose.model("User", userSchema);
+const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
+const Vehicle = mongoose.model("Vehicle", vehicleSchema);
+const Rate = mongoose.model("Rate", rateSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
+const Admin = mongoose.model("Admin", adminSchema);
+
+
+// Export Models
+export { User, ParkingSlot, Vehicle, Rate, Payment, Admin };
