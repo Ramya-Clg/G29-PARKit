@@ -125,3 +125,13 @@ const paymentSchema = new mongoose.Schema({
 
   const Payment = mongoose.model('Payment', paymentSchema);
   module.exports = Payment;
+
+//Admin
+const adminSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['manager', 'staff'], default: 'staff' }
+}, { timestamps: true });
+
+const Admin = mongoose.model('Admin', adminSchema);
+module.exports = Admin;
