@@ -5,32 +5,16 @@ const app = express();
 const PORT = 3000;
 import loginRouter from "./routes/auth/login.js";
 import signupRouter from "./routes/auth/signup.js";
+import { creatManyParkingSlots } from "./db/seed.js";
+import otpRouter from "./routes/otp/index.js";
 
 app.use(express.json());
+
+
 app.use('/login', loginRouter)
 app.use('/signup', signupRouter)
+app.use('/otp', otpRouter)
 
-app.get("/otp", (req, res) => {
-    const otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: false,
-        specialChars: false,
-        lowerCaseAlphabets: false,
-    });
-
-    sendMail({
-        receiver: "@gmail.com",
-        otp: otp,
-    });
-
-    res.json({
-        msg: "otp sent",
-    });
-});
-
-
-
-
-
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
     console.log(`The app is running on port: ${PORT}`);
 });

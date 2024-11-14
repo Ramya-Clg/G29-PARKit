@@ -41,13 +41,13 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
-        otp: {
-            type: Number,
-            default: null,
-        },
         isCheckedIn: {
             type: Boolean,
             default: false,
+        },
+        otp: {
+            type: Number,
+            default: null,
         },
         parkingSlot: {
             type: mongoose.Schema.Types.ObjectId,

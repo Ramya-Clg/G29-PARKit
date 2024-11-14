@@ -1,4 +1,4 @@
-import { User } from "../../db.js";
+import { User } from "../../db/db.js";
 import { LoginSchema } from "../../types/index.js";
 import { Router } from "express";
 
@@ -20,7 +20,6 @@ loginRouter.post("/login", (req, res) => {
             }
             const { name, phone, email } = user;
             const token = jwt.sign({ name, phone, email }, process.env.JWT_SECRET);
-            console.log(token);
             res.json({ token });
         })
         .catch((err) => {
