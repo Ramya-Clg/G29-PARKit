@@ -18,7 +18,7 @@ export const Register = () => {
               <input
                 type="text"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black  focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[65%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Full Name
@@ -33,7 +33,7 @@ export const Register = () => {
               <input
                 type="email"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[65%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Email
@@ -48,7 +48,7 @@ export const Register = () => {
             <input
                 type="tel"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 pattern="[\+]?[0-9]{1,4}?[ ]?[\(]?[0-9]{1,3}[\)]?[ ]?[\-]?[0-9]{1,4}?[ ]?[\-]?[0-9]{1,4}"
                 id="phone-number"  // Added id to reference the input field
                 placeholder=" "  // Empty placeholder to avoid duplication of text
@@ -69,7 +69,7 @@ export const Register = () => {
               <input
                 type="password"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[57%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Password
@@ -84,7 +84,7 @@ export const Register = () => {
               <input
                 type="password"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[57%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Confirm Password
