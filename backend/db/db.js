@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Parking Slot Schema
@@ -83,7 +83,7 @@ const parkingSlotSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Vehicle Schema
@@ -116,10 +116,8 @@ const rateSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-
 
 // Payment Schema
 const paymentSchema = new mongoose.Schema(
@@ -143,10 +141,8 @@ const paymentSchema = new mongoose.Schema(
     },
     paymentDate: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-
 
 // Admin Schema
 const adminSchema = new mongoose.Schema(
@@ -159,10 +155,8 @@ const adminSchema = new mongoose.Schema(
       default: "staff",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
-
-
 
 // Models
 const User = mongoose.model("User", userSchema);
@@ -171,7 +165,6 @@ const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 const Rate = mongoose.model("Rate", rateSchema);
 const Payment = mongoose.model("Payment", paymentSchema);
 const Admin = mongoose.model("Admin", adminSchema);
-
 
 // Export Models
 export { User, ParkingSlot, Vehicle, Rate, Payment, Admin };

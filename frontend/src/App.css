@@ -79,10 +79,9 @@ input:valid ~ label {
   top: 20px;
 }
 
-ion-icon{
-  position : absolute;
+ion-icon {
+  position: absolute;
   font-size: 1.3em;
-
 }
 
 .forget {
