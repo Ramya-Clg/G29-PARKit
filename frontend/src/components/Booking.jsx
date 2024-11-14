@@ -145,9 +145,5 @@ export default function Booking() {
         Book Parking Slot
       </Button>
     </div>
-<<<<<<< HEAD
-  )
-=======
   );
->>>>>>> 495d62d1cec0e1abdea515776e9b69e0cb4be79a
 }

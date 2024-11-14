@@ -17,11 +17,11 @@ loginRouter.post("/", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res.status(400).json({ msg: "Invalid Username" });
     }
 
     if (user.password !== password) {
-      return res.status(400).json({ msg: "Invalid Credentials" });
+      return res.status(400).json({ msg: "Invalid Password" });
     }
 
     try {

@@ -1,4 +1,4 @@
-import '../App';
+import "../App";
 
 export const Register = () => {
   return (
@@ -41,26 +41,26 @@ export const Register = () => {
             </div>
 
             <div className="relative mb-6">
-            <ion-icon
+              <ion-icon
                 name="call-outline"
                 className="absolute left-0 top-1/2 transform -translate-y-[80%] text-[#0E8388]"
-            ></ion-icon>
-            <input
+              ></ion-icon>
+              <input
                 type="tel"
                 required
                 className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 pattern="[\+]?[0-9]{1,4}?[ ]?[\(]?[0-9]{1,3}[\)]?[ ]?[\-]?[0-9]{1,4}?[ ]?[\-]?[0-9]{1,4}"
-                id="phone-number"  // Added id to reference the input field
-                placeholder=" "  // Empty placeholder to avoid duplication of text
-            />
-            <label
-                htmlFor="phone-number"  // Link label to input field using id
+                id="phone-number" // Added id to reference the input field
+                placeholder=" " // Empty placeholder to avoid duplication of text
+              />
+              <label
+                htmlFor="phone-number" // Link label to input field using id
                 className="absolute left-8 top-1/2 transform -translate-y-[65%] text-black opacity-50 pointer-events-none transition-all duration-300"
-            >
+              >
                 Phone Number
-            </label>
+              </label>
             </div>
-            
+
             <div className="relative pt-1 mb-6">
               <ion-icon
                 name="lock-closed-outline"
@@ -105,7 +105,10 @@ export const Register = () => {
             <div className="text-center mt-6">
               <p className="text-[#CBE4DE]">
                 Already have an account?{" "}
-                <a href="#" className="text-[#0E8388] font-bold hover:underline">
+                <a
+                  href="#"
+                  className="text-[#0E8388] font-bold hover:underline"
+                >
                   Login
                 </a>
               </p>

@@ -13,6 +13,7 @@ async function connectDB() {
 
 connectDB();
 
+// User Schema
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -58,6 +59,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
   {
     slotNumber: {
@@ -84,6 +86,7 @@ const parkingSlotSchema = new mongoose.Schema(
   },
 );
 
+// Vehicle Schema
 const vehicleSchema = new mongoose.Schema({
   plateNumber: {
     type: String,
@@ -97,7 +100,71 @@ const vehicleSchema = new mongoose.Schema({
   },
 });
 
+// Rate Schema
+const rateSchema = new mongoose.Schema(
+  {
+    type: {
+      type: String,
+      enum: ["hourly", "daily", "monthly"],
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+  },
+  { timestamps: true },
+);
+
+// Payment Schema
+const paymentSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    reservation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reservation",
+      default: null,
+    },
+    amount: { type: Number, required: true },
+    status: {
+      type: String,
+      enum: ["pending", "completed", "failed"],
+      default: "pending",
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["cash", "card", "online"],
+      required: true,
+    },
+    paymentDate: { type: Date, default: Date.now },
+  },
+  { timestamps: true },
+);
+
+// Admin Schema
+const adminSchema = new mongoose.Schema(
+  {
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: {
+      type: String,
+      enum: ["manager", "staff"],
+      default: "staff",
+    },
+  },
+  { timestamps: true },
+);
+
+// Models
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
+const Vehicle = mongoose.model("Vehicle", vehicleSchema);
+const Rate = mongoose.model("Rate", rateSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
-export { User, ParkingSlot };
+// Export Models
+export { User, ParkingSlot, Vehicle, Rate, Payment, Admin };
