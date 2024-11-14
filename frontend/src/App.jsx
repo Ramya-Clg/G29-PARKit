@@ -1,10 +1,10 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./components/Login";
-import Home from "./components/Home";
+import { Home } from "./components/Home";
 import { Button } from "./components/ui/button";
 import { Feedback } from "./components/Feedback";
-import { Register } from "./components/Register";
+import { SignUp } from "./components/SignUp";
 import { Profile } from "./components/Profile";
 import { Admin } from "./components/Admin";
 
@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
