@@ -12,12 +12,12 @@ export const Login = () => {
             <div className="relative mb-6">
               <ion-icon
                 name="mail-outline"
-                className="absolute left-0 top-1/2  transform -translate-y-[80%] text-[#0E8388]"
+                className="absolute left-0 top-1/2  transform -translate-y-[80%] text-black"
               ></ion-icon>
               <input
                 type="email"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[65%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Email
@@ -32,7 +32,7 @@ export const Login = () => {
               <input
                 type="password"
                 required
-                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-[#CBE4DE] focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
+                className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
               />
               <label className="absolute left-8 top-1/2 transform -translate-y-[57%] text-black opacity-50 pointer-events-none transition-all duration-300">
                 Password
