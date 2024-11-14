@@ -101,3 +101,16 @@ const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
 
 export { User, ParkingSlot };
+
+
+//Rate
+const rateSchema = new mongoose.Schema({
+    type: { type: String, enum: ['hourly', 'daily', 'monthly'], required: true },
+    amount: { type: Number, required: true },
+    description: { type: String }
+}, { timestamps: true });
+
+const Rate = mongoose.model('Rate', rateSchema);
+module.exports = Rate;
+
+
