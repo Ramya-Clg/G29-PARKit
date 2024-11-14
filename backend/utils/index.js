@@ -1,6 +1,4 @@
-const nodemailer = require("nodemailer");
-const axios = require("axios");
-require("dotenv").config();
+import nodemailer from "nodemailer";
 
 const sendMail = ({ receiver, otp }) => {
   var mailTransporter = nodemailer.createTransport({
@@ -31,4 +29,4 @@ const sendMail = ({ receiver, otp }) => {
   });
 };
 
-module.exports = { sendMail };
+export { sendMail };

@@ -1,5 +1,17 @@
-const mongoose = require("mongoose");
-mongoose.connect(`${process.env.MONGODB_URL}testing`);
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
+async function connectDB() {
+  try {
+    await mongoose.connect(`${process.env.MONGODB_URL}testing`);
+    console.log("Connected to MongoDB");
+  } catch (error) {
+    console.error("Failed to connect to MongoDB:", error);
+  }
+}
+
+connectDB();
 
 const userSchema = new mongoose.Schema(
   {
@@ -29,13 +41,13 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    otp: {
-      type: Number,
-      default: null,
-    },
     isCheckedIn: {
       type: Boolean,
       default: false,
+    },
+    otp: {
+      type: Number,
+      default: null,
     },
     parkingSlot: {
       type: mongoose.Schema.Types.ObjectId,
@@ -87,4 +99,5 @@ const vehicleSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
-module.exports = { User, ParkingSlot };
+
+export { User, ParkingSlot };
