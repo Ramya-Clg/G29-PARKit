@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendMail } from "../../utils.js";
+import { sendMail } from "../../utils/index.js";
 import otpGenerator from "otp-generator";
 
 const otpRouter = Router();
