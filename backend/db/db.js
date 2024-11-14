@@ -113,4 +113,15 @@ const rateSchema = new mongoose.Schema({
 const Rate = mongoose.model('Rate', rateSchema);
 module.exports = Rate;
 
+//Payment
+const paymentSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    reservation: { type: mongoose.Schema.Types.ObjectId, ref: 'Reservation', default: null },
+    amount: { type: Number, required: true },
+    status: { type: String, enum: ['pending', 'completed', 'failed'], default: 'pending' },
+    paymentMethod: { type: String, enum: ['cash', 'card', 'online'], required: true },
+    paymentDate: { type: Date, default: Date.now }
+  }, { timestamps: true });
 
+  const Payment = mongoose.model('Payment', paymentSchema);
+  module.exports = Payment;
