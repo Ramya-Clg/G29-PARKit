@@ -7,6 +7,7 @@
         "pretty": "prettier --write .",
         "preinstall": "npx only-allow pnpm"
     },
+    "type": "module",
     "keywords": [],
     "author": "",
     "license": "ISC",
@@ -15,6 +16,7 @@
         "appwrite": "^16.0.2",
         "axios": "^1.7.7",
         "bcrypt": "^5.1.1",
+        "cors": "^2.8.5",
         "dotenv": "^16.4.5",
         "express": "^4.21.1",
         "jsonwebtoken": "^9.0.2",

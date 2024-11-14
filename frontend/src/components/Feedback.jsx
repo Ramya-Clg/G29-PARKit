@@ -100,17 +100,16 @@ export function Feedback() {
               className="flex flex-wrap gap-4 sm:gap-6"
             >
               {[1, 2, 3, 4, 5].map((value) => (
-                <div key={value} className="flex items-center space-x-2">
+                <div key={value} className="flex items-center space-x-6">
                   <RadioGroupItem
-                    className="border-2"
                     value={value.toString()}
                     id={`rating-${value}`}
                   />
                   <Label
                     htmlFor={`rating-${value}`}
-                    className="text-sm sm:text-base"
+                    className="text-xl sm:text-base"
                   >
-                    {value} Star{value !== 1 ? "s" : ""}
+                    {value}
                   </Label>
                 </div>
               ))}
