@@ -4,7 +4,7 @@ import otpGenerator from "otp-generator";
 
 const otpRouter = Router();
 
-otpRouter.get("/otp", (req, res) => {
+otpRouter.get("/", (req, res) => {
     const otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
         specialChars: false,

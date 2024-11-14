@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const signupRouter = Router();
 
-signupRouter.post("/signup", async (req, res) => {
+signupRouter.post("/", async (req, res) => {
     const parsedObj = SignupSchema.safeParse(req.body);
     if (!parsedObj.success)
         return res.status(400).json({ msg: "Invalid Format" });

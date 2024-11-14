@@ -4,7 +4,7 @@ import { Router } from "express";
 
 const loginRouter = Router();
 
-loginRouter.post("/login", (req, res) => {
+loginRouter.post("/", (req, res) => {
     const parsedObj = LoginSchema.safeParse(req.body);
     if (!parsedObj.success) {
         return res.status(400).json({ msg: "Invalid Format" });
