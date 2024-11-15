@@ -1,9 +1,8 @@
 import "./Home.css";
-import navimg from '../../public/Group2.svg'
-import gaddi from '../../public/gaddi.svg'
-import cars from '../../public/cars.jpeg'
-import background from '../../public/Frame-1.jpeg'
-import rectangle from '../../public/Rectangle2.svg'
+import gaddi from '../../public/New_home_page_image.svg'
+import cars from '../../public/about_us_image.jpg'
+import background from '../../public/new_home_page_bg.jpeg'
+import rectangle from '../../public/about_us_bg.svg'
 
 
 export const Home = () => {
