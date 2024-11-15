@@ -1,13 +1,12 @@
-import * as React from "react";
+import React from "react";
 import { Menu, X } from "lucide-react";
 
-// Simulating the imports from your components library
 const Button = ({ children, variant, size, onClick, className, ...props }) => (
   <button
-    className={`px-3 py-2 rounded-md ${
+    className={`px-6 py-3 rounded-md ${
       variant === "ghost"
         ? "hover:bg-gray-100"
-        : "bg-primary text-primary-foreground hover:bg-primary/90"
+        : "bg-[#5B8F8F] text-white hover:bg-[#4A7A7A]"
     } ${size === "icon" ? "p-2" : ""} ${className}`}
     onClick={onClick}
     {...props}
@@ -31,26 +30,41 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="bg-background shadow">
+    <nav className="fixed top-0 left-0 w-full bg-white shadow overflow-hidden z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <a href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold text-foreground">Logo</span>
-            </a>
-          </div>
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <a href="/" className="flex-shrink-0 flex items-center">
+            <img
+              src="../../b897f237-6948-4668-b134-e354f484e99e.png"
+              alt="Logo"
+              className="h-10 w-10"
+            />
+            <span className="ml-3 text-2xl font-bold text-gray-900">
+              PARKit
+            </span>
+          </a>
+
+          {/* Desktop Menu */}
+          <div className="hidden sm:flex sm:space-x-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
+                className="px-4 py-2 text-lg font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
               >
                 {item.name}
               </a>
             ))}
           </div>
-          <div className="flex items-center sm:hidden">
+
+          {/* Book Now Button */}
+          <div className="hidden sm:flex">
+            <Button>BOOK NOW</Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="sm:hidden flex items-center">
             <Button
               variant="ghost"
               size="icon"
@@ -67,23 +81,26 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <div
         className={`sm:hidden ${
           isMobileMenuOpen ? "block" : "hidden"
         } transition-all duration-300 ease-in-out`}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className="px-4 pt-4 pb-4 space-y-2">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground hover:bg-accent"
+              className="block px-4 py-2 text-lg font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {item.name}
             </a>
           ))}
+          <div className="pt-2">
+            <Button className="w-full">BOOK NOW</Button>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,4 +1,4 @@
-import '../App';
+import "../App";
 export const Login = () => {
   return (
     <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
@@ -58,8 +58,11 @@ export const Login = () => {
             <div className="text-center mt-6">
               <p className="text-[#CBE4DE]">
                 Don't have an account?{" "}
-                <a href="#" className="text-[#0E8388] font-bold hover:underline">
-                  Register
+                <a
+                  href="/signup"
+                  className="text-[#0E8388] font-bold hover:underline"
+                >
+                  SignUp
                 </a>
               </p>
             </div>
