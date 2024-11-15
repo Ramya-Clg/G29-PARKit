@@ -2,7 +2,7 @@ import React from "react";
 
 export function Home() {
   return (
-    <div className="min-h-screen w-full overflow-hidden bg-white flex flex-col justify-center relative">
+    <div className="min-h-screen w-full bg-white flex flex-col justify-center relative">
       {/* Gradient Background */}
       <div
         className="fixed top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#CBE4DE] to-transparent -z-10"
@@ -39,6 +39,12 @@ export function Home() {
             />
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-left">
+        <img src="../../freepik__modern-style-detailled-illustration-image-of-parke__1975.jpeg" alt="image of parked cars" className="w-[500px] h-[500px] m-[200px]" />
+        <p className="mr-14">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo in officiis, autem assumenda perferendis asperiores! Reiciendis magni, atque quisquam officia incidunt quibusdam ducimus iste corporis architecto illo non nobis labore. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam atque soluta dolore distinctio inventore minima hic. Ullam impedit odit laboriosam omnis animi dolor consequatur, sapiente aperiam magnam necessitatibus quae assumenda!Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum incidunt tenetur nemo itaque quibusdam necessitatibus! Animi amet cumque facere? Ipsam, unde molestiae saepe accusantium impedit assumenda architecto beatae quos quidem!
+        </p>
       </div>
     </div>
   );
