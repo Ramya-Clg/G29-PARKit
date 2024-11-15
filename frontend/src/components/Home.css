@@ -88,7 +88,7 @@
   color: rgb(81, 78, 78);
   display: flex;
   flex-direction: column;
-
+  
   
 } 
 
@@ -111,6 +111,7 @@ margin-top: 2rem;
 font-family: "Inter", sans-serif;
 width: 70%;
 }
+
 .booknow{
 background-color: #65b0b3;
 border: none;
@@ -120,7 +121,21 @@ color: white;
 font-size: 1.3rem;
 margin-top: 3rem;
 width: 30%;
+animation: book_Now;
+  animation-duration: 1s;
+  animation-timing-function: ease;
 }
+
+@keyframes book_Now {
+    0%   {
+        opacity: 0;
+    }
+    
+    100% {
+        opacity: 1;
+    }
+  }
+
 
 .aboutus{
 
