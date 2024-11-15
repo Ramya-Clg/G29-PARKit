@@ -1,4 +1,6 @@
 import React from "react";
+import { Feedback } from "./Feedback";
+import { Footer } from "./Footer";
 
 export function Home() {
   return (
@@ -46,6 +48,8 @@ export function Home() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo in officiis, autem assumenda perferendis asperiores! Reiciendis magni, atque quisquam officia incidunt quibusdam ducimus iste corporis architecto illo non nobis labore. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam atque soluta dolore distinctio inventore minima hic. Ullam impedit odit laboriosam omnis animi dolor consequatur, sapiente aperiam magnam necessitatibus quae assumenda!Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum incidunt tenetur nemo itaque quibusdam necessitatibus! Animi amet cumque facere? Ipsam, unde molestiae saepe accusantium impedit assumenda architecto beatae quos quidem!
         </p>
       </div>
+      <Feedback />
+      <Footer />
     </div>
   );
 }
