@@ -1,5 +1,6 @@
 import React from "react";
 import { Menu, X } from "lucide-react";
+import logo from "../../public/logo.svg"; // Correct path for logo
 
 const Button = ({ children, variant, size, onClick, className, ...props }) => (
   <button
@@ -36,13 +37,10 @@ export function Navbar() {
           {/* Logo */}
           <a href="/" className="flex-shrink-0 flex items-center">
             <img
-              src="../../b897f237-6948-4668-b134-e354f484e99e.png"
+              src={logo}
               alt="Logo"
-              className="h-10 w-10"
+              className="h-30 w-auto ml-11 sm:h-10"
             />
-            <span className="ml-3 text-2xl font-bold text-gray-900">
-              ARKit
-            </span>
           </a>
 
           {/* Desktop Menu */}
