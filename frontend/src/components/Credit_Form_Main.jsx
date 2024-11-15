@@ -1,6 +1,6 @@
 // Credit_Form.jsx
 import { useState, useEffect } from 'react';
-import '../App';
+import './index.css';
 import Head from './Credit_Head';
 import Form from './Credit_Form';
 import FormThankYou from './Credit_Form_Ty';
@@ -13,26 +13,18 @@ function CreditForm() {
     cvc: '',
     name: ''
   });
-  const [formErrors, setFormErrors] = useState({
-    cardNumber: '',
-    month: '',
-    year: '',
-    cvc: '',
-    name: ''
-  });
+  const [formErrors, setFormErrors] = useState({});
   const [formattedCardNumber, setFormattedCardNumber] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
-    setFormattedCardNumber(prevFormat => {
-      prevFormat = formData.cardNumber.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim();
-      return prevFormat;
-    });
+    setFormattedCardNumber(
+      formData.cardNumber.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim()
+    );
   }, [formData.cardNumber]);
 
   function containsOnlyNumbers(str) {
-    const removedSpaces = str.replace(/\s/g, '');
-    return /^\d+$/.test(removedSpaces);
+    return /^\d+$/.test(str.replace(/\s/g, ''));
   }
 
   const validate = values => {
@@ -44,9 +36,12 @@ function CreditForm() {
     const currentYear = new Date().getFullYear();
     const lastTwoDigitsOfYear = currentYear.toString().slice(-2);
 
+    // Validate Name
     if (!values.name) {
       errors.name = "Name can't be blank";
     }
+
+    // Validate Card Number
     if (!values.cardNumber) {
       errors.cardNumber = "Card number can't be blank";
     } else if (!regexCardNumber) {
@@ -54,6 +49,8 @@ function CreditForm() {
     } else if (values.cardNumber.length !== 19) {
       errors.cardNumber = "Card number length must be 16";
     }
+
+    // Validate Month
     if (!values.month) {
       errors.month = "Can't be blank";
     } else if (!regexMonth) {
@@ -61,18 +58,23 @@ function CreditForm() {
     } else if (values.month > 12) {
       errors.month = "Must be less than 12";
     }
+
+    // Validate Year
     if (!values.year) {
       errors.year = "Can't be blank";
     } else if (!regexYear) {
       errors.year = "Wrong format, numbers only";
     } else if (values.year < lastTwoDigitsOfYear) {
-      errors.year = "Year can't be less than the current year";
+      errors.year = "Year can't be less than current year";
     }
+
+    // Validate CVC
     if (!values.cvc) {
       errors.cvc = "Can't be blank";
     } else if (!regexCvc) {
       errors.cvc = "Wrong format, numbers only";
     }
+
     return errors;
   };
 
@@ -80,10 +82,7 @@ function CreditForm() {
 
   const handleInput = e => {
     const { name, value } = e.target;
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]: value
-    }));
+    setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
   };
 
   const handleSubmit = e => {
@@ -93,7 +92,7 @@ function CreditForm() {
   };
 
   return (
-    <div className="App h-full w-full flex flex-col items-center lg:flex-row">
+    <div className="h-full w-full flex flex-col items-center lg:flex-row">
       <Head formattedCardNumber={formattedCardNumber} formData={formData} />
       {!noErrors || !formSubmitted ? (
         <Form
@@ -110,5 +109,4 @@ function CreditForm() {
     </div>
   );
 }
-
 export default CreditForm;
