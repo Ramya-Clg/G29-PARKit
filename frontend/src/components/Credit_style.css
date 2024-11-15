@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap');
+
+html {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color:#FFF;
+  --second-color: #21092f;
+  --font-color: #21092F;
+  --second-font-color: #8F8694;
+  --gradient: linear-gradient(163.95deg, #6348FE 4.74%, #610595 88.83%);
+  --font-family:  'Space Grotesk', sans-serif;
+  --shadow: 0px 39px 60px 0px #00000024;
+}
+
+.App {
+  height: 100vh;
+}
+
+/* typography */
+html {
+  font-family: var(--font-family);
+  font-weight: 500;
+}
+h1 {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 3.42px;
+}
+
+h2 {
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 2px;
+  color: var(--second-font-color);
+}
+
+input:placeholder-shown {
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0px;
+  text-indent: 16px;
+}
+
+label {
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 2px;
+  color: var(--font-color);
+  text-transform: uppercase;
+}
+
+header h1 {
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 2.200000047683716px;
+  color: var(--main-color);
+}
+
+header p {
+font-size: 9px;
+line-height: 11px;
+letter-spacing: 1.2857142686843872px;
+color: var(--main-color);
+}
+
+/* typography media query */
+@media(min-width: 1000px) {
+
+  
+ h2 {
+    font-size: 18px;
+    line-height: 23px;
+    letter-spacing: 0px;
+  }
+  
+  header h1 {
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 3.422222137451172px;
+  }
+  
+  header p {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: 2px;
+  }
+}
+
+/* Head styles */
+
+.header--image_container_front {
+  background-color: var(--second-color);
+  box-shadow: var(--shadow);
+}
+
+/* Form styles */
+
+label {
+  margin-bottom: 9px;
+}
+
+input,
+input:active,
+input:focus {
+  border: 1px solid #DFDEE0;
+  height: 45px;
+  border-radius: 8px;
+  text-indent: 16px;
+}

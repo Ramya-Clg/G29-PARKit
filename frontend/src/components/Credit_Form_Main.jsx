@@ -1,6 +1,7 @@
-// Credit_Form.jsx
+// Credit_Form_Main.jsx
 import { useState, useEffect } from 'react';
-import './index.css';
+import './index.css'
+import './Credit_style.css'
 import Head from './Credit_Head';
 import Form from './Credit_Form';
 import FormThankYou from './Credit_Form_Ty';
@@ -109,4 +110,5 @@ function CreditForm() {
     </div>
   );
 }
+
 export default CreditForm;
