@@ -1,36 +1,58 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"; // Verify these exist
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart"; // Verify these exist
 
 // Mock data for the charts
 const dailyIncomeData = [
-  { day: 'Mon', income: 1000 },
-  { day: 'Tue', income: 1200 },
-  { day: 'Wed', income: 1100 },
-  { day: 'Thu', income: 1300 },
-  { day: 'Fri', income: 1500 },
-  { day: 'Sat', income: 1800 },
-  { day: 'Sun', income: 1600 },
+  { day: "Mon", income: 1000 },
+  { day: "Tue", income: 1200 },
+  { day: "Wed", income: 1100 },
+  { day: "Thu", income: 1300 },
+  { day: "Fri", income: 1500 },
+  { day: "Sat", income: 1800 },
+  { day: "Sun", income: 1600 },
 ];
 
 const monthlyIncomeData = [
-  { name: 'Hourly', value: 4000 },
-  { name: 'Daily', value: 3000 },
-  { name: 'Weekly', value: 2000 },
-  { name: 'Monthly', value: 1000 },
+  { name: "Hourly", value: 4000 },
+  { name: "Daily", value: 3000 },
+  { name: "Weekly", value: 2000 },
+  { name: "Monthly", value: 1000 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export function Admin({
   totalIncome = 50000,
   userName = "John Doe",
   userPhone = "123-456-7890",
   userEmail = "john@example.com",
-  userParkingSlots = [{ id: "1", location: "Lot A, Spot 23" }]
+  userParkingSlots = [{ id: "1", location: "Lot A, Spot 23" }],
 }) {
   return (
     <div className="container mx-auto p-4">
@@ -42,7 +64,9 @@ export function Admin({
             <CardDescription>From all parking plots</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">${totalIncome.toLocaleString()}</p>
+            <p className="text-3xl font-bold">
+              ${totalIncome.toLocaleString()}
+            </p>
           </CardContent>
         </Card>
         <Card className="md:col-span-2">
@@ -53,26 +77,45 @@ export function Admin({
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" value={userName} readOnly className="bg-muted" />
+                <Input
+                  id="name"
+                  value={userName}
+                  readOnly
+                  className="bg-muted"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" value={userPhone} readOnly className="bg-muted" />
+                <Input
+                  id="phone"
+                  value={userPhone}
+                  readOnly
+                  className="bg-muted"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" value={userEmail} readOnly className="bg-muted" />
+                <Input
+                  id="email"
+                  value={userEmail}
+                  readOnly
+                  className="bg-muted"
+                />
               </div>
               <div className="space-y-2">
                 <Label>Parking Slots</Label>
                 {userParkingSlots && userParkingSlots.length > 0 ? (
                   <ul className="list-disc pl-5 space-y-1">
                     {userParkingSlots.map((slot) => (
-                      <li key={slot.id} className="text-sm">{slot.location}</li>
+                      <li key={slot.id} className="text-sm">
+                        {slot.location}
+                      </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-muted-foreground">No parking slots booked</p>
+                  <p className="text-sm text-muted-foreground">
+                    No parking slots booked
+                  </p>
                 )}
               </div>
             </div>
@@ -88,7 +131,9 @@ export function Admin({
           <Card>
             <CardHeader>
               <CardTitle>Daily Income</CardTitle>
-              <CardDescription>Overview of daily parking income</CardDescription>
+              <CardDescription>
+                Overview of daily parking income
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -123,7 +168,10 @@ export function Admin({
                     dataKey="value"
                   >
                     {monthlyIncomeData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />

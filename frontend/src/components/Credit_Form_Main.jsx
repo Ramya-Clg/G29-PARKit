@@ -1,34 +1,36 @@
-// Credit_Form_Main.jsx
+// Credit_Form.jsx
 import { useState, useEffect } from 'react';
-import './index.css'
-import './Credit_style.css'
+import './index.css';
 import Head from './Credit_Head';
 import Form from './Credit_Form';
 import FormThankYou from './Credit_Form_Ty';
 
 function CreditForm() {
   const [formData, setFormData] = useState({
-    cardNumber: '',
-    month: '',
-    year: '',
-    cvc: '',
-    name: ''
+    cardNumber: "",
+    month: "",
+    year: "",
+    cvc: "",
+    name: "",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [formattedCardNumber, setFormattedCardNumber] = useState('');
+  const [formattedCardNumber, setFormattedCardNumber] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     setFormattedCardNumber(
-      formData.cardNumber.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim()
+      formData.cardNumber
+        .replace(/\s?/g, "")
+        .replace(/(\d{4})/g, "$1 ")
+        .trim(),
     );
   }, [formData.cardNumber]);
 
   function containsOnlyNumbers(str) {
-    return /^\d+$/.test(str.replace(/\s/g, ''));
+    return /^\d+$/.test(str.replace(/\s/g, ""));
   }
 
-  const validate = values => {
+  const validate = (values) => {
     const errors = {};
     const regexCardNumber = containsOnlyNumbers(values.cardNumber);
     const regexMonth = containsOnlyNumbers(values.month);
@@ -81,12 +83,12 @@ function CreditForm() {
 
   const noErrors = Object.keys(formErrors).length === 0;
 
-  const handleInput = e => {
+  const handleInput = (e) => {
     const { name, value } = e.target;
-    setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setFormErrors(validate(formData));
     setFormSubmitted(true);

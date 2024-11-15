@@ -55,7 +55,7 @@ export function Feedback() {
   }
 
   return (
-    <Card className="w-full max-w-[calc(100%-2rem)] sm:max-w-md mx-auto my-8">
+    <Card className="w-full max-w-[calc(100%-2rem)] sm:max-w-md mx-auto mt-[50px] mb-[10px]">
       <CardHeader>
         <CardTitle className="text-2xl sm:text-3xl text-center">
           Feedback Form
