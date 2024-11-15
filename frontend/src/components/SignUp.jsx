@@ -1,13 +1,13 @@
 import "../App";
 
-export const Register = () => {
+export const SignUp = () => {
   return (
     <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
       <div className="bg-white bg-opacity-20 backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-sm border border-white/20">
         <div className="form-value">
           <form action="">
             <h2 className="text-[#2C3333] text-center mb-6 text-2xl font-semibold">
-              Register
+              SignUp
             </h2>
 
             <div className="relative mb-6">
@@ -106,7 +106,7 @@ export const Register = () => {
               <p className="text-[#CBE4DE]">
                 Already have an account?{" "}
                 <a
-                  href="#"
+                  href="/login"
                   className="text-[#0E8388] font-bold hover:underline"
                 >
                   Login

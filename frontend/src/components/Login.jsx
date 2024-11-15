@@ -59,10 +59,10 @@ export const Login = () => {
               <p className="text-[#CBE4DE]">
                 Don't have an account?{" "}
                 <a
-                  href="#"
+                  href="/signup"
                   className="text-[#0E8388] font-bold hover:underline"
                 >
-                  Register
+                  SignUp
                 </a>
               </p>
             </div>
