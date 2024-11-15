@@ -41,7 +41,7 @@ export function Navbar() {
               className="h-10 w-10"
             />
             <span className="ml-3 text-2xl font-bold text-gray-900">
-              PARKit
+              ARKit
             </span>
           </a>
 

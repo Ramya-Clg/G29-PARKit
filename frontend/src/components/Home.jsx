@@ -1,55 +1,55 @@
-import React from "react";
-import { Feedback } from "./Feedback";
-import { Footer } from "./Footer";
+import "./Home.css";
+import navimg from '../../public/Group2.svg'
+import gaddi from '../../public/gaddi.svg'
+import cars from '../../public/cars.jpeg'
+import background from '../../public/Frame-1.jpeg'
+import rectangle from '../../public/Rectangle2.svg'
 
-export function Home() {
+
+export const Home = () => {
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col justify-center relative">
-      {/* Gradient Background */}
-      <div
-        className="fixed top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#CBE4DE] to-transparent -z-10"
-        aria-hidden="true"
-      />
+    <div>
+      {/* <Navbar/> */}
+      <div class="main_container">
+        <div class="container1">
+          <img id="background_home" src={background} alt="img" />
+          <img id="gaddi" src={gaddi} alt="img" />
+          
+          <div class="inside_container1">
 
-      <div className="container mx-auto px-4 md:px-6 py-12 flex flex-col md:flex-row items-center min-h-screen">
-        {/* Left Content */}
-        <div className="flex flex-col justify-center w-full md:w-1/2 mb-12 md:mb-0">
-          <div className="flex flex-col justify-start items-start">
-            <h2 className="font-serif text-2xl md:text-4xl text-[#2C3333] tracking-[0.34em] mb-2">
-              WELCOME TO
-            </h2>
-            <h1 className="font-sans text-7xl md:text-8xl lg:text-9xl font-semibold text-[#2C3333] mb-6">
-              PARKit
-            </h1>
-          </div>
-          <p className="text-xl md:text-2xl text-[#2C3333] max-w-lg mb-8">
-            A modern and user-friendly parking experience that saves you time
-            and stress.
-          </p>
-          <button className="w-fit bg-[#5B8F8F] hover:bg-[#4A7A7A] text-white px-8 py-4 text-lg md:text-xl rounded-md shadow-lg flex flex-col items-center justify-center">
-            BOOK NOW
-          </button>
-        </div>
-
-        {/* Right Image */}
-        <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-          <div className="relative w-full max-w-md md:max-w-lg lg:max-w-xl">
-            <img
-              src="../../98dccff4-ffde-477a-b190-95ee15324f8b.png"
-              alt="Car next to parking sign illustration"
-              className="object-contain w-full h-full"
-            />
+            <div class="container1_navbar">
+                {/* <img id="navimg" src={navimg} alt="P" />
+                <a class="navtags" href="">HOME</a>
+                <a class="navtags" href="">RESERVE</a>
+                <a class="navtags" href="">CONTACT</a>
+                <a class="navtags" href="">ABOUT</a>
+                <button id="login" >Login</button> */}
+            </div>
+            <div class="content_home">
+                <div class="welcome">WELCOME TO</div>
+                <div class="parkit">PARKit</div>
+                <div class="des">A modern and user-friendly parking experience that saves you time and stress.</div>
+                <button class="booknow">Get Started</button>
+            </div>
           </div>
         </div>
+
+        <div class="aboutus">
+            <img id="rec" src={rectangle} alt="" />
+              <div class="left">
+                   <img id="cars"src={cars} alt="" />
+              </div>
+
+              <div class="right">
+                <h1> ABOUT US</h1>
+                <div class="right_content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel consequuntur sequi repellendus? Illum facere quod quisquam, quia laboriosam voluptatum sit possimus nemo exercitationem asperiores, provident ab numquam laborum repellat accusantium vero consectetur, perspiciatis esse corrupti rem impedit? Voluptatem enim quae eum soluta quam maiores! Sit mollitia tempore quo voluptates in.  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum quis earum sit, qui vero possimus ipsum odit provident minus nobis vel rerum tempore excepturi quam nostrum fugiat odio commodi dolor. Libero, quis sapiente, odio magnam necessitatibus iure tenetur dolor aperiam expedita quos unde commodi explicabo nisi maiores aliquid provident culpa.  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore aut corporis inventore voluptatem? Temporibus vel rem in consequuntur harum perferendis maxime voluptas aperiam aut neque dignissimos sunt ut eum consectetur dolorum enim eaque ipsum illo saepe quod iure et, quidem laborum. Itaque perspiciatis assumenda consectetur numquam labore nostrum. Voluptate, molestias.
+                </div>
+                </div>
+        </div>
       </div>
-      <div className="flex items-center justify-left">
-        <img src="../../freepik__modern-style-detailled-illustration-image-of-parke__1975.jpeg" alt="image of parked cars" className="w-[500px] h-[500px] m-[200px]" />
-        <p className="mr-14">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo in officiis, autem assumenda perferendis asperiores! Reiciendis magni, atque quisquam officia incidunt quibusdam ducimus iste corporis architecto illo non nobis labore. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam atque soluta dolore distinctio inventore minima hic. Ullam impedit odit laboriosam omnis animi dolor consequatur, sapiente aperiam magnam necessitatibus quae assumenda!Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum incidunt tenetur nemo itaque quibusdam necessitatibus! Animi amet cumque facere? Ipsam, unde molestiae saepe accusantium impedit assumenda architecto beatae quos quidem!
-        </p>
-      </div>
-      <Feedback />
-      <Footer />
     </div>
   );
-}
+};
+
+export default Home;
