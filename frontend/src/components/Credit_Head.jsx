@@ -3,7 +3,7 @@ import cardFront from '/bg-card-front.png?url'
 export default function Head({formData, formattedCardNumber}) {
     const {name, cardNumber, month, year, cvc} = formData
     return (
-        <header className='head--container relative flex flex-col max-md:items-center bg-second-color h-60 w-full lg:w-[483px] lg:h-full'>
+        <header className='head--container relative flex flex-col max-md:items-center bg-black h-60 w-full lg:w-[483px] lg:h-full'>
             <div className='header--cards_image_container w-[343px] max-md:h-[251px] mt-10 lg:ml-[164px] lg:mt-[187px] flex flex-col lg:flex-col-reverse lg:w-[541px] lg:h-[527px]'>
                 <div className="header--image_container_back w-[286px] lg:w-[447px] self-end relative ">
                     <img className='header--card_back ' src={cardBack} alt="back of credit card" />
