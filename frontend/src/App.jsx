@@ -50,7 +50,6 @@ function RootApp() {
         />
         <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
 
-        {/* Catch-all route for unknown paths */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>
