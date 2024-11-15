@@ -4,7 +4,7 @@ import { Login } from "./components/Login";
 import { Feedback } from "./components/Feedback";
 import { SignUp } from "./components/SignUp";
 import { Profile } from "./components/Profile";
-// import { Admin } from "./components/Admin";
+import { Admin } from "./components/Admin";
 import CreditFormMain from "./components/Credit_Form_Main";
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/credit" element={<CreditFormMain />} />
-          {/* <Route path="/admin" element={<Admin />} /> */}
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </div>
