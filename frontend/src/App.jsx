@@ -13,7 +13,7 @@ import { Profile } from "./components/Profile";
 import { Admin } from "./components/Admin";
 import CreditFormMain from "./components/Credit_Form_Main";
 import { Navbar } from "./components/Navbar";
-import { Old } from "./components/Old";
+import  Home  from "./components/Home";
 
 function PrivateRoute({ element }) {
   const token = localStorage.getItem("token");
@@ -33,7 +33,7 @@ function RootApp() {
     <div>
       {showNavbar && <Navbar />}
       <Routes>
-        <Route path="/" element={<Old />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route

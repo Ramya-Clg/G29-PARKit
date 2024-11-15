@@ -93,21 +93,23 @@
 } 
 
 .welcome{
-font-size:2.5rem;
+font-size: 1.7rem;
 margin-top: 2rem;
-letter-spacing: 4px;
+letter-spacing: 6px;
 font-family: "Inter", sans-serif;
 
 }
 .parkit{
 font-size:6rem;
 font-family: "Inter", sans-serif;
-
+line-height: 6rem;
+font-weight:600;
 }
 .des{
-font-size: 2rem;
+font-size: 1.3rem;
 margin-top: 2rem;
 font-family: "Inter", sans-serif;
+width: 70%;
 }
 .booknow{
 background-color: #65b0b3;
@@ -117,6 +119,7 @@ height: 2.5rem;
 color: white;
 font-size: 1.3rem;
 margin-top: 3rem;
+width: 30%;
 }
 
 .aboutus{
