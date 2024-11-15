@@ -28,8 +28,57 @@ function CreditForm() {
   }
 
   const validate = values => {
-    // ... same validation logic
+    const errors = {};
+    const regexCardNumber = containsOnlyNumbers(values.cardNumber);
+    const regexMonth = containsOnlyNumbers(values.month);
+    const regexYear = containsOnlyNumbers(values.year);
+    const regexCvc = containsOnlyNumbers(values.cvc);
+    const currentYear = new Date().getFullYear();
+    const lastTwoDigitsOfYear = currentYear.toString().slice(-2);
+
+    // Validate Name
+    if (!values.name) {
+      errors.name = "Name can't be blank";
+    }
+
+    // Validate Card Number
+    if (!values.cardNumber) {
+      errors.cardNumber = "Card number can't be blank";
+    } else if (!regexCardNumber) {
+      errors.cardNumber = "Wrong format, numbers only";
+    } else if (values.cardNumber.length !== 19) {
+      errors.cardNumber = "Card number length must be 16";
+    }
+
+    // Validate Month
+    if (!values.month) {
+      errors.month = "Can't be blank";
+    } else if (!regexMonth) {
+      errors.month = "Wrong format, numbers only";
+    } else if (values.month > 12) {
+      errors.month = "Must be less than 12";
+    }
+
+    // Validate Year
+    if (!values.year) {
+      errors.year = "Can't be blank";
+    } else if (!regexYear) {
+      errors.year = "Wrong format, numbers only";
+    } else if (values.year < lastTwoDigitsOfYear) {
+      errors.year = "Year can't be less than current year";
+    }
+
+    // Validate CVC
+    if (!values.cvc) {
+      errors.cvc = "Can't be blank";
+    } else if (!regexCvc) {
+      errors.cvc = "Wrong format, numbers only";
+    }
+
+    return errors;
   };
+
+  const noErrors = Object.keys(formErrors).length === 0;
 
   const handleInput = e => {
     const { name, value } = e.target;
@@ -41,8 +90,6 @@ function CreditForm() {
     setFormErrors(validate(formData));
     setFormSubmitted(true);
   };
-
-  const noErrors = Object.keys(formErrors).length === 0;
 
   return (
     <div className="h-full w-full flex flex-col items-center lg:flex-row">
@@ -62,5 +109,4 @@ function CreditForm() {
     </div>
   );
 }
-
 export default CreditForm;
