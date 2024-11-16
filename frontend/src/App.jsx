@@ -13,13 +13,14 @@ import { Profile } from "./components/Profile";
 import { Admin } from "./components/Admin";
 import CreditFormMain from "./components/Credit_Form_Main";
 import { Navbar } from "./components/Navbar";
-import  Home  from "./components/Home";
+import Home from "./components/Home";
+import Booking from "./components/Booking";
 
 function PrivateRoute({ element }) {
-//   const token = localStorage.getItem("token");
-//   if (!token) {
-//     return <Navigate to="/login" replace />;
-//   }
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     return <Navigate to="/login" replace />;
+  //   }
   return element;
 }
 
@@ -49,7 +50,7 @@ function RootApp() {
           element={<PrivateRoute element={<CreditFormMain />} />}
         />
         <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
-
+        <Route path="/booking" element={<Booking />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </div>

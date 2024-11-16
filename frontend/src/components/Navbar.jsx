@@ -36,11 +36,7 @@ export function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <a href="/" className="flex-shrink-0 flex items-center">
-            <img
-              src={logo}
-              alt="Logo"
-              className="h-30 w-auto ml-11 sm:h-10"
-            />
+            <img src={logo} alt="Logo" className="h-30 w-auto ml-11 sm:h-10" />
           </a>
 
           {/* Desktop Menu */}

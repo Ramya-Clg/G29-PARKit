@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 * {
@@ -14,12 +14,12 @@ html {
 }
 
 :root {
-  --main-color:#FFF;
+  --main-color: #fff;
   --second-color: #21092f;
-  --font-color: #21092F;
-  --second-font-color: #8F8694;
-  --gradient: linear-gradient(163.95deg, #6348FE 4.74%, #610595 88.83%);
-  --font-family:  'Space Grotesk', sans-serif;
+  --font-color: #21092f;
+  --second-font-color: #8f8694;
+  --gradient: linear-gradient(163.95deg, #6348fe 4.74%, #610595 88.83%);
+  --font-family: "Space Grotesk", sans-serif;
   --shadow: 0px 39px 60px 0px #00000024;
 }
 
@@ -68,28 +68,26 @@ header h1 {
 }
 
 header p {
-font-size: 9px;
-line-height: 11px;
-letter-spacing: 1.2857142686843872px;
-color: var(--main-color);
+  font-size: 9px;
+  line-height: 11px;
+  letter-spacing: 1.2857142686843872px;
+  color: var(--main-color);
 }
 
 /* typography media query */
-@media(min-width: 1000px) {
-
-  
- h2 {
+@media (min-width: 1000px) {
+  h2 {
     font-size: 18px;
     line-height: 23px;
     letter-spacing: 0px;
   }
-  
+
   header h1 {
     font-size: 28px;
     line-height: 36px;
     letter-spacing: 3.422222137451172px;
   }
-  
+
   header p {
     font-size: 14px;
     line-height: 18px;
@@ -113,7 +111,7 @@ label {
 input,
 input:active,
 input:focus {
-  border: 1px solid #DFDEE0;
+  border: 1px solid #dfdee0;
   height: 45px;
   border-radius: 8px;
   text-indent: 16px;

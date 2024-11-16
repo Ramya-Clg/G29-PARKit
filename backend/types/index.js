@@ -19,4 +19,4 @@ const ReservationSchema = z.object({
   vehicleNumberPlate: z.string(),
 });
 
-export { LoginSchema, SignupSchema,ReservationSchema };
+export { LoginSchema, SignupSchema, ReservationSchema };

@@ -1,5 +1,5 @@
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { Link } from 'react-router-dom'; // Use 'react-router-dom' for routing in React
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Link } from "react-router-dom"; // Use 'react-router-dom' for routing in React
 
 export function Footer() {
   return (
@@ -9,7 +9,10 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <h2 className="text-2xl font-bold mb-4">PARKit</h2>
-            <p className="mb-4">A modern and user-friendly parking experience that saves you time and stress.</p>
+            <p className="mb-4">
+              A modern and user-friendly parking experience that saves you time
+              and stress.
+            </p>
             <div className="flex space-x-4">
               <Link to="#" className="hover:text-[#5B8F8F] transition-colors">
                 <Facebook size={24} />
@@ -35,16 +38,33 @@ export function Footer() {
             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="hover:text-[#5B8F8F] transition-colors">Home</Link>
+                <Link to="/" className="hover:text-[#5B8F8F] transition-colors">
+                  Home
+                </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-[#5B8F8F] transition-colors">About Us</Link>
+                <Link
+                  to="/about"
+                  className="hover:text-[#5B8F8F] transition-colors"
+                >
+                  About Us
+                </Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-[#5B8F8F] transition-colors">Our Services</Link>
+                <Link
+                  to="/services"
+                  className="hover:text-[#5B8F8F] transition-colors"
+                >
+                  Our Services
+                </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-[#5B8F8F] transition-colors">Contact Us</Link>
+                <Link
+                  to="/contact"
+                  className="hover:text-[#5B8F8F] transition-colors"
+                >
+                  Contact Us
+                </Link>
               </li>
             </ul>
           </div>

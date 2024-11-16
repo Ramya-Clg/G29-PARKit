@@ -1,10 +1,29 @@
-import { useState } from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon, Clock } from "lucide-react";
+"use client";
 
-import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -17,133 +36,186 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
-export default function Booking() {
-  const [date, setDate] = useState();
-  const [time, setTime] = useState();
-  const [duration, setDuration] = useState("1");
+const formSchema = z.object({
+  date: z.date({
+    required_error: "Please select a date.",
+  }),
+  time: z.string({
+    required_error: "Please select a time.",
+  }),
+  duration: z.string({
+    required_error: "Please select duration.",
+  }),
+  numberPlate: z
+    .string()
+    .min(1, "Number plate is required")
+    .max(10, "Number plate cannot exceed 10 characters")
+    .regex(
+      /^[A-Z0-9 ]+$/,
+      "Only uppercase letters, numbers and spaces are allowed",
+    ),
+});
 
-  const handleBooking = () => {
-    if (!date || !time) {
-      toast({
-        title: "Booking Failed",
-        description: "Please select both date and time for your booking.",
-        variant: "destructive",
-      });
-      return;
-    }
+export default function Component() {
+  const [slotsAvailable, setSlotsAvailable] = useState(true);
 
-    toast({
-      title: "Booking Confirmed",
-      description: `Your parking slot is booked for ${format(date, "PPP")} at ${time} for ${duration} hour(s).`,
-    });
-  };
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
+
+  function onSubmit(values) {
+    console.log(values);
+  }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 md:p-8 space-y-6">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">
-        Book a Parking Slot
-      </h1>
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle>Book Parking Slot</CardTitle>
+        <CardDescription>
+          Select your preferred date and time for parking.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Select Date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground",
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date < new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label htmlFor="date-picker" className="text-sm font-medium">
-            Select Date
-          </label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                id="date-picker"
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !date && "text-muted-foreground",
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select Time</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select time" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="09:00">09:00 AM</SelectItem>
+                      <SelectItem value="10:00">10:00 AM</SelectItem>
+                      <SelectItem value="11:00">11:00 AM</SelectItem>
+                      <SelectItem value="12:00">12:00 PM</SelectItem>
+                      <SelectItem value="13:00">01:00 PM</SelectItem>
+                      <SelectItem value="14:00">02:00 PM</SelectItem>
+                      <SelectItem value="15:00">03:00 PM</SelectItem>
+                      <SelectItem value="16:00">04:00 PM</SelectItem>
+                      <SelectItem value="17:00">05:00 PM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className="space-y-2">
-          <label htmlFor="time-picker" className="text-sm font-medium">
-            Select Time
-          </label>
-          <Select onValueChange={setTime}>
-            <SelectTrigger id="time-picker" className="w-full">
-              <SelectValue placeholder="Select time">
-                {time ? (
-                  <div className="flex items-center">
-                    <Clock className="mr-2 h-4 w-4" />
-                    {time}
-                  </div>
-                ) : (
-                  "Select time"
-                )}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                <SelectItem
-                  key={hour}
-                  value={`${hour.toString().padStart(2, "0")}:00`}
-                >
-                  {`${hour.toString().padStart(2, "0")}:00`}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            <FormField
+              control={form.control}
+              name="duration"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Duration (Hours)</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select duration" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">1 hour</SelectItem>
+                      <SelectItem value="2">2 hours</SelectItem>
+                      <SelectItem value="3">3 hours</SelectItem>
+                      <SelectItem value="4">4 hours</SelectItem>
+                      <SelectItem value="5">5 hours</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className="space-y-2">
-          <label htmlFor="duration-picker" className="text-sm font-medium">
-            Duration (hours)
-          </label>
-          <Select defaultValue={duration} onValueChange={setDuration}>
-            <SelectTrigger id="duration-picker" className="w-full">
-              <SelectValue placeholder="Select duration" />
-            </SelectTrigger>
-            <SelectContent>
-              {[1, 2, 3, 4].map((hours) => (
-                <SelectItem key={hours} value={hours.toString()}>
-                  {hours} hour{hours > 1 ? "s" : ""}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+            <FormField
+              control={form.control}
+              name="numberPlate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vehicle Number Plate</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter vehicle number plate"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className="md:self-end">
-          <div
-            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-            role="alert"
-          >
-            <p className="font-bold">Slots Available</p>
-            <p className="text-sm">
-              Parking slots are currently available for the selected date and
-              time.
-            </p>
-          </div>
-        </div>
-      </div>
+            {slotsAvailable && (
+              <div className="rounded-lg border bg-green-50 p-3 text-sm">
+                <div className="font-medium">Slots Available</div>
+                <div className="text-green-600">
+                  Parking slots are currently available for the selected date
+                  and time.
+                </div>
+              </div>
+            )}
 
-      <Button
-        className="w-full md:w-auto md:px-8 md:mx-auto"
-        onClick={handleBooking}
-      >
-        Book Parking Slot
-      </Button>
-    </div>
+            <Button type="submit" className="w-full">
+              Book Parking Slot
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
