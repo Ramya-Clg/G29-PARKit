@@ -14,16 +14,23 @@
     /* background: url(./Frame-1.jpeg); */
    
 }
+
+.container1{
+
+    height: 100%;
+}
+
 #background_home{
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: absolute;
     z-index: -1;
 }
 
 #gaddi{
     position: absolute;
-    width: 35%;
+    /* width: 30rem; */
+    width: 40rem;
     right: 2rem;
     bottom: 12rem;
     animation: car_transition;
@@ -40,8 +47,8 @@
   }
 
 .inside_container1{
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
 }
 
@@ -89,7 +96,6 @@
   display: flex;
   flex-direction: column;
   
-  
 } 
 
 .welcome{
@@ -104,9 +110,10 @@ font-size:6rem;
 font-family: "Inter", sans-serif;
 line-height: 6rem;
 font-weight:600;
+
 }
 .des{
-font-size: 1.3rem;
+font-size: 25px;
 margin-top: 2rem;
 font-family: "Inter", sans-serif;
 width: 70%;
@@ -120,7 +127,7 @@ height: 2.5rem;
 color: white;
 font-size: 1.3rem;
 margin-top: 3rem;
-width: 30%;
+width: 12rem;
 animation: book_Now;
   animation-duration: 1s;
   animation-timing-function: ease;
@@ -138,8 +145,8 @@ animation: book_Now;
 
 
 .aboutus{
-
-height: 40rem;
+background-color: #eaf0ee;
+/* height: 40rem; */
 display: flex;
 font-family: "Inter", sans-serif;
 }
@@ -160,6 +167,7 @@ align-items: center;
 
 #cars{
     width: 80%;
+    max-height: 30rem;
 
 }
 
@@ -180,6 +188,125 @@ align-items: center;
 }
 
 .right h1{ 
-             font-size: 4rem;
+    font-size: 4rem;
 }
+
+@media only screen and (max-width: 1024px){
+
+    .container1{
+        flex-direction: column;
+    
+    }
+    
+    .inside_container1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        /* width: 80%; */
+    }
+    
+    #gaddi{
+       
+     position: static;
+     bottom: 0;
+     width: 25rem;
+    
+    }
+    
+.content_home{
+    width: 80%;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+}
+
+@media only screen and (max-width: 900px){
+
+
+.aboutus{
+    flex-direction: column;
+    align-items: center;
+}
+
+.left{
+    width: 30rem;
+}
+.right{
+    width: 90%;
+}
+
+
+.right h1{
+    font-size: 8vw;
+    margin-top: 2rem;
+}
+
+.right_content{
+    font-size: 3.3vw;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+   
+}
+
+
+@media only screen and (max-width: 440px) {
+   
+.container1{
+    flex-direction: column;
+
+}
+
+.inside_container1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+#gaddi{
+   
+ position: static;
+ bottom: 0;
+ width: 90%;
+ 
+ 
+}
+
+.booknow{
+    width: 55%;
+   
+}
+
+.content_home{
+    width: 80%;
+}
+
+.content_home{
+    margin-top: 0;
+}
+
+.parkit{
+    font-size: 20vw;
+}
+
+.welcome{
+    font-size: 8vw;
+    text-wrap: wrap;
+}
+
+.des{
+    font-size: 5vw;
+}
+
+ .left{
+    width: 80%;
+} 
+
+
+  }
 

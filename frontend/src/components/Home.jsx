@@ -12,8 +12,8 @@ export const Home = () => {
       <div class="main_container">
         <div class="container1">
           <img id="background_home" src={background} alt="img" />
-          <img id="gaddi" src={gaddi} alt="img" />
           
+              {/* <img id="gaddi" src={gaddi} alt="img" /> */}
           <div class="inside_container1">
 
             <div class="container1_navbar">
@@ -22,7 +22,7 @@ export const Home = () => {
                 <a class="navtags" href="">RESERVE</a>
                 <a class="navtags" href="">CONTACT</a>
                 <a class="navtags" href="">ABOUT</a>
-                <button id="login" >Login</button> */}
+              <button id="login" >Login</button> */}
             </div>
             <div class="content_home">
                 <div class="welcome">WELCOME TO</div>
@@ -30,11 +30,12 @@ export const Home = () => {
                 <div class="des">A modern and user-friendly parking experience that saves you time and stress.</div>
                 <button class="booknow">Get Started</button>
             </div>
+          <img id="gaddi" src={gaddi} alt="img" />
           </div>
         </div>
 
         <div class="aboutus">
-            <img id="rec" src={rectangle} alt="" />
+            {/* <img id="rec" src={rectangle} alt="" /> */}
               <div class="left">
                    <img id="cars"src={cars} alt="" />
               </div>
