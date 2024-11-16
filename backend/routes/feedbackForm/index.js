@@ -23,4 +23,21 @@ FeedbackRouter.post(
 );
 
 
+FeedbackRouter.get(
+  "/all",
+  authorizationMiddleware,
+  async (req, res) => {
+    try {
+      const feedbackList = await Feedback.findAll(); 
+      return res.status(200).json(feedbackList);
+    } catch (error) {
+      console.error("Error retrieving feedback:", error);
+      return res.status(500).json({ error: "Failed to retrieve feedback" });
+    }
+  }
+);
+
+
+
+
 export default FeedbackRouter;
