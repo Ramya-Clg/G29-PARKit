@@ -16,10 +16,10 @@ import { Navbar } from "./components/Navbar";
 import  Home  from "./components/Home";
 
 function PrivateRoute({ element }) {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return <Navigate to="/credit" replace />;
-  }
+//   const token = localStorage.getItem("token");
+//   if (!token) {
+//     return <Navigate to="/login" replace />;
+//   }
   return element;
 }
 
@@ -36,7 +36,6 @@ function RootApp() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/credit" element={<CreditFormMain />} />
         <Route
           path="/feedback"
           element={<PrivateRoute element={<Feedback />} />}
@@ -45,10 +44,10 @@ function RootApp() {
           path="/profile"
           element={<PrivateRoute element={<Profile />} />}
         />
-        {/* <Route
+        <Route
           path="/credit"
           element={<PrivateRoute element={<CreditFormMain />} />}
-        /> */}
+        />
         <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
 
         <Route path="*" element={<Navigate to="/login" replace />} />
