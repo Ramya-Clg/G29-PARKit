@@ -129,9 +129,9 @@ const FeedbackSchema = new mongoose.Schema({
     required: true,
   },
   email: {
-      type: String,
-      required: true,
-      unique: true,
+    type: String,
+    required: true,
+    unique: true,
   },
   rating: {
     type: Number,
@@ -140,13 +140,13 @@ const FeedbackSchema = new mongoose.Schema({
   message: {
     type: String,
     required: true,
-  }
+  },
 });
 // Models
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
 const Reservation = mongoose.model("Reservation", reservationSchema);
-const Feedback = mongoose.model("Feedback",FeedbackSchema);
+const Feedback = mongoose.model("Feedback", FeedbackSchema);
 
 // Export Models
 export { User, ParkingSlot, Reservation, Feedback };

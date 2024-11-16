@@ -23,22 +23,4 @@ const authorizationMiddleware = (req, res, next) => {
   }
 };
 
-const validateRequest = (schema) => {
-  return (req, res, next) => {
-    try {
-      schema.parse(req.body); 
-      next(); 
-    } catch (error) {
-      if (error instanceof ZodError) {
-        // Handle Zod validation errors
-        return res.status(400).json({
-          error: "Validation error",
-          details: error.errors.map((e) => e.message), 
-        });
-      }
-      return res.status(500).json({ error: "Server error during validation" });
-    }
-  };
-};
-
-export {validateRequest,authorizationMiddleware};
+export { authorizationMiddleware };

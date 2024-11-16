@@ -26,4 +26,4 @@ const FeedbackSchema = z.object({
   message: z.string().min(2),
 });
 
-export { LoginSchema, SignupSchema, ReservationSchema, FeedbackSchema};
+export { LoginSchema, SignupSchema, ReservationSchema, FeedbackSchema };

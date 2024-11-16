@@ -1,52 +1,48 @@
 import { Router } from "express";
 import { Feedback } from "../../db/index.js"; // Feedback model from your database setup
 import { authorizationMiddleware } from "../../middlewares/index.js"; // Middleware for authorization
-import { validateRequest } from "../../middlewares/validateRequest.js"; // Middleware for request validation
 import { FeedbackSchema } from "../../types/index.js"; // Validation schema for feedback
 
-const FeedbackRouter = Router();
+const feedbackRouter = Router();
 
-// Submit feedback
-FeedbackRouter.post(
-  "/submit",
-  validateRequest(FeedbackSchema),
-  async (req, res) => {
-    try {
-      const feedbackData = req.body; 
-      const feedback = await Feedback.create(feedbackData); 
-      return res.status(201).json({ message: "Feedback submitted successfully", feedback });
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      return res.status(500).json({ error: "Failed to submit feedback" });
-    }
+feedbackRouter.post("/submit", async (req, res) => {
+  const parsedData = FeedbackSchema.safeParse(req.body);
+  if (!parsedData.success) {
+    return res.status(400).json({ msg: "wrong inputs" });
   }
-);
-
-
-FeedbackRouter.get(
-  "/all",
-  authorizationMiddleware,
-  async (req, res) => {
-    try {
-      const feedbackList = await Feedback.findAll(); 
-      return res.status(200).json(feedbackList);
-    } catch (error) {
-      console.error("Error retrieving feedback:", error);
-      return res.status(500).json({ error: "Failed to retrieve feedback" });
-    }
+  const feedbackData = parsedData.data;
+  try {
+    const feedback = await Feedback.create(feedbackData);
+    return res
+      .status(201)
+      .json({ message: "Feedback submitted successfully", feedback });
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    return res.status(500).json({ error: "Failed to submit feedback" });
   }
-);
+});
 
+feedbackRouter.get("/all", authorizationMiddleware, async (req, res) => {
+  try {
+    const feedbackList = await Feedback.findAll();
+    return res.status(200).json(feedbackList);
+  } catch (error) {
+    console.error("Error retrieving feedback:", error);
+    return res.status(500).json({ error: "Failed to retrieve feedback" });
+  }
+});
 
-FeedbackRouter.delete(
+feedbackRouter.delete(
   "/delete/:id",
-  authorizationMiddleware, 
+  authorizationMiddleware,
   async (req, res) => {
     const { id } = req.params;
     try {
-      const feedback = await Feedback.destroy({ where: { id } }); 
+      const feedback = await Feedback.destroy({ where: { id } });
       if (feedback) {
-        return res.status(200).json({ message: "Feedback deleted successfully" });
+        return res
+          .status(200)
+          .json({ message: "Feedback deleted successfully" });
       } else {
         return res.status(404).json({ error: "Feedback not found" });
       }
@@ -54,9 +50,7 @@ FeedbackRouter.delete(
       console.error("Error deleting feedback:", error);
       return res.status(500).json({ error: "Failed to delete feedback" });
     }
-  }
+  },
 );
 
-
-
-export default FeedbackRouter;
+export default feedbackRouter;

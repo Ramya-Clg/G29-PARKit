@@ -1,34 +1,32 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.main_container_profile{
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #a2b7b2;
-    padding-top: 5rem;
-} 
+.main_container_profile {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a2b7b2;
+  padding-top: 5rem;
+}
 
-.card{
-    animation: book_Now;
-    animation-duration: 1.5s;
-    animation-timing-function: ease;
-    width: 50%;
-   
-    
+.card {
+  animation: book_Now;
+  animation-duration: 1.5s;
+  animation-timing-function: ease;
+  width: 50%;
 }
 
 @keyframes card_ani {
-    0% {
-      opacity: 0;
-    }
-  
-    100% {
-      opacity: 1;
-    }
+  0% {
+    opacity: 0;
   }
+
+  100% {
+    opacity: 1;
+  }
+}
