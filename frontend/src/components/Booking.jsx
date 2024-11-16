@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+import './Booking.css'
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -71,6 +71,11 @@ export default function Component() {
   }
 
   return (
+    <div class="main_container">
+
+   <div class="card">
+
+   
     <Card className="max-w-md mx-auto">
       <CardHeader>
         <CardTitle>Book Parking Slot</CardTitle>
@@ -217,5 +222,7 @@ export default function Component() {
         </Form>
       </CardContent>
     </Card>
+    </div>
+  </div>
   );
 }
