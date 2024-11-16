@@ -9,7 +9,7 @@
 }
 
 .main_container{
-    height: 100vh;
+     height: 100vh;
     width: 100vw;
     /* background: url(./Frame-1.jpeg); */
    
@@ -147,8 +147,10 @@ animation: book_Now;
 .aboutus{
 background-color: #eaf0ee;
 /* height: 40rem; */
+/* height: 100vh; */
 display: flex;
 font-family: "Inter", sans-serif;
+padding-bottom: 8rem;
 }
 
 #rec{

@@ -14,6 +14,7 @@ import { Admin } from "./components/Admin";
 import CreditFormMain from "./components/Credit_Form_Main";
 import { Navbar } from "./components/Navbar";
 import  Home  from "./components/Home";
+import { Footer } from "./components/Footer";
 
 function PrivateRoute({ element }) {
   const token = localStorage.getItem("token");
