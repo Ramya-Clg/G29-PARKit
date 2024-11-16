@@ -19,4 +19,11 @@ const ReservationSchema = z.object({
   vehicleNumberPlate: z.string(),
 });
 
-export { LoginSchema, SignupSchema, ReservationSchema };
+const FeedbackSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email(),
+  rating: z.number().min(1).max(5),
+  message: z.string().min(2),
+});
+
+export { LoginSchema, SignupSchema, ReservationSchema, FeedbackSchema};
