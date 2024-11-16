@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
+import { ZodError } from "zod";
 import { configDotenv } from "dotenv";
 import { User } from "../db/index.js";
 configDotenv();
 
-export const authorizationMiddleware = (req, res, next) => {
+const authorizationMiddleware = (req, res, next) => {
   const response = req.headers["authorization"];
   const token = response?.split(" ")[1];
   if (!token) {
@@ -21,3 +22,23 @@ export const authorizationMiddleware = (req, res, next) => {
     return res.status(401).json({ msg: "Unauthorized" });
   }
 };
+
+const validateRequest = (schema) => {
+  return (req, res, next) => {
+    try {
+      schema.parse(req.body); 
+      next(); 
+    } catch (error) {
+      if (error instanceof ZodError) {
+        // Handle Zod validation errors
+        return res.status(400).json({
+          error: "Validation error",
+          details: error.errors.map((e) => e.message), 
+        });
+      }
+      return res.status(500).json({ error: "Server error during validation" });
+    }
+  };
+};
+
+export {validateRequest,authorizationMiddleware};
