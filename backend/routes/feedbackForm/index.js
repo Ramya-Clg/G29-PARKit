@@ -38,6 +38,25 @@ FeedbackRouter.get(
 );
 
 
+FeedbackRouter.delete(
+  "/delete/:id",
+  authorizationMiddleware, 
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const feedback = await Feedback.destroy({ where: { id } }); 
+      if (feedback) {
+        return res.status(200).json({ message: "Feedback deleted successfully" });
+      } else {
+        return res.status(404).json({ error: "Feedback not found" });
+      }
+    } catch (error) {
+      console.error("Error deleting feedback:", error);
+      return res.status(500).json({ error: "Failed to delete feedback" });
+    }
+  }
+);
+
 
 
 export default FeedbackRouter;
