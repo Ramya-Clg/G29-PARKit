@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import './Profile.css'
 
 export function Profile({
   name = "John Doe",
@@ -9,6 +10,11 @@ export function Profile({
   parkingSlots = null,
 }) {
   return (
+    <div class="main_container">
+
+    <div class="card">
+
+    
     <div className="container mx-auto p-4">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
@@ -65,6 +71,9 @@ export function Profile({
           </div>
         </CardContent>
       </Card>
+    </div>
+    </div>
+
     </div>
   );
 }
