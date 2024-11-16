@@ -1,4 +1,4 @@
-import { User } from "../../db/db.js";
+import { User } from "../../db/index.js";
 import { LoginSchema } from "../../types/index.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";

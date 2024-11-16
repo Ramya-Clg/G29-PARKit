@@ -12,4 +12,11 @@ const SignupSchema = z.object({
   phone: z.string().optional(),
 });
 
-export { LoginSchema, SignupSchema };
+const ReservationSchema = z.object({
+  reservationDate: z.string(),
+  reservationTime: z.string(),
+  rservationDuration: z.number().max(5),
+  vehicleNumberPlate: z.string(),
+});
+
+export { LoginSchema, SignupSchema,ReservationSchema };

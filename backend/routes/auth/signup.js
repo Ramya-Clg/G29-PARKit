@@ -1,5 +1,5 @@
 import { SignupSchema } from "../../types/index.js";
-import { User } from "../../db/db.js";
+import { User } from "../../db/index.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
