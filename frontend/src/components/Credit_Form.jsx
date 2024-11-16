@@ -1,119 +1,139 @@
+//CC Form
 export default function Form({
-  formData,
-  handleInput,
-  formattedCardNumber,
-  handleSubmit,
-  formErrors,
-}) {
-  const { name, month, year, cvc } = formData;
+    formSubmitted,
+    handleSubmit,
+    formattedCardNumber,
+    formData,
+    handleInput,
+    formErrors,
+  }) {
+    const { name, cardNumber, month, year, cvc } = formData;
+    return (
+        <form
+        className="flex flex-col px-6 py-10 lg:py-20 lg:px-28 bg-white shadow-lg rounded-md lg:ml-20"
+        onSubmit={handleSubmit}>
+            <div className="mb-6">
+                <label
+                    className="block text-gray-800 text-xs font-bold mb-2 uppercase tracking-widest"
+                    htmlFor="name">
+                        Cardholder Name
+                </label>
+                <input
+                    className={`w-full h-12 px-4 text-gray-900 border ${
+                    formErrors.name ? 'border-red-500' : 'border-gray-300'
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={name}
+                    maxLength={100}
+                    onChange={handleInput}
+                    placeholder="e.g. Jane Appleseed"
+                />
+                {formErrors.name && (
+                    <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>
+                )}
+            </div>
 
-  return (
-    <form
-      aria-label="credit card form"
-      className="form mt-[91px] lg:mt-[111px] flex flex-col w-[327px] h-[348px] lg:w-[381px] lg:h-[372px] lg:ml-[349px] lg:mb-[90px]"
-    >
-      <label htmlFor="name" className="form--name_label mb-2">
-        Cardholder Name
-      </label>
-      <input
-        className={`form--name_input lg:w-[381px] min-h-[45px] rounded-md border text-left focus:outline-none focus:ring-2 focus:ring-indigo-600 ${formErrors.name ? "border-red-500" : "border-gray-300"}`}
-        name="name"
-        value={name}
-        id="name"
-        aria-label="name"
-        onChange={handleInput}
-        placeholder="e.g. Manish Joshi"
-      />
-      {formErrors.name && (
-        <div className="text-red-500 mt-2 text-xs">{formErrors.name}</div>
-      )}
+            <div className="mb-6">
+                <label
+                    className="block text-gray-800 text-xs font-bold mb-2 uppercase tracking-widest"
+                    htmlFor="cardNumber">
+                    Card Number
+                </label>
+                <input
+                    className={`w-full h-12 px-4 text-gray-900 border ${
+                    formErrors.cardNumber ? 'border-red-500' : 'border-gray-300'
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                    type="text"
+                    id="cardNumber"
+                    name="cardNumber"
+                    value={cardNumber}
+                    maxLength={19}
+                    onChange={handleInput}
+                    placeholder="e.g. 1234 5678 9123 0000"
+                />
+                {formErrors.cardNumber && (
+                    <p className="text-red-500 text-xs mt-1">{formErrors.cardNumber}</p>
+                )}
+            </div>
 
-      <label
-        htmlFor="cardNumber"
-        className="form--cardNumber_label mt-[18px] lg:mt-[26px] mb-2"
-      >
-        Card Number
-      </label>
-      <input
-        className={`form--card_number_input lg:w-[381px] min-h-[45px] rounded-md border text-left focus:outline-none focus:ring-2 focus:ring-indigo-600 ${formErrors.cardNumber ? "border-red-500" : "border-gray-300"}`}
-        name="cardNumber"
-        value={formattedCardNumber}
-        id="cardNumber"
-        aria-label="cardNumber"
-        onChange={handleInput}
-        placeholder="e.g. 1234 5678 9123 0000"
-        maxLength={19}
-      />
-      {formErrors.cardNumber && (
-        <div className="text-red-500 mt-2 text-xs">{formErrors.cardNumber}</div>
-      )}
+            <div className="flex flex-col lg:flex-row gap-6 mb-6">
+                <div className="flex-1">
+                    <label
+                        className="block text-gray-800 text-xs font-bold mb-2 uppercase tracking-widest"
+                        htmlFor="month">
+                        Exp. Date (MM/YY)
+                    </label>
+                    <div className="flex gap-4">
+                        <input
+                            className={`w-1/2 h-12 px-4 text-gray-900 border ${
+                            formErrors.month ? 'border-red-500' : 'border-gray-300'
+                            } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                            type="text"
+                            id="month"
+                            name="month"
+                            value={month}
+                            onChange={handleInput}
+                            maxLength={2}
+                            placeholder="MM"
+                        />
+                        {(formErrors.month) && (
+                            <p className="text-red-500 text-xs mt-1">
+                                {formErrors.month}
+                            </p>
+                        )}
+                        <input
+                            className={`w-1/2 h-12 px-4 text-gray-900 border ${
+                            formErrors.year ? 'border-red-500' : 'border-gray-300'
+                            } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                            type="text"
+                            id="year"
+                            name="year"
+                            value={year}
+                            onChange={handleInput}
+                            maxLength={2}
+                            placeholder="YY"
+                        />
+                        {(formErrors.year) && (
+                            <p className="text-red-500 text-xs mt-1">
+                                {formErrors.year}
+                            </p>
+                    )}
+                    </div>   
+                </div>
 
-      <div className="form--exp_container flex w-full mt-[14px] mb-[28px] lg:mb-[40px] lg:mt-[26px]">
-        <div className="form--month_container mr-2">
-          <label htmlFor="month" className="form--month_label block mb-[9px]">
-            EXP.DATE
-          </label>
-          <input
-            className="form--month_input w-[72px] lg:w-[80px] p-2 text-left"
-            name="month"
-            value={month}
-            id="month"
-            aria-label="month"
-            onChange={handleInput}
-            placeholder="MM"
-            maxLength={2}
-          />
-          {formErrors.month && (
-            <div className="text-red-500 mt-2 text-xs">{formErrors.month}</div>
-          )}
-        </div>
+                <div className="flex-1">
+                    <label
+                        className="block text-gray-800 text-xs font-bold mb-2 uppercase tracking-widest"
+                        htmlFor="cvc">
+                        CVC
+                    </label>
+                    <input
+                        className={`w-full h-12 px-4 text-gray-900 border ${
+                        formErrors.cvc ? 'border-red-500' : 'border-gray-300'
+                        } rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500`}
+                        type="text"
+                        id="cvc"
+                        name="cvc"
+                        value={cvc}
+                        onChange={handleInput}
+                        maxLength={3}
+                        placeholder="e.g. 123"
+                    />
+                    {formErrors.cvc && (
+                        <p className="text-red-500 text-xs mt-1">{formErrors.cvc}</p>
+                    )}
+                </div>
+            </div>
 
-        <div className="form--month_container mr-[11px] lg:mr-[20px]">
-          <label htmlFor="year" className="form--year_label block mb-[9px]">
-            MM/YY
-          </label>
-          <input
-            className="form--yeara_input w-[72px] lg:w-[80px] p-2 text-left"
-            name="year"
-            value={year}
-            id="year"
-            aria-label="year"
-            onChange={handleInput}
-            placeholder="YY"
-            maxLength={2}
-          />
-          {formErrors.year && (
-            <div className="text-red-500 mt-2 text-xs">{formErrors.year}</div>
-          )}
-        </div>
-
-        <div className="form--cvc_container">
-          <label htmlFor="cvc" className="form--cvc_label block mb-[9px]">
-            CVC
-          </label>
-          <input
-            className={`form--cvc_input w-[155px] lg:w-[191px] rounded-md border text-left focus:outline-none focus:ring-2 focus:ring-indigo-600 ${formErrors.cvc ? "border-red-500" : "border-gray-300"}`}
-            name="cvc"
-            value={cvc}
-            id="cvc"
-            aria-label="cvc"
-            onChange={handleInput}
-            placeholder="e.g. 123"
-            maxLength={3}
-          />
-          {formErrors.cvc && (
-            <div className="text-red-500 mt-2 text-xs">{formErrors.cvc}</div>
-          )}
-        </div>
-      </div>
-
-      <button
-        onClick={handleSubmit}
-        className="form--submit_btn bg-gray-300 text-black w-[327px] min-h-[53px] rounded-lg lg:w-[381px] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600"
-        aria-label="confirm button"
-      >
-        Confirm
-      </button>
-    </form>
-  );
-}
+            <button
+                
+                className="w-full h-12 bg-gradient-to-r from-purple-600 to-purple-800 text-white text-sm font-bold uppercase tracking-widest rounded-lg hover:opacity-90"
+                type="submit">
+                    Confirm
+            </button>
+        </form>
+    );
+  }
+  
