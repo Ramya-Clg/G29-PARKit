@@ -10,6 +10,7 @@
   height: 100vh;
   width: 100vw;
   /* background: url(./Frame-1.jpeg); */
+  background-color: none;
 }
 
 .container1 {
@@ -140,6 +141,7 @@
   /* height: 40rem; */
   display: flex;
   font-family: "Inter", sans-serif;
+  padding-bottom: 3rem;
 }
 
 #rec {

@@ -10,7 +10,7 @@ export function Profile({
   parkingSlots = null,
 }) {
   return (
-    <div class="main_container">
+    <div class="main_containe_profile">
 
     <div class="card">
 

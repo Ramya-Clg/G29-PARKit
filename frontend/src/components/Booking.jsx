@@ -71,7 +71,7 @@ export default function Component() {
   }
 
   return (
-    <div class="main_container">
+    <div class="main_container_booking">
 
    <div class="card">
 
