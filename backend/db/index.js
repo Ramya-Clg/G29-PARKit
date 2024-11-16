@@ -122,6 +122,27 @@ const reservationSchema = new mongoose.Schema({
   },
 });
 
+//Feedback Message
+const Feedback = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+      type: String,
+      required: true,
+      unique: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  }
+});
+
 // Models
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
