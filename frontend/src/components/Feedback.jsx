@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
+import './Feedback.css'
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -55,6 +56,12 @@ export function Feedback() {
   }
 
   return (
+    <div class="feedback">
+
+<div class="card">
+
+
+    
     <Card className="w-full max-w-[calc(100%-2rem)] sm:max-w-md mx-auto mt-[50px] mb-[10px]">
       <CardHeader>
         <CardTitle className="text-2xl sm:text-3xl text-center">
@@ -143,5 +150,7 @@ export function Feedback() {
         </CardFooter>
       </form>
     </Card>
+    </div>
+    </div>
   );
 }
