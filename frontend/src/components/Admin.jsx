@@ -126,7 +126,9 @@ export function Admin({
         <Tabs defaultValue="daily" className="mt-6">
           <TabsList>
             <TabsTrigger value="daily">Daily Income</TabsTrigger>
-            <TabsTrigger value="monthly">Monthly Income Distribution</TabsTrigger>
+            <TabsTrigger value="monthly">
+              Monthly Income Distribution
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="daily">
             <Card>

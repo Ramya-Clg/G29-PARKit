@@ -10,15 +10,15 @@ export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false
+    rememberMe: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -31,15 +31,15 @@ export const Login = () => {
         `${import.meta.env.VITE_BACKEND_URL}/login`,
         {
           email: formData.email,
-          password: formData.password
-        }
+          password: formData.password,
+        },
       );
 
       const { token } = response.data;
-      
-      // Save token to localStorage
-      localStorage.setItem('token', token);
-      
+
+      // Save token to localStorage with Bearer prefix
+      localStorage.setItem("token", `Bearer ${token}`);
+
       toast({
         title: "Success!",
         description: "Logged in successfully",
@@ -47,10 +47,9 @@ export const Login = () => {
       });
 
       // Redirect to home page
-      navigate('/');
-      
+      navigate("/");
     } catch (error) {
-      console.error('Login error:', error.response?.data || error);
+      console.error("Login error:", error.response?.data || error);
       toast({
         title: "Error",
         description: error.response?.data?.msg || "Failed to login",
@@ -108,24 +107,24 @@ export const Login = () => {
 
             <div className="flex justify-between items-center mb-6 text-[#CBE4DE]">
               <label className="flex items-center space-x-2">
-                <input 
+                <input
                   type="checkbox"
                   name="rememberMe"
                   checked={formData.rememberMe}
                   onChange={handleChange}
-                  className="form-checkbox" 
+                  className="form-checkbox"
                 />
                 <span>Remember me</span>
               </label>
-              <Link 
-                to="/forgot-password" 
+              <Link
+                to="/forgot-password"
                 className="text-[#0E8388] hover:underline"
               >
                 Forgot password?
               </Link>
             </div>
 
-            <button 
+            <button
               type="submit"
               disabled={isSubmitting}
               className="w-full py-2 bg-[#0E8388] text-[#CBE4DE] font-bold rounded-md transition duration-300 hover:bg-[#2E4F4F] disabled:opacity-50"

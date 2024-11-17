@@ -13,21 +13,21 @@ export const SignUp = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: false
+    agreeToTerms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Error",
@@ -55,23 +55,22 @@ export const SignUp = () => {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          password: formData.password
-        }
+          password: formData.password,
+        },
       );
 
       const { token } = response.data;
-      localStorage.setItem('token', token);
-      
+      localStorage.setItem("token", token);
+
       toast({
         title: "Success!",
         description: "Account created successfully",
         variant: "default",
       });
 
-      navigate('/');
-      
+      navigate("/");
     } catch (error) {
-      console.error('Signup error:', error.response?.data || error);
+      console.error("Signup error:", error.response?.data || error);
       toast({
         title: "Error",
         description: error.response?.data?.msg || "Failed to create account",
@@ -184,18 +183,18 @@ export const SignUp = () => {
 
             <div className="flex justify-between items-center mb-6 text-[#CBE4DE]">
               <label className="flex items-center space-x-2">
-                <input 
+                <input
                   type="checkbox"
                   name="agreeToTerms"
                   checked={formData.agreeToTerms}
                   onChange={handleChange}
-                  className="form-checkbox" 
+                  className="form-checkbox"
                 />
                 <span>I agree to the Terms and Conditions</span>
               </label>
             </div>
 
-            <button 
+            <button
               type="submit"
               disabled={isSubmitting}
               className="w-full py-2 bg-[#0E8388] text-[#CBE4DE] font-bold rounded-md transition duration-300 hover:bg-[#2E4F4F] disabled:opacity-50"

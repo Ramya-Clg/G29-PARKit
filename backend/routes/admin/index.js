@@ -5,6 +5,5 @@ const adminRouter = Router();
 export default adminRouter;
 
 adminRouter.get("/", async (req, res) => {
-    res.send("Admin Dashboard");
+  res.send("Admin Dashboard");
 });
-

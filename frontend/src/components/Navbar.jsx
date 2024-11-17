@@ -92,9 +92,14 @@ export function Navbar() {
 
           {/* Desktop Book Now and Auth Buttons */}
           <div className="hidden sm:flex sm:items-center sm:space-x-4">
-            <Button onClick={handleBookNow} className="flex justify-center items-center">BOOK</Button>
+            <Button
+              onClick={handleBookNow}
+              className="flex justify-center items-center"
+            >
+              BOOK
+            </Button>
             {isLoggedIn ? (
-              <Button 
+              <Button
                 onClick={handleLogout}
                 className="flex items-center space-x-2"
               >
@@ -102,7 +107,7 @@ export function Navbar() {
                 <span>Logout</span>
               </Button>
             ) : (
-              <Button 
+              <Button
                 onClick={handleLogin}
                 className="flex items-center space-x-2"
               >
@@ -161,7 +166,7 @@ export function Navbar() {
               BOOK NOW
             </Button>
             {isLoggedIn ? (
-              <Button 
+              <Button
                 className="w-full flex items-center justify-center space-x-2"
                 onClick={() => {
                   handleLogout();
@@ -172,7 +177,7 @@ export function Navbar() {
                 <span>Logout</span>
               </Button>
             ) : (
-              <Button 
+              <Button
                 className="w-full flex items-center justify-center space-x-2"
                 onClick={() => {
                   handleLogin();

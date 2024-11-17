@@ -14,7 +14,7 @@ async function connectDB() {
 connectDB();
 
 // User Schema
-const userSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -30,33 +30,13 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
-      unique: true,
-    },
-    checkInTime: {
-      type: Date,
-      default: null,
-    },
-    checkOutTime: {
-      type: Date,
-      default: null,
-    },
-    isCheckedIn: {
-      type: Boolean,
-      default: false,
-    },
-    otp: {
-      type: Number,
-      default: null,
-    },
-    parkingSlot: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ParkingSlot",
-      default: null,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const adminSchema = new mongoose.Schema({
@@ -82,7 +62,6 @@ const adminSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  
 });
 
 // Parking Slot Schema
@@ -118,63 +97,77 @@ const parkingSlotSchema = new mongoose.Schema(
   },
 );
 
-const reservationSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const ReservationSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    parkingSlot: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ParkingSlot",
+      required: true,
+    },
+    vehicleNumberPlate: {
+      type: String,
+      required: true,
+    },
+    reservationTime: {
+      type: Date,
+      required: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "confirmed", "cancelled", "completed"],
+      default: "confirmed",
+    },
   },
-  parkingSlot: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "ParkingSlot",
-    required: true,
+  {
+    timestamps: true,
   },
-  vehiclePlateNumber: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  reservationDate: {
-    type: Date,
-    required: true,
-  },
-  reservationTime: {
-    type: Date,
-    required: true,
-  },
-  reservationDuration: {
-    type: Number, // Duration in hours
-    required: true,
-  },
-});
+);
+
+// Explicitly create a non-unique index
+ReservationSchema.index({ vehicleNumberPlate: 1 }, { unique: false });
+
+// Clear existing model if it exists
+mongoose.models = {};
 
 //Feedback Message
-const FeedbackSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 2
+const FeedbackSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      minlength: 2,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    rating: {
+      type: String,
+      required: true,
+      enum: ["1", "2", "3", "4", "5"],
+    },
+    message: {
+      type: String,
+      required: true,
+      minlength: 10,
+    },
   },
-  email: {
-    type: String,
-    required: true
-  },
-  rating: {
-    type: String,
-    required: true,
-    enum: ["1", "2", "3", "4", "5"]
-  },
-  message: {
-    type: String,
-    required: true,
-    minlength: 10
-  }
-}, { timestamps: true });
+  { timestamps: true },
+);
 
 // Models
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", UserSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
-const Reservation = mongoose.model("Reservation", reservationSchema);
+const Reservation = mongoose.model("Reservation", ReservationSchema);
 const Feedback = mongoose.model("Feedback", FeedbackSchema);
 
 // Export Models

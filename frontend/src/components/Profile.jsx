@@ -15,11 +15,14 @@ export function Profile() {
     const fetchUserDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/details`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/user/details`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
         setUserDetails(response.data.user);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -94,13 +97,28 @@ export function Profile() {
                 <div className="space-y-2">
                   <Label>Current Parking Slots</Label>
                   {parkingSlots && parkingSlots.length > 0 ? (
-                    <ul className="list-disc pl-5 space-y-1">
+                    <div className="space-y-3">
                       {parkingSlots.map((slot) => (
-                        <li key={slot._id} className="text-sm">
-                          {slot.location}
-                        </li>
+                        <div key={slot._id} className="bg-muted p-3 rounded-lg">
+                          <div className="text-sm font-medium">
+                            Slot Number: {slot.slotNumber}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Vehicle: {slot.vehicleNumberPlate}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Time:{" "}
+                            {new Date(slot.reservationTime).toLocaleString()}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Duration: {slot.duration} hours
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Status: {slot.status}
+                          </div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   ) : (
                     <p className="text-sm text-muted-foreground">
                       No parking slots booked

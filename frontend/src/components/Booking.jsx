@@ -1,5 +1,5 @@
 import { CalendarIcon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -63,6 +63,7 @@ const formSchema = z.object({
 export default function Component() {
   const [slotsAvailable, setSlotsAvailable] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -76,62 +77,54 @@ export default function Component() {
     },
   });
 
-  // Check slot availability when date, time, or duration changes
-  const watchFields = form.watch(["date", "time", "duration"]);
-  
-  useEffect(() => {
-    const [date, time, duration] = watchFields;
-    if (date && time && duration) {
-      console.log('Checking availability with:', { date, time, duration });
-      checkSlotAvailability(date, time, duration);
-    }
-  }, [watchFields]);
+  const checkSlotAvailability = async (values) => {
+    if (!values.date || !values.time || !values.duration) return;
 
-  const checkSlotAvailability = async (date, time, duration) => {
+    setIsChecking(true);
     try {
-      const formattedDate = format(date, "yyyy-MM-dd");
-      console.log('Frontend: Sending availability check request:', {
-        date: formattedDate,
-        time,
-        duration
-      });
-
+      const formattedDate = format(values.date, "yyyy-MM-dd");
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/parking/available`,
         {
           params: {
             reservationDate: formattedDate,
-            reservationTime: time,
-            duration: duration,
+            reservationTime: values.time,
+            duration: values.duration,
           },
-        }
+        },
       );
-
-      console.log('Frontend: Received response:', response.data);
 
       if (response.data.available) {
         setSlotsAvailable(true);
         toast({
           title: "Slot Available",
           description: `Parking slot ${response.data.slotNumber} is available`,
+          duration: 3000,
         });
       } else {
         setSlotsAvailable(false);
         toast({
           title: "No Slots Available",
-          description: response.data.message || "No parking slots available for the selected time period.",
+          description:
+            response.data.message ||
+            "No parking slots available for the selected time period.",
           variant: "destructive",
+          duration: 3000,
         });
       }
     } catch (error) {
-      console.error('Frontend: Availability check error:', error);
-      console.error('Frontend: Error response:', error.response?.data);
+      console.error("Availability check error:", error);
       setSlotsAvailable(false);
       toast({
         title: "No Slots Available",
-        description: error.response?.data?.message || "No parking slots available for the selected time period.",
+        description:
+          error.response?.data?.message ||
+          "No parking slots available for the selected time period.",
         variant: "destructive",
+        duration: 3000,
       });
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -147,43 +140,70 @@ export default function Component() {
 
     setIsSubmitting(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
+      console.log("Token before request:", token);
+
       if (!token) {
         toast({
           title: "Error",
           description: "Please login to book a parking slot",
           variant: "destructive",
         });
-        navigate('/login');
+        navigate("/login");
         return;
       }
 
+      const authToken = token.startsWith("Bearer ") ? token : `Bearer ${token}`;
+
       const formattedDate = format(values.date, "yyyy-MM-dd");
+      const requestData = {
+        reservationDate: formattedDate,
+        reservationTime: values.time,
+        Duration: parseInt(values.duration),
+        vehicleNumberPlate: values.numberPlate.toUpperCase(),
+      };
+
+      console.log("Sending request with token:", authToken);
+      console.log("Request data:", requestData);
+
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/parking/reserve`,
-        {
-          reservationDate: formattedDate,
-          reservationTime: values.time,
-          Duration: parseInt(values.duration),
-          vehicleNumberPlate: values.numberPlate,
-        },
+        requestData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: authToken,
+            "Content-Type": "application/json",
           },
-        }
+        },
       );
+
+      console.log("Booking response:", response.data);
 
       toast({
         title: "Success",
-        description: `Parking slot ${response.data.slotNumber} booked successfully!`,
+        description: `Parking slot ${response.data.data.slotNumber} booked successfully!`,
+        duration: 3000,
       });
 
-      navigate('/dashboard');
+      navigate("/profile");
       form.reset();
-      
     } catch (error) {
-      console.error('Booking error:', error.response?.data || error);
+      console.error("Booking error:", error.response?.data || error);
+
+      if (error.response?.status === 401) {
+        const errorMsg = error.response?.data?.msg;
+        if (errorMsg === "Token expired" || errorMsg === "Invalid token") {
+          localStorage.removeItem("token");
+          toast({
+            title: "Session Expired",
+            description: "Please login again to continue",
+            variant: "destructive",
+          });
+          navigate("/login");
+          return;
+        }
+      }
+
       toast({
         title: "Error",
         description: error.response?.data?.msg || "Failed to book parking slot",
@@ -193,6 +213,23 @@ export default function Component() {
       setIsSubmitting(false);
     }
   }
+
+  // Update the form fields to check availability when all required fields are filled
+  const handleFieldChange = async (field, value) => {
+    // Update the form value
+    form.setValue(field, value);
+
+    // If it's the number plate field, we don't need to check availability
+    if (field === "numberPlate") {
+      return;
+    }
+
+    // Check if all required fields are filled for availability check
+    const currentValues = form.getValues();
+    if (currentValues.date && currentValues.time && currentValues.duration) {
+      await checkSlotAvailability(currentValues);
+    }
+  };
 
   return (
     <div className="main_container_booking">
@@ -206,7 +243,10 @@ export default function Component() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
                 <FormField
                   control={form.control}
                   name="date"
@@ -236,7 +276,9 @@ export default function Component() {
                           <Calendar
                             mode="single"
                             selected={field.value}
-                            onSelect={field.onChange}
+                            onSelect={(value) =>
+                              handleFieldChange("date", value)
+                            }
                             disabled={(date) =>
                               date < new Date() || date < new Date("1900-01-01")
                             }
@@ -256,7 +298,9 @@ export default function Component() {
                     <FormItem>
                       <FormLabel>Select Time</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) =>
+                          handleFieldChange("time", value)
+                        }
                         defaultValue={field.value}
                       >
                         <FormControl>
@@ -288,7 +332,9 @@ export default function Component() {
                     <FormItem>
                       <FormLabel>Duration (Hours)</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) =>
+                          handleFieldChange("duration", value)
+                        }
                         defaultValue={field.value}
                       >
                         <FormControl>
@@ -318,7 +364,16 @@ export default function Component() {
                       <FormControl>
                         <Input
                           placeholder="Enter vehicle number plate"
-                          {...field}
+                          onChange={(e) => {
+                            // Convert to uppercase immediately
+                            const upperValue = e.target.value.toUpperCase();
+                            handleFieldChange("numberPlate", upperValue);
+                            field.onChange(upperValue);
+                          }}
+                          value={field.value}
+                          onBlur={field.onBlur}
+                          name={field.name}
+                          ref={field.ref}
                         />
                       </FormControl>
                       <FormMessage />
@@ -326,7 +381,14 @@ export default function Component() {
                   )}
                 />
 
-                {slotsAvailable ? (
+                {isChecking ? (
+                  <div className="rounded-lg border bg-gray-50 p-3 text-sm">
+                    <div className="font-medium">Checking Availability...</div>
+                    <div className="text-gray-600">
+                      Please wait while we check slot availability.
+                    </div>
+                  </div>
+                ) : slotsAvailable ? (
                   <div className="rounded-lg border bg-green-50 p-3 text-sm">
                     <div className="font-medium">Slots Available</div>
                     <div className="text-green-600">
@@ -344,8 +406,8 @@ export default function Component() {
                   </div>
                 )}
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full"
                   disabled={isSubmitting || !slotsAvailable}
                 >

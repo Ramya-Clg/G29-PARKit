@@ -11,21 +11,37 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 // Routes
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/otp", otpRouter);
-app.use("/parkingSlot", parkingSlotRouter);
+app.use("/parking", parkingSlotRouter);
 app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
 app.use("/user", userRouter);
 
-app.listen(PORT,  () => {
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: "Something went wrong!",
+    error: err.message,
+  });
+});
+
+// Handle 404
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+app.listen(PORT, () => {
   // Removed unnecessary async
   console.log(`Server running on port ${PORT}`);
 });

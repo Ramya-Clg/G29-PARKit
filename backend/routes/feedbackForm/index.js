@@ -11,24 +11,24 @@ feedbackRouter.post("/submit", async (req, res) => {
 
     const parsedData = FeedbackSchema.safeParse(req.body);
     if (!parsedData.success) {
-      return res.status(400).json({ 
-        msg: "Invalid input", 
-        errors: parsedData.error.errors 
+      return res.status(400).json({
+        msg: "Invalid input",
+        errors: parsedData.error.errors,
       });
     }
 
     const feedbackData = parsedData.data;
     const feedback = await Feedback.create(feedbackData);
-    
-    return res.status(201).json({ 
-      message: "Feedback submitted successfully", 
-      feedback 
+
+    return res.status(201).json({
+      message: "Feedback submitted successfully",
+      feedback,
     });
   } catch (error) {
     console.error("Error submitting feedback:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: "Failed to submit feedback",
-      details: error.message 
+      details: error.message,
     });
   }
 });

@@ -15,6 +15,7 @@ loginRouter.post("/", async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    console.log("Found user:", user);
 
     if (!user) {
       return res.status(400).json({ msg: "Invalid Username" });
@@ -24,16 +25,27 @@ loginRouter.post("/", async (req, res) => {
       return res.status(400).json({ msg: "Invalid Password" });
     }
 
-    try {
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-      });
-      res.json({ token });
-    } catch (error) {
-      return res.status(500).json({ msg: "Internal Server Error" });
-    }
+    const tokenPayload = {
+      email: user.email,
+    };
+    console.log("Token payload:", tokenPayload);
+
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+
+    console.log("Generated token:", token);
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
   } catch (err) {
-    console.log(err);
+    console.error("Login error:", err);
     res.status(500).json({ msg: "Internal Server Error" });
   }
 });
