@@ -15,8 +15,11 @@ const SignupSchema = z.object({
 const ReservationSchema = z.object({
   reservationDate: z.string(),
   reservationTime: z.string(),
-  rservationDuration: z.number().max(5),
-  vehicleNumberPlate: z.string(),
+  duration: z.string(),
+  vehicleNumberPlate: z.string()
+    .min(1, "Number plate is required")
+    .max(10, "Number plate cannot exceed 10 characters")
+    .regex(/^[A-Z0-9 ]+$/, "Only uppercase letters, numbers and spaces are allowed")
 });
 
 const FeedbackSchema = z.object({

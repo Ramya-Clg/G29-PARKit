@@ -59,6 +59,32 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+const adminSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  income: {
+    type: Number,
+    default: 0,
+  },
+  
+});
+
 // Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
   {

@@ -82,6 +82,7 @@ export default function Component() {
   useEffect(() => {
     const [date, time, duration] = watchFields;
     if (date && time && duration) {
+      console.log('Checking availability with:', { date, time, duration });
       checkSlotAvailability(date, time, duration);
     }
   }, [watchFields]);
@@ -89,6 +90,12 @@ export default function Component() {
   const checkSlotAvailability = async (date, time, duration) => {
     try {
       const formattedDate = format(date, "yyyy-MM-dd");
+      console.log('Frontend: Sending availability check request:', {
+        date: formattedDate,
+        time,
+        duration
+      });
+
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/parking/available`,
         {
@@ -99,12 +106,30 @@ export default function Component() {
           },
         }
       );
-      setSlotsAvailable(true);
+
+      console.log('Frontend: Received response:', response.data);
+
+      if (response.data.available) {
+        setSlotsAvailable(true);
+        toast({
+          title: "Slot Available",
+          description: `Parking slot ${response.data.slotNumber} is available`,
+        });
+      } else {
+        setSlotsAvailable(false);
+        toast({
+          title: "No Slots Available",
+          description: response.data.message || "No parking slots available for the selected time period.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
+      console.error('Frontend: Availability check error:', error);
+      console.error('Frontend: Error response:', error.response?.data);
       setSlotsAvailable(false);
       toast({
         title: "No Slots Available",
-        description: "No parking slots available for the selected time period.",
+        description: error.response?.data?.message || "No parking slots available for the selected time period.",
         variant: "destructive",
       });
     }
@@ -139,7 +164,7 @@ export default function Component() {
         {
           reservationDate: formattedDate,
           reservationTime: values.time,
-          Duration: values.duration,
+          Duration: parseInt(values.duration),
           vehicleNumberPlate: values.numberPlate,
         },
         {
@@ -151,9 +176,10 @@ export default function Component() {
 
       toast({
         title: "Success",
-        description: `Parking slot booked successfully! Slot number: ${response.data.slotNumber}`,
+        description: `Parking slot ${response.data.slotNumber} booked successfully!`,
       });
 
+      navigate('/dashboard');
       form.reset();
       
     } catch (error) {

@@ -6,6 +6,7 @@ import otpRouter from "./routes/otp/index.js";
 import parkingSlotRouter from "./routes/parkingSlot/index.js";
 import feedbackRouter from "./routes/feedbackForm/index.js";
 import userRouter from "./routes/user/index.js";
+import { creatManyParkingSlots } from "./db/seed.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,7 +26,8 @@ app.use("/parkingSlot", parkingSlotRouter);
 app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
 app.use("/user", userRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   // Removed unnecessary async
+  await creatManyParkingSlots();
   console.log(`Server running on port ${PORT}`);
 });

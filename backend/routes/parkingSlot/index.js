@@ -24,74 +24,75 @@ parkingSlotRouter.get("/:slotId", async (req, res) => {
 });
 
 parkingSlotRouter.get("/available", async (req, res) => {
-  const { reservationDate, reservationTime, duration } = req.query;
-
-  if (!reservationDate || !reservationTime || !duration) {
-    return res
-      .status(400)
-      .json({ msg: "Please provide date, time, and duration." });
-  }
-
   try {
-    // Convert query parameters to Date objects
-    const reservationStartTime = new Date(
-      `${reservationDate}T${reservationTime}`,
-    );
-    const reservationEndTime = new Date(
-      reservationStartTime.getTime() + duration * 60 * 60 * 1000,
-    );
+    const { reservationDate, reservationTime, duration } = req.query;
+    
+    console.log("Received availability check request:", {
+      reservationDate,
+      reservationTime,
+      duration
+    });
 
-    // Find a slot that has no conflicting reservations
+    // First check if we have any parking slots at all
+    const totalSlots = await ParkingSlot.countDocuments();
+    console.log("Total parking slots in database:", totalSlots);
+
+    // Simple query first - just find any unoccupied slot
+    const anySlot = await ParkingSlot.findOne({ isOccupied: false });
+    console.log("Found unoccupied slot:", anySlot ? anySlot.slotNumber : "None");
+
+    // Convert string inputs to Date objects
+    const startTime = new Date(`${reservationDate}T${reservationTime}`);
+    const endTime = new Date(startTime.getTime() + parseInt(duration) * 60 * 60 * 1000);
+
+    console.log("Checking availability between:", {
+      startTime: startTime.toISOString(),
+      endTime: endTime.toISOString()
+    });
+
+    // Simplified query to start with
     const availableSlot = await ParkingSlot.findOne({
       isOccupied: false,
       $or: [
-        { reservations: { $exists: false } },
+        { reservations: { $size: 0 } },
         {
           reservations: {
             $not: {
               $elemMatch: {
-                $and: [
-                  { reservationTime: { $lt: reservationEndTime } },
-                  {
-                    $expr: {
-                      $lt: [
-                        {
-                          $add: [
-                            "$reservationTime",
-                            {
-                              $multiply: [
-                                "$reservationDuration",
-                                60 * 60 * 1000,
-                              ],
-                            },
-                          ],
-                        },
-                        reservationStartTime,
-                      ],
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        },
-      ],
+                reservationTime: {
+                  $lt: endTime,
+                  $gte: startTime
+                }
+              }
+            }
+          }
+        }
+      ]
     });
+
+    console.log("Query result:", availableSlot);
 
     if (!availableSlot) {
-      return res
-        .status(404)
-        .json({ msg: "No available slots for the specified date and time." });
+      console.log("No available slots found");
+      return res.status(404).json({ 
+        available: false,
+        message: "No parking slots available for the selected time period." 
+      });
     }
 
-    res.json({
-      msg: "Slot is available",
-      slotNumber: availableSlot._id,
+    console.log("Found available slot:", availableSlot.slotNumber);
+    res.json({ 
+      available: true, 
+      slotNumber: availableSlot.slotNumber 
     });
+
   } catch (error) {
-    res
-      .status(500)
-      .json({ msg: "Internal server error", error: error.message });
+    console.error('Availability check error:', error);
+    res.status(500).json({ 
+      available: false,
+      message: "Error checking slot availability",
+      error: error.message 
+    });
   }
 });
 
@@ -137,20 +138,64 @@ parkingSlotRouter.post(
       reservationTime,
       Duration,
       vehicleNumberPlate,
-      parkingSlotId,
     } = parsedDate.data;
 
     try {
+      // First check if slot is available
+      const reservationStartTime = new Date(`${reservationDate}T${reservationTime}`);
+      const reservationEndTime = new Date(
+        reservationStartTime.getTime() + Duration * 60 * 60 * 1000
+      );
+
+      const availableSlot = await ParkingSlot.findOne({
+        isOccupied: false,
+        $or: [
+          { reservations: { $exists: false } },
+          {
+            reservations: {
+              $not: {
+                $elemMatch: {
+                  $and: [
+                    { reservationTime: { $lt: reservationEndTime } },
+                    {
+                      $expr: {
+                        $lt: [
+                          {
+                            $add: [
+                              "$reservationTime",
+                              { $multiply: ["$reservationDuration", 60 * 60 * 1000] },
+                            ],
+                          },
+                          reservationStartTime,
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      });
+
+      if (!availableSlot) {
+        return res.status(404).json({ msg: "No available slots for the specified time." });
+      }
+
       const reservation = new Reservation({
         user: req.user._id,
-        parkingSlot: parkingSlotId,
+        parkingSlot: availableSlot._id,
         vehiclePlateNumber: vehicleNumberPlate,
-        reservationDate,
-        reservationTime,
+        reservationDate: reservationStartTime,
+        reservationTime: reservationStartTime,
         reservationDuration: Duration,
       });
 
       await reservation.save();
+
+      // Add reservation to parking slot
+      availableSlot.reservations.push(reservation._id);
+      await availableSlot.save();
 
       res.json({
         msg: "Reservation created successfully",
@@ -158,11 +203,26 @@ parkingSlotRouter.post(
         slotNumber: availableSlot.slotNumber,
       });
     } catch (error) {
-      res
-        .status(500)
-        .json({ msg: "Internal server error", error: error.message });
+      res.status(500).json({ msg: "Internal server error", error: error.message });
     }
   },
 );
+
+// Add this new endpoint to check slots
+parkingSlotRouter.get("/slots", async (req, res) => {
+  try {
+    const slots = await ParkingSlot.find({});
+    res.json({
+      totalSlots: slots.length,
+      slots: slots.map(slot => ({
+        slotNumber: slot.slotNumber,
+        isOccupied: slot.isOccupied,
+        reservationsCount: slot.reservations.length
+      }))
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 export default parkingSlotRouter;
