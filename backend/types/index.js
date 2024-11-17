@@ -22,8 +22,8 @@ const ReservationSchema = z.object({
 const FeedbackSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
-  rating: z.number().min(1).max(5),
-  message: z.string().min(2),
+  rating: z.string(),
+  message: z.string().min(10)
 });
 
 export { LoginSchema, SignupSchema, ReservationSchema, FeedbackSchema };

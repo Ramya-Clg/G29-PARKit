@@ -127,21 +127,24 @@ const FeedbackSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    minlength: 2
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    required: true
   },
   rating: {
-    type: Number,
+    type: String,
     required: true,
+    enum: ["1", "2", "3", "4", "5"]
   },
   message: {
     type: String,
     required: true,
-  },
-});
+    minlength: 10
+  }
+}, { timestamps: true });
+
 // Models
 const User = mongoose.model("User", userSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
