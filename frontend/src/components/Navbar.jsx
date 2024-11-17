@@ -1,7 +1,7 @@
-import React from "react";
-import { Menu, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Menu, X, LogOut, LogIn } from "lucide-react";
 import logo from "../../public/logo.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // Separate Button component
 const Button = ({ children, variant, size, onClick, className, ...props }) => (
@@ -40,7 +40,14 @@ const Logo = () => (
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  // Check authentication status on mount and token changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -51,6 +58,16 @@ export function Navbar() {
 
   const handleBookNow = () => navigate("/booking");
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow overflow-hidden z-50">
@@ -63,11 +80,36 @@ export function Navbar() {
             {navItems.map((item) => (
               <NavItem key={item.name} {...item} />
             ))}
+            {isLoggedIn && (
+              <Link
+                to="/profile"
+                className="px-4 py-2 text-lg font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+              >
+                Profile
+              </Link>
+            )}
           </div>
 
-          {/* Desktop Book Now Button */}
-          <div className="hidden sm:flex">
+          {/* Desktop Book Now and Auth Buttons */}
+          <div className="hidden sm:flex sm:items-center sm:space-x-4">
             <Button onClick={handleBookNow}>BOOK NOW</Button>
+            {isLoggedIn ? (
+              <Button 
+                onClick={handleLogout}
+                className="flex items-center space-x-2"
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleLogin}
+                className="flex items-center space-x-2"
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Login</span>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -91,10 +133,10 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={`
-                    sm:hidden 
-                    ${isMobileMenuOpen ? "block" : "hidden"}
-                    transition-all duration-300 ease-in-out
-                `}
+          sm:hidden 
+          ${isMobileMenuOpen ? "block" : "hidden"}
+          transition-all duration-300 ease-in-out
+        `}
       >
         <div className="px-4 pt-4 pb-4 space-y-2">
           {navItems.map((item) => (
@@ -105,10 +147,42 @@ export function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
             />
           ))}
-          <div className="pt-2">
+          {isLoggedIn && (
+            <Link
+              to="/profile"
+              className="block px-4 py-2 text-lg font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Profile
+            </Link>
+          )}
+          <div className="pt-2 space-y-2">
             <Button className="w-full" onClick={handleBookNow}>
               BOOK NOW
             </Button>
+            {isLoggedIn ? (
+              <Button 
+                className="w-full flex items-center justify-center space-x-2"
+                onClick={() => {
+                  handleLogout();
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </Button>
+            ) : (
+              <Button 
+                className="w-full flex items-center justify-center space-x-2"
+                onClick={() => {
+                  handleLogin();
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Login</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>

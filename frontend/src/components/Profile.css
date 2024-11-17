@@ -5,13 +5,11 @@
 }
 
 .main_container_profile {
-  height: 100vh;
-  width: 100vw;
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: #a2b7b2;
-  padding-top: 5rem;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
 }
 
 .card {
