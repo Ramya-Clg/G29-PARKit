@@ -6,6 +6,7 @@ import otpRouter from "./routes/otp/index.js";
 import parkingSlotRouter from "./routes/parkingSlot/index.js";
 import feedbackRouter from "./routes/feedbackForm/index.js";
 import userRouter from "./routes/user/index.js";
+import adminRouter from "./routes/admin/index.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.use("/otp", otpRouter);
 app.use("/parking", parkingSlotRouter);
 app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
 app.use("/user", userRouter);
+app.use("/admin", adminRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

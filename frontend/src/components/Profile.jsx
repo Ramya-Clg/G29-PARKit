@@ -4,87 +4,160 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
 
 export function Profile() {
-  const [userDetails, setUserDetails] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const fetchUserDetails = async () => {
+  const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/user/details`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: token,
+            'Content-Type': 'application/json'
+          }
         }
       );
-      setUserDetails(response.data.user);
+
+      if (response.data.success) {
+        setUserData(response.data.data);
+      } else {
+        throw new Error(response.data.msg || "Failed to fetch user data");
+      }
     } catch (error) {
       console.error("Error fetching user details:", error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch user details.",
-        variant: "destructive",
-      });
+      if (error.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+        toast({
+          title: "Session Expired",
+          description: "Please login again",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to fetch user details.",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchUserDetails();
-  }, [toast]);
+    fetchUserData();
+  }, [navigate, toast]);
 
-  const handleCheckout = async (reservationId) => {
-    // Ask for confirmation before proceeding with checkout
-    const confirmed = window.confirm("Are you sure you want to checkout this reservation?");
-    if (!confirmed) {
-      return; // Exit if the user cancels
-    }
+  const calculateAmount = (duration) => {
+    return duration * 100; // ₹100 per hour
+  };
+
+  const handleCheckout = async (reservationId, duration) => {
+    const amount = calculateAmount(duration);
+    
+    const confirmed = window.confirm(
+      `Checkout Summary:\n\nDuration: ${duration} hours\nRate: ₹100 per hour\nTotal Amount: ₹${amount}\n\nDo you want to proceed with checkout?`
+    );
+    
+    if (!confirmed) return;
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
+      const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/parking/checkout`,
-        { reservationId },
+        {
+          reservationId,
+          amount,
+          duration
+        },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token,
           },
         }
       );
 
-      toast({
-        title: "Success",
-        description: "Checkout successful",
-      });
-
-      // Refresh user details to update the UI
-      fetchUserDetails();
+      if (response.data.success) {
+        toast({
+          title: "Checkout Successful",
+          description: `Payment of ₹${amount} processed successfully`,
+        });
+        fetchUserData(); // Refresh data
+      } else {
+        throw new Error(response.data.msg || "Checkout failed");
+      }
     } catch (error) {
       console.error("Checkout error:", error);
       toast({
         title: "Error",
-        description: error.response?.data?.msg || "Failed to checkout",
+        description: error.message || "Failed to checkout",
         variant: "destructive",
       });
     }
   };
 
+  const renderReservationCard = (reservation) => (
+    <div key={reservation.id} className="bg-muted p-4 rounded-lg shadow">
+      <div className="space-y-2">
+        <div className="text-sm font-medium">
+          Slot Number: {reservation.parkingSlot?.slotNumber || 'N/A'}
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Vehicle: {reservation.vehicleNumberPlate}
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Start: {new Date(reservation.reservationTime).toLocaleString()}
+        </div>
+        <div className="text-sm text-muted-foreground">
+          End: {new Date(reservation.endTime).toLocaleString()}
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Duration: {reservation.duration} hours
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Status: {reservation.status}
+        </div>
+        {reservation.status === 'confirmed' && (
+          <div className="space-y-2">
+            <div className="text-sm font-medium text-blue-600">
+              Expected Amount: ₹{calculateAmount(reservation.duration)}
+            </div>
+            <Button
+              onClick={() => handleCheckout(reservation.id, reservation.duration)}
+              className="w-full bg-red-500 hover:bg-red-600 text-white"
+            >
+              Checkout and Pay ₹{calculateAmount(reservation.duration)}
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   }
 
-  if (!userDetails) {
-    return <div>No user details available.</div>;
+  if (!userData) {
+    return <div className="flex items-center justify-center min-h-screen">No user data available.</div>;
   }
 
-  const { name, phone, email, parkingSlots } = userDetails;
+  const { user, reservations } = userData;
 
   return (
     <div className="main_container_profile flex items-center justify-center min-h-screen">
@@ -100,13 +173,13 @@ export function Profile() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" value={name} readOnly className="bg-muted" />
+                  <Input id="name" value={user.name} readOnly className="bg-muted" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone</Label>
                   <Input
                     id="phone"
-                    value={phone}
+                    value={user.phoneNumber || "Not provided"}
                     readOnly
                     className="bg-muted"
                   />
@@ -116,56 +189,20 @@ export function Profile() {
                   <Input
                     id="email"
                     type="email"
-                    value={email}
+                    value={user.email}
                     readOnly
                     className="bg-muted"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value="********"
-                    readOnly
-                    className="bg-muted"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Current Parking Slots</Label>
-                  {parkingSlots && parkingSlots.length > 0 ? (
-                    <div className="space-y-3">
-                      {parkingSlots.map((slot) => (
-                        <div key={slot._id} className="bg-muted p-3 rounded-lg">
-                          <div className="text-sm font-medium">
-                            Slot Number: {slot.slotNumber}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            Vehicle: {slot.vehicleNumberPlate}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            Time: {new Date(slot.reservationTime).toLocaleString()}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            Duration: {slot.duration} hours
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            Status: {slot.status}
-                          </div>
-                          {slot.status === 'confirmed' && (
-                            <Button
-                              onClick={() => handleCheckout(slot._id)}
-                              className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white"
-                            >
-                              Checkout
-                            </Button>
-                          )}
-                        </div>
-                      ))}
+                  <Label>Reservations</Label>
+                  {reservations && reservations.length > 0 ? (
+                    <div className="space-y-4">
+                      {reservations.map(reservation => renderReservationCard(reservation))}
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground">
-                      No parking slots booked
+                      No reservations found
                     </p>
                   )}
                 </div>

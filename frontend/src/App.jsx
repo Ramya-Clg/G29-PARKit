@@ -16,6 +16,8 @@ import { Navbar } from "./components/Navbar";
 import Home from "./components/Home";
 import Booking from "./components/Booking";
 import { Toaster } from "@/components/ui/toaster";
+import { AdminLogin } from "./components/AdminLogin";
+import { AdminRoute } from "./components/AdminRoute";
 
 function PrivateRoute({ element }) {
   //   const token = localStorage.getItem("token");
@@ -52,6 +54,15 @@ function RootApp() {
         />
         <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <Toaster />

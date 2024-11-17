@@ -89,14 +89,20 @@ signupRouter.post("/verify", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { email: newUser.email },
+      { 
+        _id: newUser._id,
+        role: newUser.role 
+      },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
     res.json({ 
-      msg: "Signup successful",
-      token 
+      success: true,
+      data: {
+        token,
+        msg: "Signup successful"
+      }
     });
 
   } catch (error) {

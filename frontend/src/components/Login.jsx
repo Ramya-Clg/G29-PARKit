@@ -33,27 +33,22 @@ export const Login = () => {
         {
           email: formData.email,
           password: formData.password,
-        },
+        }
       );
 
-      const { token } = response.data;
-
-      // Save token to localStorage with Bearer prefix
-      localStorage.setItem("token", `Bearer ${token}`);
-
-      toast({
-        title: "Success!",
-        description: "Logged in successfully",
-        variant: "default",
-      });
-
-      // Redirect to home page
-      navigate("/");
+      if (response.data.success) {
+        localStorage.setItem("token", `Bearer ${response.data.data.token}`);
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+        });
+        navigate("/profile");
+      }
     } catch (error) {
-      console.error("Login error:", error.response?.data || error);
+      console.error("Login error:", error);
       toast({
         title: "Error",
-        description: error.response?.data?.msg || "Failed to login",
+        description: error.response?.data?.msg || "Invalid credentials",
         variant: "destructive",
       });
     } finally {

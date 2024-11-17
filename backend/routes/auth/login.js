@@ -8,45 +8,58 @@ const loginRouter = Router();
 loginRouter.post("/", async (req, res) => {
   const parsedObj = LoginSchema.safeParse(req.body);
   if (!parsedObj.success) {
-    return res.status(400).json({ msg: "Invalid Format" });
+    return res.status(400).json({ 
+      success: false,
+      msg: "Invalid Format" 
+    });
   }
 
   const { email, password } = parsedObj.data;
 
   try {
     const user = await User.findOne({ email });
-    console.log("Found user:", user);
 
     if (!user) {
-      return res.status(400).json({ msg: "Invalid Username" });
+      return res.status(400).json({ 
+        success: false,
+        msg: "Invalid credentials" 
+      });
     }
 
     if (user.password !== password) {
-      return res.status(400).json({ msg: "Invalid Password" });
+      return res.status(400).json({ 
+        success: false,
+        msg: "Invalid credentials" 
+      });
     }
 
     const tokenPayload = {
-      email: user.email,
+      _id: user._id,
+      role: user.role,
     };
-    console.log("Token payload:", tokenPayload);
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
       expiresIn: "24h",
     });
 
-    console.log("Generated token:", token);
-
     res.json({
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-      },
+      success: true,
+      data: {
+        token,
+        user: {
+          id: user._id,
+          email: user.email,
+          name: user.name,
+          role: user.role
+        }
+      }
     });
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ 
+      success: false,
+      msg: "Internal Server Error" 
+    });
   }
 });
 

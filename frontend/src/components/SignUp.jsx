@@ -58,12 +58,14 @@ export const SignUp = () => {
         { email, otp }
       );
       
-      localStorage.setItem('token', response.data.token);
-      toast({
-        title: "Success",
-        description: "Signup successful!",
-      });
-      navigate('/profile');
+      if (response.data.success) {
+        localStorage.setItem('token', `Bearer ${response.data.data.token}`);
+        toast({
+          title: "Success",
+          description: "Signup successful!",
+        });
+        navigate('/profile');
+      }
     } catch (error) {
       toast({
         title: "Error",

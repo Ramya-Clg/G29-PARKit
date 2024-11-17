@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ParkingSlot } from "../db/index.js";
+import { ParkingSlot } from "../index.js";
 import dotenv from "dotenv";
 dotenv.config();
 

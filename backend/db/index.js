@@ -40,29 +40,24 @@ const UserSchema = new mongoose.Schema(
 );
 
 const adminSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  income: {
-    type: Number,
-    default: 0,
-  },
-});
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      default: "admin",
+    },
+  }, { timestamps: true });
 
 // Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
@@ -171,11 +166,70 @@ const FeedbackSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Payment Schema
+const PaymentSchema = new mongoose.Schema({
+  reservation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Reservation",
+    required: true
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  duration: {
+    type: Number,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ["completed", "failed"],
+    default: "completed"
+  }
+}, { timestamps: true });
+
+// Admin Stats Schema
+const AdminStatsSchema = new mongoose.Schema({
+  totalIncome: {
+    type: Number,
+    default: 0
+  },
+  totalBookings: {
+    type: Number,
+    default: 0
+  }
+}, { timestamps: true });
+
 // Models
 const User = mongoose.model("User", UserSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
 const Reservation = mongoose.model("Reservation", ReservationSchema);
 const Feedback = mongoose.model("Feedback", FeedbackSchema);
+const Admin = mongoose.model("Admin", adminSchema);
+const Payment = mongoose.model("Payment", PaymentSchema);
+const AdminStats = mongoose.model("AdminStats", AdminStatsSchema);
+
+// Add this after your connection setup
+async function initializeAdminStats() {
+  try {
+    const statsExist = await AdminStats.findOne();
+    if (!statsExist) {
+      await new AdminStats().save();
+      console.log("Admin stats initialized");
+    }
+  } catch (error) {
+    console.error("Failed to initialize admin stats:", error);
+  }
+}
+
+connectDB().then(() => {
+  initializeAdminStats();
+});
 
 // Export Models
-export { User, ParkingSlot, Reservation, Feedback };
+export { User, ParkingSlot, Reservation, Feedback, Admin, Payment, AdminStats };
