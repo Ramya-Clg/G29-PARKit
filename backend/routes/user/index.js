@@ -6,23 +6,18 @@ const userRouter = Router();
 
 userRouter.get("/details", authorizationMiddleware, async (req, res) => {
   try {
-    console.log('Fetching details for email:', req.email); // Debug log
-
     const user = await User.findOne({ email: req.email }).select("-password");
-    console.log('Found user:', user); // Debug log
 
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    // Get user's reservations
+    // Get user's active reservations only
     const reservations = await Reservation.find({ 
-      user: user._id 
+      user: user._id,
+      status: 'confirmed' // Only get active reservations
     }).populate('parkingSlot');
     
-    console.log('Found reservations:', reservations); // Debug log
-
-    // Format the reservations data
     const parkingSlots = reservations.map(reservation => ({
       _id: reservation._id,
       slotNumber: reservation.parkingSlot.slotNumber,

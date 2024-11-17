@@ -2,71 +2,79 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import "./Profile.css";
-import { useNavigate } from "react-router-dom";
 
 export function Profile() {
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const navigate = useNavigate();
+
+  const fetchUserDetails = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/user/details`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserDetails(response.data.user);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch user details.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        
-        if (!token) {
-          toast({
-            title: "Error",
-            description: "Please login to view profile",
-            variant: "destructive",
-          });
-          navigate('/login');
-          return;
-        }
-
-        const authToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-        
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/details`,
-          {
-            headers: {
-              Authorization: authToken,
-            },
-          }
-        );
-        
-        console.log('User details response:', response.data);
-        setUserDetails(response.data.user);
-      } catch (error) {
-        console.error("Error fetching user details:", error.response?.data || error);
-        
-        if (error.response?.status === 401) {
-          localStorage.removeItem('token');
-          toast({
-            title: "Session Expired",
-            description: "Please login again",
-            variant: "destructive",
-          });
-          navigate('/login');
-          return;
-        }
-        
-        toast({
-          title: "Error",
-          description: error.response?.data?.msg || "Failed to fetch user details",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserDetails();
-  }, [toast, navigate]);
+  }, [toast]);
+
+  const handleCheckout = async (reservationId) => {
+    // Ask for confirmation before proceeding with checkout
+    const confirmed = window.confirm("Are you sure you want to checkout this reservation?");
+    if (!confirmed) {
+      return; // Exit if the user cancels
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/parking/checkout`,
+        { reservationId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Success",
+        description: "Checkout successful",
+      });
+
+      // Refresh user details to update the UI
+      fetchUserDetails();
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "Failed to checkout",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -136,8 +144,7 @@ export function Profile() {
                             Vehicle: {slot.vehicleNumberPlate}
                           </div>
                           <div className="text-sm text-muted-foreground">
-                            Time:{" "}
-                            {new Date(slot.reservationTime).toLocaleString()}
+                            Time: {new Date(slot.reservationTime).toLocaleString()}
                           </div>
                           <div className="text-sm text-muted-foreground">
                             Duration: {slot.duration} hours
@@ -145,6 +152,14 @@ export function Profile() {
                           <div className="text-sm text-muted-foreground">
                             Status: {slot.status}
                           </div>
+                          {slot.status === 'confirmed' && (
+                            <Button
+                              onClick={() => handleCheckout(slot._id)}
+                              className="mt-2 w-full bg-red-500 hover:bg-red-600 text-white"
+                            >
+                              Checkout
+                            </Button>
+                          )}
                         </div>
                       ))}
                     </div>

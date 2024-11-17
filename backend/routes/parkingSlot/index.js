@@ -4,89 +4,81 @@ import { authorizationMiddleware } from "../../middlewares/index.js";
 
 const parkingSlotRouter = Router();
 
-// Add this endpoint first
-parkingSlotRouter.get("/available", async (req, res) => {
+// Helper function to check slot availability
+const isSlotAvailable = async (startTime, endTime) => {
+  const overlappingSlot = await ParkingSlot.findOne({
+    reservations: {
+      $elemMatch: {
+        $or: [
+          {
+            reservationTime: { $lt: endTime },
+            endTime: { $gt: startTime }
+          }
+        ]
+      }
+    }
+  });
+
+  return !overlappingSlot;
+};
+
+// Endpoint to check availability
+parkingSlotRouter.post("/check-availability", async (req, res) => {
   try {
-    const { reservationDate, reservationTime, duration } = req.query;
+    const { reservationDate, reservationTime, Duration } = req.body;
 
     // Convert string inputs to Date objects
     const startTime = new Date(`${reservationDate}T${reservationTime}`);
-    const endTime = new Date(startTime.getTime() + parseInt(duration) * 60 * 60 * 1000);
+    const endTime = new Date(startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000);
 
-    // Find slots with overlapping reservations
-    const overlappingSlots = await ParkingSlot.find({
-      reservations: {
-        $elemMatch: {
-          $or: [
-            {
-              reservationTime: { $lt: endTime },
-              endTime: { $gt: startTime }
-            }
-          ]
-        }
-      }
+    const available = await isSlotAvailable(startTime, endTime);
+
+    res.json({
+      success: true,
+      available,
+      message: available ? "Slot available" : "No slots available for selected time"
     });
 
-    // Count total available slots
-    const totalSlots = await ParkingSlot.countDocuments();
-    const overlappingCount = overlappingSlots.length;
-    const availableCount = totalSlots - overlappingCount;
-
-    if (availableCount <= 0) {
-      return res.status(200).json({
-        available: false,
-        message: "No parking slots available for the selected time period.",
-      });
-    }
-
-    res.status(200).json({
-      available: true,
-      slotsAvailable: availableCount
-    });
   } catch (error) {
     console.error("Availability check error:", error);
     res.status(500).json({
-      available: false,
-      message: "Error checking slot availability",
-      error: error.message,
+      success: false,
+      message: "Error checking availability"
     });
   }
 });
 
-// Add the reserve endpoint
-parkingSlotRouter.post(
-  "/reserve",
-  authorizationMiddleware,
-  async (req, res) => {
-    try {
-      const { reservationDate, reservationTime, Duration, vehicleNumberPlate } =
-        req.body;
-      console.log("Reservation request from user:", req.email);
+// Booking endpoint
+parkingSlotRouter.post("/reserve", authorizationMiddleware, async (req, res) => {
+  try {
+    const { reservationDate, reservationTime, Duration, vehicleNumberPlate } = req.body;
 
-      if (!vehicleNumberPlate) {
-        return res.status(400).json({
-          success: false,
-          msg: "Vehicle number plate is required",
-        });
-      }
-
-      // Convert string inputs to Date objects
-      const startTime = new Date(`${reservationDate}T${reservationTime}`);
-      const endTime = new Date(
-        startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
-      );
-
-      console.log('Requested time slot:', {
-        startTime: startTime.toISOString(),
-        endTime: endTime.toISOString()
+    if (!vehicleNumberPlate) {
+      return res.status(400).json({
+        success: false,
+        msg: "Vehicle number plate is required",
       });
+    }
 
-      // Find parking slots with overlapping reservations
-      const overlappingSlots = await ParkingSlot.find({
-        reservations: {
+    // Convert string inputs to Date objects
+    const startTime = new Date(`${reservationDate}T${reservationTime}`);
+    const endTime = new Date(startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000);
+
+    // Check availability first
+    const available = await isSlotAvailable(startTime, endTime);
+    if (!available) {
+      return res.status(400).json({
+        success: false,
+        msg: "No parking slots available for the selected time period.",
+      });
+    }
+
+    // Find first available slot
+    const availableSlot = await ParkingSlot.findOne({
+      reservations: {
+        $not: {
           $elemMatch: {
             $or: [
-              // Check if any existing reservation overlaps with the new time slot
               {
                 reservationTime: { $lt: endTime },
                 endTime: { $gt: startTime }
@@ -94,64 +86,101 @@ parkingSlotRouter.post(
             ]
           }
         }
-      }).populate('reservations');
-
-      console.log('Slots with overlapping reservations:', overlappingSlots.map(slot => slot.slotNumber));
-
-      // Find an available slot that's not in the overlapping slots
-      const availableSlot = await ParkingSlot.findOne({
-        isOccupied: false,
-        _id: { $nin: overlappingSlots.map(slot => slot._id) }
-      });
-
-      if (!availableSlot) {
-        return res.status(400).json({
-          success: false,
-          msg: "No parking slots available for the selected time period.",
-        });
       }
+    });
 
-      // Create new reservation
-      const newReservation = {
-        user: req.user._id,
-        parkingSlot: availableSlot._id,
-        vehicleNumberPlate: vehicleNumberPlate.toUpperCase(),
-        reservationTime: startTime,
-        endTime: endTime, // Add end time to reservation
+    // Create new reservation
+    const newReservation = {
+      user: req.user._id,
+      parkingSlot: availableSlot._id,
+      vehicleNumberPlate: vehicleNumberPlate.toUpperCase(),
+      reservationTime: startTime,
+      endTime: endTime,
+      duration: Duration,
+      status: "confirmed",
+    };
+
+    const reservation = await Reservation.create(newReservation);
+
+    // Update parking slot with new reservation
+    availableSlot.reservations.push(reservation._id);
+    await availableSlot.save();
+
+    res.status(200).json({
+      success: true,
+      msg: "Parking slot reserved successfully",
+      data: {
+        reservationId: reservation._id,
+        slotNumber: availableSlot.slotNumber,
+        startTime: startTime,
+        endTime: endTime,
         duration: Duration,
-        status: "confirmed",
-      };
+        vehicleNumberPlate: vehicleNumberPlate,
+      },
+    });
+  } catch (error) {
+    console.error("Reservation error:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Failed to reserve parking slot",
+      error: error.message,
+    });
+  }
+});
 
-      console.log("Creating reservation:", newReservation);
+// Add checkout endpoint
+parkingSlotRouter.post("/checkout", authorizationMiddleware, async (req, res) => {
+  try {
+    const { reservationId } = req.body;
+    
+    // Find the reservation
+    const reservation = await Reservation.findById(reservationId)
+      .populate('parkingSlot');
 
-      const reservation = await Reservation.create(newReservation);
-
-      // Update parking slot with new reservation
-      availableSlot.reservations.push(reservation._id);
-      await availableSlot.save();
-
-      res.status(200).json({
-        success: true,
-        msg: "Parking slot reserved successfully",
-        data: {
-          reservationId: reservation._id,
-          slotNumber: availableSlot.slotNumber,
-          startTime: startTime,
-          endTime: endTime,
-          duration: Duration,
-          vehicleNumberPlate: vehicleNumberPlate,
-        },
-      });
-    } catch (error) {
-      console.error("Reservation error:", error);
-      res.status(500).json({
+    if (!reservation) {
+      return res.status(404).json({
         success: false,
-        msg: "Failed to reserve parking slot",
-        error: error.message,
+        msg: "Reservation not found"
       });
     }
-  },
-);
+
+    // Verify that the reservation belongs to the user
+    if (reservation.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        msg: "Not authorized to checkout this reservation"
+      });
+    }
+
+    // Update reservation status
+    reservation.status = 'completed';
+    await reservation.save();
+
+    // Remove reservation from parking slot
+    const parkingSlot = reservation.parkingSlot;
+    parkingSlot.reservations = parkingSlot.reservations.filter(
+      res => res.toString() !== reservationId
+    );
+    await parkingSlot.save();
+
+    res.status(200).json({
+      success: true,
+      msg: "Checkout successful",
+      data: {
+        reservationId,
+        slotNumber: parkingSlot.slotNumber
+      }
+    });
+
+  } catch (error) {
+    console.error('Checkout error:', error);
+    res.status(500).json({
+      success: false,
+      msg: "Failed to checkout",
+      error: error.message
+    });
+  }
+});
 
 // Add a test route to verify router is working
 parkingSlotRouter.get("/test", (req, res) => {
