@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import "../App";
+import "./Login.css"
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -61,9 +62,11 @@ export const Login = () => {
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
-      <div className="bg-white bg-opacity-20 backdrop-blur-lg p-10 rounded-lg shadow-lg w-full max-w-md border border-white/20">
-        <div className="form-value">
+    // <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
+
+      <div class="login_container">
+         <div class="card_login">
+        <div className=" form-value">
           <form onSubmit={handleSubmit}>
             <h2 className="text-[#2C3333] text-center mb-6 text-2xl font-semibold">
               Login
@@ -146,6 +149,7 @@ export const Login = () => {
           </form>
         </div>
       </div>
-    </section>
+      </div>
+    // </section>
   );
 };

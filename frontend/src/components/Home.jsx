@@ -4,6 +4,7 @@ import cars from "../../public/about_us_image.jpg";
 import background from "../../public/new_home_page_bg.jpeg";
 import rectangle from "../../public/about_us_bg.svg";
 import { Footer } from "./Footer";
+import { Feedback } from "./Feedback";
 
 export const Home = () => {
   return (
@@ -66,6 +67,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
+      <Feedback/>
       <Footer />
     </div>
   );
