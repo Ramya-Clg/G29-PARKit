@@ -9,50 +9,30 @@ parkingSlotRouter.get("/available", async (req, res) => {
   try {
     const { reservationDate, reservationTime, duration } = req.query;
 
-    console.log("Checking availability for:", {
-      reservationDate,
-      reservationTime,
-      duration,
-    });
-
     // Convert string inputs to Date objects
     const startTime = new Date(`${reservationDate}T${reservationTime}`);
-    const endTime = new Date(
-      startTime.getTime() + parseInt(duration) * 60 * 60 * 1000,
-    );
+    const endTime = new Date(startTime.getTime() + parseInt(duration) * 60 * 60 * 1000);
 
-    console.log("Looking for slots between:", {
-      startTime: startTime.toISOString(),
-      endTime: endTime.toISOString(),
+    // Find slots with overlapping reservations
+    const overlappingSlots = await ParkingSlot.find({
+      reservations: {
+        $elemMatch: {
+          $or: [
+            {
+              reservationTime: { $lt: endTime },
+              endTime: { $gt: startTime }
+            }
+          ]
+        }
+      }
     });
 
-    // First, check if we have any slots at all
+    // Count total available slots
     const totalSlots = await ParkingSlot.countDocuments();
-    console.log("Total slots in database:", totalSlots);
+    const overlappingCount = overlappingSlots.length;
+    const availableCount = totalSlots - overlappingCount;
 
-    // Find available parking slots
-    const availableSlot = await ParkingSlot.findOne({
-      isOccupied: false,
-      $or: [
-        { reservations: { $size: 0 } },
-        {
-          reservations: {
-            $not: {
-              $elemMatch: {
-                reservationTime: {
-                  $lt: endTime,
-                  $gte: startTime,
-                },
-              },
-            },
-          },
-        },
-      ],
-    });
-
-    console.log("Found available slot:", availableSlot);
-
-    if (!availableSlot) {
+    if (availableCount <= 0) {
       return res.status(200).json({
         available: false,
         message: "No parking slots available for the selected time period.",
@@ -61,7 +41,7 @@ parkingSlotRouter.get("/available", async (req, res) => {
 
     res.status(200).json({
       available: true,
-      slotNumber: availableSlot.slotNumber,
+      slotsAvailable: availableCount
     });
   } catch (error) {
     console.error("Availability check error:", error);
@@ -81,7 +61,7 @@ parkingSlotRouter.post(
     try {
       const { reservationDate, reservationTime, Duration, vehicleNumberPlate } =
         req.body;
-      console.log("Reservation request from user:", req.email); // Log email instead of ID
+      console.log("Reservation request from user:", req.email);
 
       if (!vehicleNumberPlate) {
         return res.status(400).json({
@@ -96,24 +76,32 @@ parkingSlotRouter.post(
         startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
       );
 
-      // Find available parking slot
+      console.log('Requested time slot:', {
+        startTime: startTime.toISOString(),
+        endTime: endTime.toISOString()
+      });
+
+      // Find parking slots with overlapping reservations
+      const overlappingSlots = await ParkingSlot.find({
+        reservations: {
+          $elemMatch: {
+            $or: [
+              // Check if any existing reservation overlaps with the new time slot
+              {
+                reservationTime: { $lt: endTime },
+                endTime: { $gt: startTime }
+              }
+            ]
+          }
+        }
+      }).populate('reservations');
+
+      console.log('Slots with overlapping reservations:', overlappingSlots.map(slot => slot.slotNumber));
+
+      // Find an available slot that's not in the overlapping slots
       const availableSlot = await ParkingSlot.findOne({
         isOccupied: false,
-        $or: [
-          { reservations: { $size: 0 } },
-          {
-            reservations: {
-              $not: {
-                $elemMatch: {
-                  reservationTime: {
-                    $lt: endTime,
-                    $gte: startTime,
-                  },
-                },
-              },
-            },
-          },
-        ],
+        _id: { $nin: overlappingSlots.map(slot => slot._id) }
       });
 
       if (!availableSlot) {
@@ -123,17 +111,18 @@ parkingSlotRouter.post(
         });
       }
 
-      // Create new reservation using req.user which was found by email
+      // Create new reservation
       const newReservation = {
         user: req.user._id,
         parkingSlot: availableSlot._id,
         vehicleNumberPlate: vehicleNumberPlate.toUpperCase(),
         reservationTime: startTime,
+        endTime: endTime, // Add end time to reservation
         duration: Duration,
         status: "confirmed",
       };
 
-      console.log("Creating reservation:", newReservation); // Debug log
+      console.log("Creating reservation:", newReservation);
 
       const reservation = await Reservation.create(newReservation);
 

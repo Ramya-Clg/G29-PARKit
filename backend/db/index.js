@@ -117,6 +117,10 @@ const ReservationSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    endTime: {
+      type: Date,
+      required: true,
+    },
     duration: {
       type: Number,
       required: true,
@@ -131,6 +135,9 @@ const ReservationSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+// Add index for faster queries
+ReservationSchema.index({ reservationTime: 1, endTime: 1 });
 
 // Explicitly create a non-unique index
 ReservationSchema.index({ vehicleNumberPlate: 1 }, { unique: false });
