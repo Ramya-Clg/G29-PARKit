@@ -160,17 +160,17 @@ export function Profile() {
   const { user, reservations } = userData;
 
   return (
-    <div className="main_container_profile flex items-center justify-center min-h-screen">
-      <div className="card">
-        <div className="container mx-auto p-4">
-          <Card className="w-full max-w-md mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-center">
-                User Profile
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+    <div className="main_container_profile min-h-screen p-4">
+      <div className="container mx-auto">
+        <Card className="w-full max-w-6xl mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">
+              User Profile
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
                   <Input id="name" value={user.name} readOnly className="bg-muted" />
@@ -194,22 +194,23 @@ export function Profile() {
                     className="bg-muted"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label>Reservations</Label>
-                  {reservations && reservations.length > 0 ? (
-                    <div className="space-y-4">
-                      {reservations.map(reservation => renderReservationCard(reservation))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground">
-                      No reservations found
-                    </p>
-                  )}
-                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+
+              <div className="space-y-4">
+                <Label className="text-lg font-semibold">Reservations</Label>
+                {reservations && reservations.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {reservations.map(reservation => renderReservationCard(reservation))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    No reservations found
+                  </p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

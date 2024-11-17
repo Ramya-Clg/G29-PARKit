@@ -39,9 +39,11 @@ userRouter.get("/details", authorizationMiddleware, async (req, res) => {
                 },
                 reservations: reservations.map(reservation => ({
                     id: reservation._id,
-                    slotNumber: reservation.parkingSlot.slotNumber,
+                    parkingSlot: {
+                        slotNumber: reservation.parkingSlot?.slotNumber
+                    },
                     vehicleNumberPlate: reservation.vehicleNumberPlate,
-                    startTime: reservation.reservationTime,
+                    reservationTime: reservation.reservationTime,
                     endTime: reservation.endTime,
                     duration: reservation.duration,
                     status: reservation.status
