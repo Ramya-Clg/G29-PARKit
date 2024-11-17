@@ -92,7 +92,7 @@ export function Navbar() {
 
           {/* Desktop Book Now and Auth Buttons */}
           <div className="hidden sm:flex sm:items-center sm:space-x-4">
-            <Button onClick={handleBookNow}>BOOK NOW</Button>
+            <Button onClick={handleBookNow} className="flex justify-center items-center">BOOK</Button>
             {isLoggedIn ? (
               <Button 
                 onClick={handleLogout}
