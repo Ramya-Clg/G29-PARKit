@@ -9,7 +9,6 @@ export default function Form({
 }) {
   const { name, cardNumber, month, year, cvc } = formData;
   return (
-    
     <form
       className="flex flex-col px-6 py-10 lg:py-20 lg:px-28 bg-white bg-opacity-20 backdrop-blur-lg p-10 rounded-lg shadow-lg w-full max-w-md bordershadow-lg rounded-md lg:ml-20"
       onSubmit={handleSubmit}
