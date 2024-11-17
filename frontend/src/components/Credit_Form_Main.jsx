@@ -111,12 +111,12 @@ function CreditFormMain() {
       <Head formattedCardNumber={formattedCardNumber} formData={formData} />
       {!noErrors || !formSubmitted ? (
         <Form
-          formSubmitted={formSubmitted}
-          handleSubmit={handleSubmit}
-          formattedCardNumber={formattedCardNumber}
-          formData={formData}
-          handleInput={handleInput}
-          formErrors={formErrors}
+        formSubmitted={formSubmitted}
+        handleSubmit={handleSubmit}
+        formattedCardNumber={formattedCardNumber}
+        formData={formData}
+        handleInput={handleInput}
+        formErrors={formErrors}
         />
       ) : (
         <FormThankYou handleFormReset={handleFormReset} />
