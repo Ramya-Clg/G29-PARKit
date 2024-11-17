@@ -1,10 +1,11 @@
-"use client";
-
 import { CalendarIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 import "./Booking.css";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -61,18 +62,115 @@ const formSchema = z.object({
 
 export default function Component() {
   const [slotsAvailable, setSlotsAvailable] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      date: undefined,
+      time: undefined,
+      duration: undefined,
+      numberPlate: "",
+    },
   });
 
-  function onSubmit(values) {
-    console.log(values);
+  // Check slot availability when date, time, or duration changes
+  const watchFields = form.watch(["date", "time", "duration"]);
+  
+  useEffect(() => {
+    const [date, time, duration] = watchFields;
+    if (date && time && duration) {
+      checkSlotAvailability(date, time, duration);
+    }
+  }, [watchFields]);
+
+  const checkSlotAvailability = async (date, time, duration) => {
+    try {
+      const formattedDate = format(date, "yyyy-MM-dd");
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/parking/available`,
+        {
+          params: {
+            reservationDate: formattedDate,
+            reservationTime: time,
+            duration: duration,
+          },
+        }
+      );
+      setSlotsAvailable(true);
+    } catch (error) {
+      setSlotsAvailable(false);
+      toast({
+        title: "No Slots Available",
+        description: "No parking slots available for the selected time period.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  async function onSubmit(values) {
+    if (!slotsAvailable) {
+      toast({
+        title: "Error",
+        description: "No slots available for the selected time period.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast({
+          title: "Error",
+          description: "Please login to book a parking slot",
+          variant: "destructive",
+        });
+        navigate('/login');
+        return;
+      }
+
+      const formattedDate = format(values.date, "yyyy-MM-dd");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/parking/reserve`,
+        {
+          reservationDate: formattedDate,
+          reservationTime: values.time,
+          Duration: values.duration,
+          vehicleNumberPlate: values.numberPlate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast({
+        title: "Success",
+        description: `Parking slot booked successfully! Slot number: ${response.data.slotNumber}`,
+      });
+
+      form.reset();
+      
+    } catch (error) {
+      console.error('Booking error:', error.response?.data || error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.msg || "Failed to book parking slot",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
-    <div class="main_container_booking">
-      <div class="card">
+    <div className="main_container_booking">
+      <div className="card">
         <Card className="max-w-md mx-auto">
           <CardHeader>
             <CardTitle>Book Parking Slot</CardTitle>
@@ -82,10 +180,7 @@ export default function Component() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
                   control={form.control}
                   name="date"
@@ -205,7 +300,7 @@ export default function Component() {
                   )}
                 />
 
-                {slotsAvailable && (
+                {slotsAvailable ? (
                   <div className="rounded-lg border bg-green-50 p-3 text-sm">
                     <div className="font-medium">Slots Available</div>
                     <div className="text-green-600">
@@ -213,10 +308,22 @@ export default function Component() {
                       date and time.
                     </div>
                   </div>
+                ) : (
+                  <div className="rounded-lg border bg-red-50 p-3 text-sm">
+                    <div className="font-medium">No Slots Available</div>
+                    <div className="text-red-600">
+                      Sorry, no parking slots are available for the selected
+                      date and time.
+                    </div>
+                  </div>
                 )}
 
-                <Button type="submit" className="w-full">
-                  Book Parking Slot
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={isSubmitting || !slotsAvailable}
+                >
+                  {isSubmitting ? "Booking..." : "Book Parking Slot"}
                 </Button>
               </form>
             </Form>

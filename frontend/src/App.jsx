@@ -15,7 +15,7 @@ import CreditFormMain from "./components/Credit_Form_Main";
 import { Navbar } from "./components/Navbar";
 import Home from "./components/Home";
 import Booking from "./components/Booking";
-import { Toaster } from "./components/ui/toaster";
+import { Toaster } from "@/components/ui/toaster";
 
 function PrivateRoute({ element }) {
   //   const token = localStorage.getItem("token");
