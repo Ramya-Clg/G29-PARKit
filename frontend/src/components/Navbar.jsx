@@ -25,7 +25,8 @@ const Button = ({ children, variant, size, onClick, className, ...props }) => (
 const NavItem = ({ name, href, className, onClick }) => (
   <a
     href={href}
-    className={`px-4 py-2 text-lg font-medium text-black hover:text-gray-900 hover:bg-gray-100 rounded-md ${className}`}
+    style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}
+    className={`px-4 py-2 text-lg hover:text-gray-900 hover:bg-gray-100 rounded-md ${className}`}
     onClick={onClick}
   >
     {name}
