@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import "../App";
-import "./Login.css"
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -57,11 +55,9 @@ export const Login = () => {
   };
 
   return (
-    // <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
-
-      <div class="login_container">
-         <div class="card_login">
-        <div className=" form-value">
+    <section className="flex items-center justify-center min-h-screen bg-[#CBE4DE]">
+      <div className="bg-white bg-opacity-20 backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-sm border border-white/20">
+        <div className="form-value">
           <form onSubmit={handleSubmit}>
             <h2 className="text-[#2C3333] text-center mb-6 text-2xl font-semibold">
               Login
@@ -70,7 +66,7 @@ export const Login = () => {
             <div className="relative mb-6">
               <ion-icon
                 name="mail-outline"
-                className="absolute left-0 top-1/2 transform -translate-y-[80%] text-black"
+                className="absolute left-0 top-1/2 transform -translate-y-[80%] text-[#0E8388]"
               ></ion-icon>
               <input
                 type="email"
@@ -103,20 +99,20 @@ export const Login = () => {
               </label>
             </div>
 
-            <div className="flex justify-between items-center mb-6 text-[#CBE4DE]">
-              <label className="flex items-center space-x-2">
+            <div className="flex justify-between items-center mb-6">
+              <label className="flex items-center space-x-2 text-[#2C3333]">
                 <input
                   type="checkbox"
                   name="rememberMe"
                   checked={formData.rememberMe}
                   onChange={handleChange}
-                  className="form-checkbox"
+                  className="form-checkbox rounded border-[#0E8388] text-[#0E8388] focus:ring-[#0E8388]"
                 />
                 <span>Remember me</span>
               </label>
               <Link
                 to="/forgot-password"
-                className="text-[#0E8388] hover:underline"
+                className="text-[#0E8388] hover:underline font-medium"
               >
                 Forgot password?
               </Link>
@@ -131,20 +127,19 @@ export const Login = () => {
             </button>
 
             <div className="text-center mt-6">
-              <p className="text-[#CBE4DE]">
+              <p className="text-[#2C3333]">
                 Don't have an account?{" "}
                 <Link
                   to="/signup"
                   className="text-[#0E8388] font-bold hover:underline"
                 >
-                  SignUp
+                  Sign Up
                 </Link>
               </p>
             </div>
           </form>
         </div>
       </div>
-      </div>
-    // </section>
+    </section>
   );
 };
