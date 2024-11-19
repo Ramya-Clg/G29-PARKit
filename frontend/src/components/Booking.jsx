@@ -196,7 +196,7 @@ export default function Component() {
   return (
     <div className="main_container_booking">
       <div className="card">
-        <Card className="max-w-md mx-auto">
+        <Card className="max-w-[80%]  mx-auto">
           <CardHeader>
             <CardTitle>Book Parking Slot</CardTitle>
             <CardDescription>
