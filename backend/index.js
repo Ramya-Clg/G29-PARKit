@@ -24,7 +24,7 @@ app.use(express.json());
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/otp", otpRouter);
-app.use("/parking", parkingSlotRouter);
+app.use("/parking", parkinapgSlotRouter);
 app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);

@@ -102,7 +102,7 @@ export function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center mt-[-10px]">
         <p className="text-lg">Loading dashboard...</p>
       </div>
     );
