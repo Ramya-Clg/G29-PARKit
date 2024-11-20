@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X, LogOut, LogIn } from "lucide-react";
-import logo from "../assets/logo.svg";
 import { useNavigate, Link } from "react-router-dom";
 
 // Separate Button component
@@ -54,7 +53,7 @@ const NavItem = ({ name, href, className, onClick }) => {
 // Logo Component
 const Logo = () => (
     <Link to="/" className="flex-shrink-0 flex items-center">
-        <img src={logo} alt="Logo" className="h-30 w-auto ml-11 sm:h-10" />
+        <img src="../../public/logo.svg" alt="Logo" className="h-30 w-auto ml-11 sm:h-10" />
     </Link>
 );
 
