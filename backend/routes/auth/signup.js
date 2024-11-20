@@ -91,7 +91,8 @@ signupRouter.post("/verify", async (req, res) => {
     const token = jwt.sign(
       { 
         _id: newUser._id,
-        role: newUser.role 
+        role: newUser.role,
+        email: newUser.email
       },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }

@@ -8,7 +8,6 @@ const userRouter = Router();
 userRouter.get("/details", authorizationMiddleware, async (req, res) => {
     try {
         // Debug log
-        console.log("Fetching details for user:", req.user._id);
 
         const user = await User.findById(req.user._id)
             .select('-password') // Exclude password

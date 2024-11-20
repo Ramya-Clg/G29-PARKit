@@ -1,15 +1,17 @@
 import { Router } from "express";
 import { ParkingSlot, Reservation, Payment, AdminStats } from "../../db/index.js";
 import { authorizationMiddleware } from "../../middlewares/index.js";
+import { sendMail } from "../../utils/index.js";
 
 const parkingSlotRouter = Router();
 
 // Helper function to check slot availability
 const isSlotAvailable = async (startTime, endTime) => {
-  // Find all slots that have overlapping reservations
+  // Find all slots that have overlapping reservations with confirmed status
   const occupiedSlots = await ParkingSlot.find({
     'reservations': {
       $elemMatch: {
+        status: "confirmed",
         reservationTime: { $lt: endTime },
         endTime: { $gt: startTime }
       }
@@ -83,21 +85,14 @@ parkingSlotRouter.post("/reserve", authorizationMiddleware, async (req, res) => 
       });
     }
 
-    // Find an available slot
+    // Find an available slot with updated query
     const availableSlot = await ParkingSlot.findOne({
-      isOccupied: false,
       reservations: {
         $not: {
           $elemMatch: {
-            $or: [
-              {
-                reservationTime: { $lt: endTime },
-                endTime: { $gt: startTime }
-              },
-              {
-                status: "confirmed"
-              }
-            ]
+            status: "confirmed",
+            reservationTime: { $lt: endTime },
+            endTime: { $gt: startTime }
           }
         }
       }
@@ -110,9 +105,9 @@ parkingSlotRouter.post("/reserve", authorizationMiddleware, async (req, res) => 
       });
     }
 
-    // Create new reservation with explicit user ID
+    // Create new reservation
     const reservation = new Reservation({
-      user: req.user._id, // Make sure this is set
+      user: req.user._id,
       parkingSlot: availableSlot._id,
       vehicleNumberPlate: vehicleNumberPlate.toUpperCase(),
       reservationTime: startTime,
@@ -121,26 +116,35 @@ parkingSlotRouter.post("/reserve", authorizationMiddleware, async (req, res) => 
       status: "confirmed",
     });
 
-    // Debug log before saving
-    console.log("Creating reservation with data:", {
-      userId: req.user._id,
-      slotId: availableSlot._id,
-      startTime,
-      endTime,
-      duration: Duration
-    });
-
-    // Save the reservation
     await reservation.save();
 
-    // Update parking slot
+    // Update parking slot (modified to not set isOccupied permanently)
     availableSlot.reservations.push(reservation._id);
-    availableSlot.isOccupied = true;
+    // Only set isOccupied if the reservation starts now
+    const now = new Date();
+    if (startTime <= now && endTime > now) {
+      availableSlot.isOccupied = true;
+    }
     await availableSlot.save();
+    console.log("herere")
+    console.log(req.user.email);
+    console.log(reservation._id);
+    // Send confirmation email
+    try {
+      console.log("Attempting to send email to:", req.user.email);
+      await sendMail({
+        receiver: req.user.email,
+        otp: reservation._id.toString() // Convert ObjectId to string
+      });
+      console.log("Email sent successfully");
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError);
+      // Continue with successful reservation response but log the error
+    }
 
     res.status(200).json({
       success: true,
-      msg: "Parking slot reserved successfully",
+      msg: "Parking slot reserved successfully. Check your email for confirmation details.",
       data: {
         reservationId: reservation._id,
         slotNumber: availableSlot.slotNumber,
@@ -157,7 +161,6 @@ parkingSlotRouter.post("/reserve", authorizationMiddleware, async (req, res) => 
       success: false,
       msg: "Failed to reserve parking slot",
       error: error.message,
-      // Add more debug info in development
       debug: process.env.NODE_ENV === 'development' ? {
         userId: req.user?._id,
         requestBody: req.body
