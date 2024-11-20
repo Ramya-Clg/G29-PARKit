@@ -19,15 +19,11 @@ export default {
         },
       },
       colors: {
-        primary: {
-          bg: '#e09d52',    // Orange/Gold
-          text: '#000a6a',  // Navy blue
-        },
-        secondary: {
-          bg: '#BCD15C',    // Lime green
-          accent: '#0FA3B1', // Teal
-        },
-        light: '#EAE8FF'    // Light lavender
+        'primary-bg': 'var(--background-primary)',
+        'primary-text': 'var(--text-primary)',
+        'secondary-bg': 'var(--background-secondary)',
+        'secondary-text': 'var(--text-secondary)',
+        'light': 'var(--text-light)',
       }
     },
   },

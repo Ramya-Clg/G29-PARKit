@@ -112,34 +112,42 @@ export function Profile() {
   };
 
   const renderReservationCard = (reservation) => (
-    <div key={reservation.id} className="bg-muted p-4 rounded-lg shadow">
+    <div 
+      key={reservation.id} 
+      className="reservation-card p-4 rounded-lg"
+      style={{ backgroundColor: 'var(--background-primary)' }}
+    >
       <div className="space-y-2">
-        <div className="text-sm font-medium">
+        <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
           Slot Number: {reservation.parkingSlot?.slotNumber || 'N/A'}
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm" style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
           Vehicle: {reservation.vehicleNumberPlate}
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm" style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
           Start: {new Date(reservation.reservationTime).toLocaleString()}
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm" style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
           End: {new Date(reservation.endTime).toLocaleString()}
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm" style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
           Duration: {reservation.duration} hours
         </div>
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm" style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
           Status: {reservation.status}
         </div>
         {reservation.status === 'confirmed' && (
           <div className="space-y-2">
-            <div className="text-sm font-medium text-blue-600">
+            <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
               Expected Amount: ₹{calculateAmount(reservation.duration)}
             </div>
             <Button
               onClick={() => handleCheckout(reservation.id, reservation.duration)}
-              className="w-full bg-[var(--text-secondary)] hover:bg-opacity-90 text-[var(--text-light)]"
+              className="w-full hover:opacity-90"
+              style={{
+                backgroundColor: 'var(--text-secondary)',
+                color: 'var(--text-light)'
+              }}
             >
               Checkout and Pay ₹{calculateAmount(reservation.duration)}
             </Button>
@@ -160,50 +168,96 @@ export function Profile() {
   const { user, reservations } = userData;
 
   return (
-    <div className="main_container_profile min-h-screen p-4">
+    <div className="main_container_profile">
       <div className="container mx-auto">
-        <Card className="w-full max-w-6xl mx-auto">
+        <Card 
+          className="profile-card w-full max-w-6xl mx-auto"
+          style={{ 
+            backgroundColor: 'var(--background-primary)',
+            borderColor: 'var(--text-secondary)'
+          }}
+        >
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">
+            <CardTitle 
+              className="text-2xl font-bold text-center"
+              style={{ color: 'var(--text-primary)' }}
+            >
               User Profile
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" value={user.name} readOnly className="bg-muted" />
+                  <Label 
+                    htmlFor="name"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    Name
+                  </Label>
+                  <Input 
+                    id="name" 
+                    value={user.name} 
+                    readOnly 
+                    className="border-[var(--text-secondary)]"
+                    style={{
+                      backgroundColor: 'var(--background-primary)',
+                      color: 'var(--text-primary)'
+                    }}
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label 
+                    htmlFor="phone"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    Phone
+                  </Label>
                   <Input
                     id="phone"
                     value={user.phoneNumber || "Not provided"}
                     readOnly
-                    className="bg-muted"
+                    className="border-[var(--text-secondary)]"
+                    style={{
+                      backgroundColor: 'var(--background-primary)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label 
+                    htmlFor="email"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     type="email"
                     value={user.email}
                     readOnly
-                    className="bg-muted"
+                    className="border-[var(--text-secondary)]"
+                    style={{
+                      backgroundColor: 'var(--background-primary)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
               </div>
 
               <div className="space-y-4">
-                <Label className="text-lg font-semibold">Reservations</Label>
+                <Label 
+                  className="text-lg font-semibold"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  Reservations
+                </Label>
                 {reservations && reservations.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {reservations.map(reservation => renderReservationCard(reservation))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
+                  <p style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
                     No reservations found
                   </p>
                 )}

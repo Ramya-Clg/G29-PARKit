@@ -10,9 +10,9 @@ export const Home = () => {
   return (
     <div>
       {/* <Navbar/> */}
-      <div class="main_container">
+      <div id="home" className="main_container">
         <div class="container1">
-          <img id="background_home" src={background} alt="img" />
+          {/* <img id="background_home" src={background} alt="img" /> */}
 
           {/* <img id="gaddi" src={gaddi} alt="img" /> */}
           <div class="inside_container1">
@@ -38,7 +38,7 @@ export const Home = () => {
         </div>
       </div>
 
-      <div class="aboutus">
+      <div class="aboutus" id="about">
         {/* <img id="rec" src={rectangle} alt="" /> */}
         <div class="left">
           <img id="cars" src={cars} alt="" />

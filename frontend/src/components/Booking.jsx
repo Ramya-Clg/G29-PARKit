@@ -195,10 +195,12 @@ export default function Component() {
 
     return (
         <div className="main_container_booking">
-            <Card className="max-w-[80%]  mx-auto">
+            <Card className="card">
                 <CardHeader>
-                    <CardTitle>Book Parking Slot</CardTitle>
-                    <CardDescription>
+                    <CardTitle style={{ color: 'var(--text-primary)' }}>
+                        Book Parking Slot
+                    </CardTitle>
+                    <CardDescription style={{ color: 'var(--text-primary)', opacity: 0.8 }}>
                         Select your preferred date and time for parking.
                     </CardDescription>
                 </CardHeader>
@@ -210,16 +212,22 @@ export default function Component() {
                                 name="date"
                                 render={({ field }) => (
                                     <FormItem className="flex flex-col">
-                                        <FormLabel>Date</FormLabel>
+                                        <FormLabel style={{ color: 'var(--text-primary)' }}>
+                                            Date
+                                        </FormLabel>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
                                                         variant={"outline"}
                                                         className={cn(
-                                                            "w-full pl-3 text-left font-normal",
+                                                            "w-full pl-3 text-left font-normal border-[var(--text-secondary)]",
                                                             !field.value && "text-muted-foreground"
                                                         )}
+                                                        style={{
+                                                            backgroundColor: 'var(--text-light)',
+                                                            color: field.value ? 'var(--text-primary)' : undefined
+                                                        }}
                                                     >
                                                         {field.value ? (
                                                             format(field.value, "PPP")
@@ -252,10 +260,16 @@ export default function Component() {
                                 name="time"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Select Time</FormLabel>
+                                        <FormLabel style={{ color: 'var(--text-primary)' }}>
+                                            Select Time
+                                        </FormLabel>
                                         <Select onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger>
+                                                <SelectTrigger className="border-[var(--text-secondary)]"
+                                                    style={{
+                                                        backgroundColor: 'var(--text-light)',
+                                                        color: 'var(--text-primary)'
+                                                    }}>
                                                     <SelectValue placeholder="Select time" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -280,10 +294,16 @@ export default function Component() {
                                 name="duration"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Duration (Hours)</FormLabel>
+                                        <FormLabel style={{ color: 'var(--text-primary)' }}>
+                                            Duration (Hours)
+                                        </FormLabel>
                                         <Select onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger>
+                                                <SelectTrigger className="border-[var(--text-secondary)]"
+                                                    style={{
+                                                        backgroundColor: 'var(--text-light)',
+                                                        color: 'var(--text-primary)'
+                                                    }}>
                                                     <SelectValue placeholder="Select duration" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -305,11 +325,18 @@ export default function Component() {
                                 name="numberPlate"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Vehicle Number Plate</FormLabel>
+                                        <FormLabel style={{ color: 'var(--text-primary)' }}>
+                                            Vehicle Number Plate
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="Enter vehicle number plate"
                                                 {...field}
+                                                className="border-[var(--text-secondary)]"
+                                                style={{
+                                                    backgroundColor: 'var(--text-light)',
+                                                    color: 'var(--text-primary)'
+                                                }}
                                                 onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                                             />
                                         </FormControl>
@@ -321,8 +348,9 @@ export default function Component() {
                             {(form.watch("date") && form.watch("time") && form.watch("duration")) && (
                                 <div className={cn(
                                     "rounded-lg border p-3 text-sm",
-                                    isChecking ? "bg-gray-50" :
-                                        isSlotAvailable ? "bg-green-50" : "bg-red-50"
+                                    isChecking ? "bg-[var(--text-light)] border-[var(--text-secondary)]" :
+                                        isSlotAvailable ? "bg-[var(--background-secondary)] border-[var(--text-secondary)]" : 
+                                        "bg-red-50 border-red-500"
                                 )}>
                                     <div className="font-medium">
                                         {isChecking ? "Checking Availability..." :
@@ -341,7 +369,11 @@ export default function Component() {
 
                             <Button
                                 type="submit"
-                                className="w-full"
+                                className="w-full hover:opacity-90"
+                                style={{
+                                    backgroundColor: 'var(--text-secondary)',
+                                    color: 'var(--text-light)'
+                                }}
                                 disabled={isSubmitting || isChecking || !isSlotAvailable}
                             >
                                 {isSubmitting ? "Booking..." :

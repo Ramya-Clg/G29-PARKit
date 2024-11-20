@@ -25,7 +25,12 @@ import {
   Cell,
 } from "recharts";
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = [
+  'var(--text-secondary)',     // Teal accent
+  'var(--background-primary)', // Orange/Gold
+  'var(--background-secondary)', // Lime green
+  'var(--text-primary)'        // Navy blue
+];
 
 export function Admin() {
   const [dashboardData, setDashboardData] = useState({
@@ -109,17 +114,25 @@ export function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-8 px-4">
+    <div className="min-h-screen pt-24 pb-8 px-4" style={{ backgroundColor: 'var(--text-light)' }}>
       <div className="container mx-auto max-w-7xl">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <Button onClick={handleLogout} variant="outline" className="max-w-fit bg-red-300">
+          <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Admin Dashboard</h1>
+          <Button 
+            onClick={handleLogout} 
+            variant="outline" 
+            className="max-w-fit"
+            style={{ 
+              backgroundColor: 'var(--text-secondary)',
+              color: 'var(--text-light)'
+            }}
+          >
             Logout
           </Button>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
-          <Card>
+          <Card className="border-[var(--text-secondary)]">
             <CardHeader>
               <CardTitle>Total Income</CardTitle>
               <CardDescription>Overall earnings</CardDescription>
@@ -131,7 +144,7 @@ export function Admin() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-[var(--text-secondary)]">
             <CardHeader>
               <CardTitle>Parking Stats</CardTitle>
               <CardDescription>Current occupancy</CardDescription>
@@ -145,7 +158,7 @@ export function Admin() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-[var(--text-secondary)]">
             <CardHeader>
               <CardTitle>Payment Statistics</CardTitle>
               <CardDescription>Payment overview</CardDescription>
@@ -160,10 +173,25 @@ export function Admin() {
         </div>
 
         <Tabs defaultValue="daily" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="daily">Daily Income</TabsTrigger>
-            <TabsTrigger value="monthly">Monthly Distribution</TabsTrigger>
-            <TabsTrigger value="payments">Recent Payments</TabsTrigger>
+          <TabsList className="bg-[var(--background-secondary)]">
+            <TabsTrigger 
+              value="daily"
+              className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
+            >
+              Daily Income
+            </TabsTrigger>
+            <TabsTrigger 
+              value="monthly"
+              className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
+            >
+              Monthly Distribution
+            </TabsTrigger>
+            <TabsTrigger 
+              value="payments"
+              className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
+            >
+              Recent Payments
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="daily">
@@ -180,7 +208,11 @@ export function Admin() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="income" fill="#8884d8" name="Income" />
+                    <Bar 
+                      dataKey="income" 
+                      fill="var(--text-secondary)" 
+                      name="Income" 
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -202,7 +234,7 @@ export function Admin() {
                       cy="50%"
                       labelLine={false}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="var(--text-secondary)"
                       dataKey="value"
                     >
                       {dashboardData.monthlyDistribution.map((entry, index) => (
@@ -265,8 +297,16 @@ export function Admin() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="amount" fill="#82ca9d" name="Payment Amount" />
-                  <Bar dataKey="duration" fill="#8884d8" name="Duration (hours)" />
+                  <Bar 
+                    dataKey="amount" 
+                    fill="var(--background-secondary)" 
+                    name="Payment Amount" 
+                  />
+                  <Bar 
+                    dataKey="duration" 
+                    fill="var(--text-secondary)" 
+                    name="Duration (hours)" 
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>

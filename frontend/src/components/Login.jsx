@@ -121,7 +121,7 @@ export const Login = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2 bg-[#0E8388] text-[#CBE4DE] font-bold rounded-md transition duration-300 hover:bg-[#2E4F4F] disabled:opacity-50"
+              className="w-full py-2 bg-[var(--text-secondary)] text-[var(--text-light)] font-bold rounded-md transition duration-300 hover:opacity-90 disabled:opacity-50"
             >
               {isSubmitting ? "Logging in..." : "Log in"}
             </button>

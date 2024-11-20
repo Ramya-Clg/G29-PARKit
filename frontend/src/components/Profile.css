@@ -9,25 +9,36 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--background-secondary);
+  background-color: var(--background-primary);
+  padding: 2vh;
 }
 
-.card {
-  animation: book_Now;
-  animation-duration: 1.5s;
-  animation-timing-function: ease;
-  width: 50%;
-  background-color: var(--text-light);
+.profile-card {
+  animation: fade_in 1.5s ease;
+  background-color: var(--background-primary) !important;
+  border: 2px solid var(--text-secondary) !important;
   border-radius: var(--radius);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-@keyframes card_ani {
+@keyframes fade_in {
   0% {
     opacity: 0;
+    transform: translateY(-10px);
   }
-
   100% {
     opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.reservation-card {
+  background-color: var(--background-primary);
+  border: 1px solid var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.reservation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

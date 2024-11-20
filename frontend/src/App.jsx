@@ -30,7 +30,7 @@ function PrivateRoute({ element }) {
 function RootApp() {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/login", "/signup", "/credit","/admin/dashboard"];
+  const hideNavbarRoutes = ["/login", "/signup", "/credit","/admin/dashboard","/admin"];
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
   return (

@@ -25,6 +25,7 @@
   max-height: 90vh;
   overflow-y: auto;
   background: var(--text-light);
+  border: 2px solid var(--text-secondary);
   border-radius: var(--radius);
   padding: 2rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
