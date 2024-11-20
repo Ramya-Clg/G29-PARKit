@@ -20,10 +20,10 @@ import { AdminLogin } from "./components/AdminLogin";
 import { AdminRoute } from "./components/AdminRoute";
 
 function PrivateRoute({ element }) {
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //   return <Navigate to="/login" replace />;
-    // }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
   return element;
 }
 
