@@ -67,7 +67,6 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <Feedback/>
       <Footer />
     </div>
   );

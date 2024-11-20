@@ -11,13 +11,16 @@
   justify-content: center;
   align-items: center;
   padding-top: 3rem;
-  background-color: #EAF0EE;
+  background-color: var(--background-secondary);
 }
 
 .card {
   animation: book_Now;
   animation-duration: 1.5s;
   animation-timing-function: ease;
+  background-color: var(--text-light);
+  border-radius: var(--radius);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 @keyframes card_ani {

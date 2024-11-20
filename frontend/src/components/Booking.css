@@ -5,53 +5,67 @@
 }
 
 .main_container_booking {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #a2b7b2;
-  padding-top: 9rem;
+  background-color: var(--background-primary);
+  padding: 2vh;
+  position: relative;
 }
 
 .card {
-
-  animation: book_Now;
-  animation-duration: 1.5s;
-  animation-timing-function: ease;
-  height: 100%;
-  width: 40rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: card_ani 1.5s ease;
+  width: min(40rem, 90%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--text-light);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 @keyframes card_ani {
   0% {
     opacity: 0;
+    transform: translate(-50%, -45%);
   }
-
   100% {
     opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .card {
+    width: 40rem;
   }
 }
 
 @media only screen and (max-width: 1024px) {
-  
-  .card{
-    width: 70%;
+  .card {
+    width: 70vw;
   }
-  
 }
 
-
 @media only screen and (max-width: 600px) {
-
   .main_container_booking {
-    height: 100vh;
-    padding-bottom: 2rem;
-   
+    padding: 1vh;
   }
 
-  .card{
-    width: 95%;
+  .card {
+    width: 95vw;
+    padding: 1.5rem;
   }
+}
 
+@media screen and (max-height: 600px) {
+  .card {
+    max-height: 85vh;
+  }
 }

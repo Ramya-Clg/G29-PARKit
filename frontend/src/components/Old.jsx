@@ -4,28 +4,28 @@ import { Footer } from "./Footer";
 
 export function Old() {
   return (
-    <div className="min-h-screen w-full bg-white flex flex-col justify-center relative">
+    <div className="min-h-screen w-full bg-[var(--text-light)] flex flex-col justify-center relative">
       {/* Gradient Background */}
       <div
-        className="fixed top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#CBE4DE] to-transparent -z-10"
+        className="fixed top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[var(--background-secondary)] to-transparent -z-10"
         aria-hidden="true"
       />
 
       <div className="container mx-auto px-4 md:px-6 py-12 flex flex-col md:flex-row items-center min-h-screen">
         {/* Left Content */}
         <div className="flex flex-col justify-start items-start mt-16 md:mt-24 w-full md:w-1/2 mb-12 md:mb-0">
-          <h2 className="font-inter text-2xl md:text-xl text-[#2C3333] tracking-[0.7em] mb-2">
+          <h2 className="font-inter text-2xl md:text-xl text-[var(--text-primary)] tracking-[0.7em] mb-2">
             WELCOME TO
           </h2>
-          <h1 className="font-inter text-7xl md:text-8xl lg:text-8xl font-bold text-[#2C3333] mb-6">
+          <h1 className="font-inter text-7xl md:text-8xl lg:text-8xl font-bold text-[var(--text-primary)] mb-6">
             PARKit
           </h1>
-          <p className="text-xl md:text-2xl text-[#2C3333] max-w-lg mb-8">
+          <p className="text-xl md:text-2xl text-[var(--text-primary)] max-w-lg mb-8">
             A modern and user-friendly parking experience that saves you time
             and stress.
           </p>
-          <button className="w-fit bg-[#5B8F8F] hover:bg-[#4A7A7A] text-white px-8 py-4 text-lg md:text-xl rounded-md shadow-lg flex flex-col items-center justify-center">
-            <span className="font-inter font-regular text-white ">
+          <button className="w-fit bg-[var(--text-secondary)] hover:bg-opacity-90 text-[var(--text-light)] px-8 py-4 text-lg md:text-xl rounded-md shadow-lg flex flex-col items-center justify-center">
+            <span className="font-inter font-regular text-[var(--text-light)]">
               Get Started
             </span>
           </button>

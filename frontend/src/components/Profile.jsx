@@ -139,7 +139,7 @@ export function Profile() {
             </div>
             <Button
               onClick={() => handleCheckout(reservation.id, reservation.duration)}
-              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              className="w-full bg-[var(--text-secondary)] hover:bg-opacity-90 text-[var(--text-light)]"
             >
               Checkout and Pay ₹{calculateAmount(reservation.duration)}
             </Button>

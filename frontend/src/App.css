@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
-  color: #000000;
+  color: var(--text-primary);
 }
 
 section {
@@ -11,7 +11,7 @@ section {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
 }
 
 section::before {
@@ -19,8 +19,8 @@ section::before {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: url("./freepik__modern-style-detailled-illustration-image-of-parke__13768.jpeg") no-repeat;
   background-position: center;
   background-size: cover;
@@ -31,119 +31,111 @@ section::before {
 .form-box {
   position: relative;
   z-index: 1;
-  width: 400px;
-  height: 450px;
+  width: min(90vw, 40vh);
+  height: min(90vh, 70vh);
   background: transparent;
-  border: 2px solid white;
-  border-radius: 20px;
-  backdrop-filter: blur(20px);
+  border: 0.2vw solid var(--text-light);
+  border-radius: var(--radius);
+  backdrop-filter: blur(2vh);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 2vh;
 }
 
 h2 {
-  font-size: 2em;
-  color: #000000;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--text-primary);
   text-align: center;
+  margin-bottom: 2vh;
 }
 
 .inputbox {
   position: relative;
-  margin: 30px 0;
-  width: 310px;
-  border-bottom: 2px solid #fff;
+  margin: 3vh 0;
+  width: min(80vw, 35vh);
+  border-bottom: 0.2vh solid var(--text-light);
+  background: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.inputbox:focus-within {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .inputbox label {
   position: absolute;
   top: 50%;
-  left: 5px;
+  left: 1vw;
   transform: translateY(-50%);
   color: #000000;
-  font-size: 1em;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   pointer-events: none;
   transition: 0.5s;
 }
 
-input:focus ~ label {
-  top: -5px;
-}
+input:focus ~ label,
 input:valid ~ label {
-  top: -5px;
+  top: -1vh;
+  font-size: clamp(0.7rem, 1.8vw, 1rem);
 }
 
 .inputbox input {
   width: 100%;
-  height: 50px;
+  height: 5vh;
   background: transparent;
   border: none;
   outline: none;
-  font-size: 1em;
-  padding: 0 35px 0 5px;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  padding: 0 3.5vw 0 0.5vw;
   color: #000000;
+  -webkit-text-fill-color: #000000;
+  opacity: 1;
 }
 
 .inputbox ion-icon {
   position: absolute;
-  right: 8px;
+  right: 1vw;
   color: #000000;
-  font-size: 1.7em;
-  top: 20px;
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  top: 2vh;
 }
 
 ion-icon {
   position: absolute;
-  font-size: 1.3em;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
 }
 
 .forget {
   display: flex;
   justify-content: space-between;
-  margin: 10px 0 15px;
-  font-size: 0.9em;
+  margin: 1vh 0 1.5vh;
+  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
   color: #000000;
-}
-
-.forget label:nth-child(2) {
-  order: 1;
-}
-
-.forget label {
-  display: flex;
-  align-items: center;
 }
 
 .forget label input[type="checkbox"] {
-  margin-right: 6px;
-}
-
-.forget label a {
-  color: #000000;
-  text-decoration: none;
-}
-
-.forget label a:hover {
-  text-decoration: underline;
+  margin-right: 1vw;
 }
 
 button {
   width: 100%;
-  height: 40px;
-  border-radius: 40px;
+  height: 5vh;
+  border-radius: 5vh;
   background: #fff;
   border: none;
   outline: none;
   cursor: pointer;
-  font-size: 1em;
+  font-size: clamp(0.8rem, 2vw, 1rem);
   font-weight: 600;
+  margin-top: 2vh;
 }
 
 .register {
-  font-size: 0.9em;
+  font-size: clamp(0.7rem, 1.8vw, 0.9rem);
   color: #000000;
   text-align: center;
-  margin: 25px 0 10px;
+  margin: 2.5vh 0 1vh;
 }
 
 .register p a {
@@ -154,4 +146,25 @@ button {
 
 .register p a:hover {
   text-decoration: underline;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #000000;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px transparent;
+}
+
+input:-webkit-autofill ~ label {
+  top: -1vh !important;
+  font-size: clamp(0.7rem, 1.8vw, 1rem) !important;
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  .inputbox input {
+    opacity: 1 !important;
+  }
 }

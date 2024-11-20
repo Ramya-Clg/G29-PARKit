@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f0f0f0;
+  background-color: var(--background-secondary);
 }
 
 .card {
@@ -17,6 +17,9 @@
   animation-duration: 1.5s;
   animation-timing-function: ease;
   width: 50%;
+  background-color: var(--text-light);
+  border-radius: var(--radius);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 @keyframes card_ani {

@@ -8,20 +8,20 @@
 
 .main_container {
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
   overflow-x: hidden;
 }
 
 .container1 {
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
 #background_home {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   z-index: -1;
   object-fit: cover;
@@ -29,87 +29,84 @@
 
 #gaddi {
   position: absolute;
-  width: min(40rem, 90%);
-  right: 2rem;
-  bottom: 12rem;
-  animation: car_transition;
-  animation-duration: 1s;
-  animation-timing-function: ease;
+  width: min(40vw, 90vw);
+  right: 2vw;
+  bottom: 12vh;
+  animation: car_transition 1s ease;
 }
 
 @keyframes car_transition {
   0% {
-    right: -400px;
+    right: -40vw;
   }
-
   100% {
-    right: 2rem;
+    right: 2vw;
   }
 }
 
 .inside_container1 {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .container1_navbar {
-  height: 10%;
+  height: 10vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 1vh;
 }
 
 #navimg {
-  height: 80%;
+  height: 8vh;
 }
 
 .navtags {
   text-decoration: none;
-  color: black;
+  color: var(--text-primary);
   font-family: "Inter", sans-serif;
   font-weight: bolder;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1.2vw, 1.5rem);
 }
 
 #login {
-  background-color: #65b0b3;
+  background-color: var(--text-secondary);
   border: none;
-  border-radius: 5px;
-  width: 8%;
-  height: 50%;
-  color: white;
+  border-radius: var(--radius);
+  width: 8vw;
+  height: 5vh;
+  color: var(--text-light);
   font-weight: bold;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 1vw, 1.2rem);
 }
 
 .content_home {
-  width: 45%;
-  height: 50%;
-
-  margin-top: 9.5rem;
-  margin-left: 5rem;
+  width: 45vw;
+  height: 50vh;
+  margin-top: 9.5vh;
+  margin-left: 5vw;
   color: rgb(81, 78, 78);
   display: flex;
   flex-direction: column;
 }
 
 .welcome {
-  font-size: 1.7rem;
-  margin-top: 2rem;
-  letter-spacing: 6px;
+  font-size: clamp(1.2rem, 1.7vw, 2rem);
+  margin-top: 2vh;
+  letter-spacing: 0.6vw;
   font-family: "Inter", sans-serif;
 }
+
 .parkit {
-  font-size: 6rem;
+  font-size: clamp(3rem, 6vw, 8rem);
   font-family: "Inter", sans-serif;
-  line-height: 6rem;
+  line-height: 1.2;
   font-weight: 600;
 }
+
 .des {
-  font-size: 25px;
-  margin-top: 2rem;
+  font-size: clamp(1rem, 2.5vw, 3rem);
+  margin-top: 2vh;
   font-family: "Inter", sans-serif;
   width: 70%;
 }
@@ -117,44 +114,40 @@
 .booknow {
   background-color: #65b0b3;
   border: none;
-  border-radius: 5px;
-  height: 2.5rem;
+  border-radius: 0.5vw;
+  padding: 2vh 4vw;
   color: white;
-  font-size: 1.3rem;
-  margin-top: 3rem;
-  width: 12rem;
-  animation: book_Now;
-  animation-duration: 1s;
-  animation-timing-function: ease;
+  font-size: clamp(1rem, 1.3vw, 1.5rem);
+  margin-top: 3vh;
+  width: fit-content;
+  animation: book_Now 1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes book_Now {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .aboutus {
-  width: 100%;
+  width: 100vw;
   background-color: #eaf0ee;
   display: flex;
   font-family: "Inter", sans-serif;
-  padding-bottom: 3rem;
+  padding: 5vh 0;
   overflow-x: hidden;
 }
 
 #rec {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   z-index: -1;
 }
 
 .left {
-  width: 50%;
+  width: 50vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -162,26 +155,25 @@
 
 #cars {
   width: 80%;
-  max-height: 30rem;
+  max-height: 30vh;
 }
 
 .right {
-  width: 50%;
-
+  width: 50vw;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2vh;
   justify-content: center;
   align-items: center;
 }
 
 .right_content {
   width: 90%;
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 1.2vw, 1.5rem);
 }
 
 .right h1 {
-  font-size: 4rem;
+  font-size: clamp(2rem, 4vw, 5rem);
 }
 
 @media only screen and (max-width: 1024px) {
@@ -193,94 +185,62 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    /* width: 80%; */
+    gap: 2vh;
   }
 
   #gaddi {
     position: static;
-    bottom: 0;
-    width: min(25rem, 90%);
+    width: min(60vw, 90vw);
     margin: 0 auto;
   }
 
   .content_home {
-    width: 90%;
-    margin: 0 auto;
-    padding: 0 1rem;
+    width: 90vw;
+    margin: 2vh auto;
+    padding: 0 2vw;
+    text-align: center;
+    align-items: center;
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 768px) {
   .aboutus {
     flex-direction: column;
     align-items: center;
   }
 
-  .left {
-    width: 30rem;
-  }
-  .right {
-    width: 90%;
+  .left, .right {
+    width: 90vw;
   }
 
   .right h1 {
-    font-size: 8vw;
-    margin-top: 2rem;
+    font-size: clamp(2rem, 8vw, 4rem);
+    margin-top: 2vh;
   }
 
   .right_content {
-    font-size: 3.3vw;
-    margin-bottom: 2rem;
+    font-size: clamp(0.9rem, 3.3vw, 1.2rem);
+    margin-bottom: 2vh;
     text-align: justify;
   }
 }
 
-@media only screen and (max-width: 440px) {
-  .container1 {
-    flex-direction: column;
+@media only screen and (max-width: 480px) {
+  .parkit {
+    font-size: clamp(2.5rem, 15vw, 4rem);
   }
 
-  .inside_container1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+  .welcome {
+    font-size: clamp(1rem, 6vw, 1.5rem);
   }
 
-  #gaddi {
-    position: static;
-    bottom: 0;
+  .des {
+    font-size: clamp(0.9rem, 4vw, 1.2rem);
     width: 90%;
   }
 
   .booknow {
-    width: 55%;
-  }
-
-  .content_home {
-    width: 80%;
-  }
-
-  .content_home {
-    margin-top: 0;
-  }
-
-  .parkit {
-    font-size: 20vw;
-  }
-
-  .welcome {
-    font-size: 8vw;
-    text-wrap: wrap;
-  }
-
-  .des {
-    font-size: 5vw;
-  }
-
-  .left {
-    width: 80%;
+    width: 55vw;
   }
 }
 

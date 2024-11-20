@@ -18,7 +18,17 @@ export default {
           "100%": { right: "2rem" },
         },
       },
-      colors: {},
+      colors: {
+        primary: {
+          bg: '#e09d52',    // Orange/Gold
+          text: '#000a6a',  // Navy blue
+        },
+        secondary: {
+          bg: '#BCD15C',    // Lime green
+          accent: '#0FA3B1', // Teal
+        },
+        light: '#EAE8FF'    // Light lavender
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
