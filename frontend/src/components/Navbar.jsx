@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X, LogOut, LogIn } from "lucide-react";
-import logo from "../../public/logo.svg";
+import logo from "../assets/logo.svg";
 import { useNavigate, Link } from "react-router-dom";
 
 // Separate Button component

@@ -13,7 +13,7 @@ import { Profile } from "./components/Profile";
 import { Admin } from "./components/Admin";
 import CreditFormMain from "./components/Credit_Form_Main";
 import { Navbar } from "./components/Navbar";
-import Home from "./components/Home";
+import Home from "./assets/Home";
 import Booking from "./components/Booking";
 import { Toaster } from "@/components/ui/toaster";
 import { AdminLogin } from "./components/AdminLogin";
