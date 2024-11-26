@@ -6,19 +6,22 @@
 
 .main_container_profile {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
   background-color: var(--background-primary);
-  padding: 2vh;
+  padding: 120px 2vh 2vh 2vh;
+  overflow-x: hidden;
 }
 
 .profile-card {
   animation: fade_in 1.5s ease;
   background-color: var(--background-primary) !important;
-  border: 2px solid var(--text-secondary) !important;
+  border: 2px solid var(--text-primary) !important;
   border-radius: var(--radius);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  max-width: 95vw;
 }
 
 @keyframes fade_in {
@@ -41,4 +44,10 @@
 .reservation-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .main_container_profile {
+    padding: 100px 1vh 1vh 1vh;
+  }
 }

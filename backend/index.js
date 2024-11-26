@@ -1,12 +1,15 @@
 import express from "express";
 import cors from "cors";
-import loginRouter from "./routes/auth/login.js";
-import signupRouter from "./routes/auth/signup.js";
-import otpRouter from "./routes/otp/index.js";
-import parkingSlotRouter from "./routes/parkingSlot/index.js";
-import feedbackRouter from "./routes/feedbackForm/index.js";
-import userRouter from "./routes/user/index.js";
-import adminRouter from "./routes/admin/index.js";
+import dotenv from "dotenv";
+import loginRouter from "./routes/loginRouter.js";
+import signupRouter from "./routes/signupRouter.js";
+import parkingSlotRouter from "./routes/parkingSlotRouter.js";
+import feedbackRouter from "./routes/feedbackRouter.js";
+import userRouter from "./routes/userRouter.js";
+import adminRouter from "./routes/adminRouter.js";
+
+dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,7 +23,6 @@ app.use(express.json());
 // Routes
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
-app.use("/otp", otpRouter);
 app.use("/parking", parkingSlotRouter);
 app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
 app.use("/user", userRouter);

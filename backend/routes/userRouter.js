@@ -1,16 +1,13 @@
 import { Router } from "express";
-import { User, Reservation } from "../../db/index.js";
-import { authorizationMiddleware } from "../../middlewares/index.js";
+import { User, Reservation } from "../db/index.js";
+import { authorizationMiddleware } from "../middlewares/index.js";
 
 const userRouter = Router();
 
-// Get user details with their reservations
 userRouter.get("/details", authorizationMiddleware, async (req, res) => {
     try {
-        // Debug log
-
         const user = await User.findById(req.user._id)
-            .select('-password') // Exclude password
+            .select('-password') 
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -18,7 +15,6 @@ userRouter.get("/details", authorizationMiddleware, async (req, res) => {
             });
         }
 
-        // Get user's reservations
         const reservations = await Reservation.find({
             user: req.user._id,
             status: { $in: ["confirmed", "completed"] }

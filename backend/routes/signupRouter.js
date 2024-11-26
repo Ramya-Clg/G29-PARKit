@@ -1,8 +1,8 @@
-import { SignupSchema } from "../../types/index.js";
-import { User } from "../../db/index.js";
+import { SignupSchema } from "../types/index.js";
+import { User } from "../db/index.js";
 import { Router } from "express";
-import { generateOTP, sendOTP } from "../../utils/otp.js";
-import { storeOTP, verifyOTP } from "../../utils/otpStorage.js";
+import { generateOTP, sendOTP } from "../utils/sendOtp.js";
+import { storeOTP, verifyOTP } from "../utils/otpStorage.js";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
 configDotenv();

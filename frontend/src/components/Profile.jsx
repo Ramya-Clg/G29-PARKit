@@ -169,12 +169,12 @@ export function Profile() {
 
   return (
     <div className="main_container_profile">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4">
         <Card 
           className="profile-card w-full max-w-6xl mx-auto"
           style={{ 
             backgroundColor: 'var(--background-primary)',
-            borderColor: 'var(--text-secondary)'
+            borderColor: 'var(--text-primary)'
           }}
         >
           <CardHeader>

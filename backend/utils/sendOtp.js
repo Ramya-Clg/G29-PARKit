@@ -1,16 +1,6 @@
-import nodemailer from 'nodemailer';
 import otpGenerator from 'otp-generator';
+import { transporter } from './mailTransporter.js';
 
-// Create a transporter using Gmail
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-// Generate OTP
 export const generateOTP = () => {
   return otpGenerator.generate(6, {
     upperCase: false,
@@ -19,7 +9,6 @@ export const generateOTP = () => {
   });
 };
 
-// Send OTP via email
 export const sendOTP = async (email, otp) => {
   try {
     const mailOptions = {

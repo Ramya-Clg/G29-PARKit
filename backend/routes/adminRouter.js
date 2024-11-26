@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { Admin, Reservation, ParkingSlot, AdminStats, Payment } from "../../db/index.js";
-import { authorizationMiddleware } from "../../middlewares/index.js";
+import { Admin, Reservation, ParkingSlot, AdminStats, Payment } from "../db/index.js";
+import { authorizationMiddleware } from "../middlewares/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

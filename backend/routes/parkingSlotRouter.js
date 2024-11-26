@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { ParkingSlot, Reservation, Payment, AdminStats } from "../../db/index.js";
-import { authorizationMiddleware } from "../../middlewares/index.js";
-import { sendMail } from "../../utils/index.js";
+import { ParkingSlot, Reservation, Payment, AdminStats } from "../db/index.js";
+import { authorizationMiddleware } from "../middlewares/index.js";
+import { sendMail } from "../utils/sendBookingDetails.js";
 
 const parkingSlotRouter = Router();
 

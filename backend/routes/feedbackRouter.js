@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { Feedback } from "../../db/index.js"; // Feedback model from your database setup
-import { authorizationMiddleware } from "../../middlewares/index.js"; // Middleware for authorization
-import { FeedbackSchema } from "../../types/index.js"; // Validation schema for feedback
+import { Feedback } from "../db/index.js"; // Feedback model from your database setup
+import { authorizationMiddleware } from "../middlewares/index.js"; // Middleware for authorization
+import { FeedbackSchema } from "../types/index.js"; // Validation schema for feedback
 
 const feedbackRouter = Router();
 
