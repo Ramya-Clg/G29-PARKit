@@ -7,7 +7,7 @@
         "preinstall": "npx only-allow pnpm",
         "start": "concurrently \"pnpm start:frontend\" \"pnpm start:backend\"",
         "start:frontend": "cd frontend && pnpm dev",
-        "start:backend": "cd backend && node index.js",
+        "start:backend": "cd backend && nodemon index.js",
         "pretty": "prettier --write ."
     },
     "keywords": [],
