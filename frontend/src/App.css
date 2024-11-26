@@ -21,7 +21,7 @@ section::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url("./freepik__modern-style-detailled-illustration-image-of-parke__13768.jpeg") no-repeat;
+  background: url("/freepik__modern-style-detailled-illustration-image-of-parke__13768.jpeg") no-repeat;
   background-position: center;
   background-size: cover;
   opacity: 0.9;

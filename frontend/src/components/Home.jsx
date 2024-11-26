@@ -1,6 +1,4 @@
 import "../components/Home.css";
-import gaddi from "../../public/New_home_page_image.svg";
-import cars from "../../public/about_us_image.jpg";
 import { Footer } from "./Footer";
 
 export const Home = () => {
@@ -30,7 +28,7 @@ export const Home = () => {
               </div>
               <button class="booknow">Get Started</button>
             </div>
-            <img id="gaddi" src={gaddi} alt="img" />
+            <img id="gaddi" src="../New_home_page_image.svg" alt="img" />
           </div>
         </div>
       </div>
@@ -38,7 +36,7 @@ export const Home = () => {
       <div class="aboutus" id="about">
         {/* <img id="rec" src={rectangle} alt="" /> */}
         <div class="left">
-          <img id="cars" src={cars} alt="" />
+          <img id="cars" src="../about_us_image.jpg" alt="" />
         </div>
 
         <div class="right">
