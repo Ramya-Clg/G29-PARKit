@@ -39,7 +39,8 @@ const UserSchema = new mongoose.Schema(
   },
 );
 
-const adminSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema(
+  {
     name: {
       type: String,
       required: true,
@@ -57,7 +58,9 @@ const adminSchema = new mongoose.Schema({
       type: String,
       default: "admin",
     },
-  }, { timestamps: true });
+  },
+  { timestamps: true },
+);
 
 // Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
@@ -167,43 +170,49 @@ const FeedbackSchema = new mongoose.Schema(
 );
 
 // Payment Schema
-const PaymentSchema = new mongoose.Schema({
-  reservation: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Reservation",
-    required: true
+const PaymentSchema = new mongoose.Schema(
+  {
+    reservation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reservation",
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    duration: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["completed", "failed"],
+      default: "completed",
+    },
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
-  amount: {
-    type: Number,
-    required: true
-  },
-  duration: {
-    type: Number,
-    required: true
-  },
-  status: {
-    type: String,
-    enum: ["completed", "failed"],
-    default: "completed"
-  }
-}, { timestamps: true });
+  { timestamps: true },
+);
 
 // Admin Stats Schema
-const AdminStatsSchema = new mongoose.Schema({
-  totalIncome: {
-    type: Number,
-    default: 0
+const AdminStatsSchema = new mongoose.Schema(
+  {
+    totalIncome: {
+      type: Number,
+      default: 0,
+    },
+    totalBookings: {
+      type: Number,
+      default: 0,
+    },
   },
-  totalBookings: {
-    type: Number,
-    default: 0
-  }
-}, { timestamps: true });
+  { timestamps: true },
+);
 
 // Models
 const User = mongoose.model("User", UserSchema);

@@ -31,11 +31,11 @@ signupRouter.post("/initiate", async (req, res) => {
 
     // Generate and send OTP
     const otp = generateOTP();
-    console.log('Generated OTP:', otp); // Debug log
+    console.log("Generated OTP:", otp); // Debug log
 
     const sent = await sendOTP(email, otp);
-    console.log('OTP send status:', sent); // Debug log
-    
+    console.log("OTP send status:", sent); // Debug log
+
     if (!sent) {
       return res.status(500).json({ msg: "Failed to send OTP" });
     }
@@ -44,13 +44,12 @@ signupRouter.post("/initiate", async (req, res) => {
     storeOTP(email, otp);
     pendingUsers.set(email, userData);
 
-    res.json({ 
+    res.json({
       msg: "OTP sent successfully",
-      email: email 
+      email: email,
     });
-
   } catch (error) {
-    console.error('Signup initiate error:', error);
+    console.error("Signup initiate error:", error);
     res.status(500).json({ msg: "Internal Server Error" });
   }
 });
@@ -66,7 +65,7 @@ signupRouter.post("/verify", async (req, res) => {
   try {
     // Verify OTP
     const isValid = verifyOTP(email, otp);
-    console.log('OTP verification result:', isValid); // Debug log
+    console.log("OTP verification result:", isValid); // Debug log
 
     if (!isValid) {
       return res.status(400).json({ msg: "Invalid or expired OTP" });
@@ -74,7 +73,7 @@ signupRouter.post("/verify", async (req, res) => {
 
     // Get pending user data
     const userData = pendingUsers.get(email);
-    console.log('Retrieved user data:', userData); // Debug log
+    console.log("Retrieved user data:", userData); // Debug log
 
     if (!userData) {
       return res.status(400).json({ msg: "No pending registration found" });
@@ -89,37 +88,40 @@ signupRouter.post("/verify", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { 
+      {
         _id: newUser._id,
         role: newUser.role,
-        email: newUser.email
+        email: newUser.email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
-    res.json({ 
+    res.json({
       success: true,
       data: {
         token,
-        msg: "Signup successful"
-      }
+        msg: "Signup successful",
+      },
     });
-
   } catch (error) {
-    console.error('Signup verify error:', error);
+    console.error("Signup verify error:", error);
     res.status(500).json({ msg: "Internal Server Error" });
   }
 });
 
 // Optional: Cleanup old pending users periodically
-setInterval(() => {
-  const now = Date.now();
-  for (const [email, timestamp] of pendingUsers.entries()) {
-    if (now - timestamp > 10 * 60 * 1000) { // 10 minutes
-      pendingUsers.delete(email);
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [email, timestamp] of pendingUsers.entries()) {
+      if (now - timestamp > 10 * 60 * 1000) {
+        // 10 minutes
+        pendingUsers.delete(email);
+      }
     }
-  }
-}, 5 * 60 * 1000); // Run every 5 minutes
+  },
+  5 * 60 * 1000,
+); // Run every 5 minutes
 
 export default signupRouter;

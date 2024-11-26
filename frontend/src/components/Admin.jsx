@@ -26,10 +26,10 @@ import {
 } from "recharts";
 
 const COLORS = [
-  'var(--text-secondary)',     // Teal accent
-  'var(--background-primary)', // Orange/Gold
-  'var(--background-secondary)', // Lime green
-  'var(--text-primary)'        // Navy blue
+  "var(--text-secondary)", // Teal accent
+  "var(--background-primary)", // Orange/Gold
+  "var(--background-secondary)", // Lime green
+  "var(--text-primary)", // Navy blue
 ];
 
 export function Admin() {
@@ -39,14 +39,14 @@ export function Admin() {
     monthlyDistribution: [],
     parkingStats: {
       totalSlots: 0,
-      occupiedSlots: 0
+      occupiedSlots: 0,
     },
     paymentStats: {
       totalPayments: 0,
       averageAmount: 0,
-      recentPayments: []
+      recentPayments: [],
     },
-    users: []
+    users: [],
   });
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -56,7 +56,7 @@ export function Admin() {
     const fetchDashboardData = async () => {
       try {
         const adminToken = localStorage.getItem("adminToken");
-        
+
         if (!adminToken) {
           navigate("/admin/login");
           return;
@@ -67,9 +67,9 @@ export function Admin() {
           {
             headers: {
               Authorization: `Bearer ${adminToken}`,
-              'Content-Type': 'application/json'
-            }
-          }
+              "Content-Type": "application/json",
+            },
+          },
         );
 
         if (response.data.success) {
@@ -83,13 +83,13 @@ export function Admin() {
           toast({
             title: "Session Expired",
             description: "Please login again",
-            variant: "destructive"
+            variant: "destructive",
           });
         } else {
           toast({
             title: "Error",
             description: "Failed to fetch dashboard data",
-            variant: "destructive"
+            variant: "destructive",
           });
         }
       } finally {
@@ -114,17 +114,25 @@ export function Admin() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-8 px-4" style={{ backgroundColor: 'var(--text-light)' }}>
+    <div
+      className="min-h-screen pt-24 pb-8 px-4"
+      style={{ backgroundColor: "var(--text-light)" }}
+    >
       <div className="container mx-auto max-w-7xl">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>Admin Dashboard</h1>
-          <Button 
-            onClick={handleLogout} 
-            variant="outline" 
+          <h1
+            className="text-3xl font-bold"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Admin Dashboard
+          </h1>
+          <Button
+            onClick={handleLogout}
+            variant="outline"
             className="max-w-fit"
-            style={{ 
-              backgroundColor: 'var(--text-secondary)',
-              color: 'var(--text-light)'
+            style={{
+              backgroundColor: "var(--text-secondary)",
+              color: "var(--text-light)",
             }}
           >
             Logout
@@ -153,7 +161,11 @@ export function Admin() {
               <div className="space-y-2">
                 <p>Total Slots: {dashboardData.parkingStats.totalSlots}</p>
                 <p>Occupied: {dashboardData.parkingStats.occupiedSlots}</p>
-                <p>Available: {dashboardData.parkingStats.totalSlots - dashboardData.parkingStats.occupiedSlots}</p>
+                <p>
+                  Available:{" "}
+                  {dashboardData.parkingStats.totalSlots -
+                    dashboardData.parkingStats.occupiedSlots}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -165,8 +177,13 @@ export function Admin() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <p>Total Payments: {dashboardData.paymentStats.totalPayments}</p>
-                <p>Average Amount: ₹{dashboardData.paymentStats.averageAmount.toFixed(2)}</p>
+                <p>
+                  Total Payments: {dashboardData.paymentStats.totalPayments}
+                </p>
+                <p>
+                  Average Amount: ₹
+                  {dashboardData.paymentStats.averageAmount.toFixed(2)}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -174,19 +191,19 @@ export function Admin() {
 
         <Tabs defaultValue="daily" className="space-y-4">
           <TabsList className="bg-[var(--background-secondary)]">
-            <TabsTrigger 
+            <TabsTrigger
               value="daily"
               className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
             >
               Daily Income
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="monthly"
               className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
             >
               Monthly Distribution
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="payments"
               className="data-[state=active]:bg-[var(--text-secondary)] data-[state=active]:text-[var(--text-light)]"
             >
@@ -208,10 +225,10 @@ export function Admin() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar 
-                      dataKey="income" 
-                      fill="var(--text-secondary)" 
-                      name="Income" 
+                    <Bar
+                      dataKey="income"
+                      fill="var(--text-secondary)"
+                      name="Income"
                     />
                   </BarChart>
                 </ResponsiveContainer>
@@ -238,7 +255,10 @@ export function Admin() {
                       dataKey="value"
                     >
                       {dashboardData.monthlyDistribution.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Tooltip />
@@ -257,26 +277,30 @@ export function Admin() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {dashboardData.paymentStats.recentPayments.map((payment, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center p-3 bg-muted rounded-lg"
-                    >
-                      <div>
-                        <p className="font-medium">Amount: ₹{payment.amount}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Duration: {payment.duration} hours
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Date: {new Date(payment.createdAt).toLocaleString()}
-                        </p>
+                  {dashboardData.paymentStats.recentPayments.map(
+                    (payment, index) => (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center p-3 bg-muted rounded-lg"
+                      >
+                        <div>
+                          <p className="font-medium">
+                            Amount: ₹{payment.amount}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Duration: {payment.duration} hours
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Date: {new Date(payment.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="text-sm">
+                          <p>User: {payment.userName}</p>
+                          <p>Status: {payment.status}</p>
+                        </div>
                       </div>
-                      <div className="text-sm">
-                        <p>User: {payment.userName}</p>
-                        <p>Status: {payment.status}</p>
-                      </div>
-                    </div>
-                  ))}
+                    ),
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -291,21 +315,23 @@ export function Admin() {
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={dashboardData.paymentStats.recentPayments.slice(0, 7)}>
+                <BarChart
+                  data={dashboardData.paymentStats.recentPayments.slice(0, 7)}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar 
-                    dataKey="amount" 
-                    fill="var(--background-secondary)" 
-                    name="Payment Amount" 
+                  <Bar
+                    dataKey="amount"
+                    fill="var(--background-secondary)"
+                    name="Payment Amount"
                   />
-                  <Bar 
-                    dataKey="duration" 
-                    fill="var(--text-secondary)" 
-                    name="Duration (hours)" 
+                  <Bar
+                    dataKey="duration"
+                    fill="var(--text-secondary)"
+                    name="Duration (hours)"
                   />
                 </BarChart>
               </ResponsiveContainer>

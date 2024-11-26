@@ -46,7 +46,7 @@ export function AdminLogin() {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/admin/login`,
-        values
+        values,
       );
 
       if (response.data.success) {
@@ -71,26 +71,24 @@ export function AdminLogin() {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center" 
-      style={{ backgroundColor: 'var(--text-light)' }}
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ backgroundColor: "var(--text-light)" }}
     >
-      <Card 
+      <Card
         className="w-[400px]"
-        style={{ 
-          backgroundColor: 'var(--text-light)',
-          borderColor: 'var(--text-secondary)',
-          borderWidth: '2px'
+        style={{
+          backgroundColor: "var(--text-light)",
+          borderColor: "var(--text-secondary)",
+          borderWidth: "2px",
         }}
       >
         <CardHeader>
-          <CardTitle 
-            style={{ color: 'var(--text-primary)' }}
-          >
+          <CardTitle style={{ color: "var(--text-primary)" }}>
             Admin Login
           </CardTitle>
           <CardDescription
-            style={{ color: 'var(--text-primary)', opacity: 0.8 }}
+            style={{ color: "var(--text-primary)", opacity: 0.8 }}
           >
             Enter your credentials to access the admin dashboard
           </CardDescription>
@@ -103,25 +101,21 @@ export function AdminLogin() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel 
-                      style={{ color: 'var(--text-primary)' }}
-                    >
+                    <FormLabel style={{ color: "var(--text-primary)" }}>
                       Email
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder="admin@example.com" 
+                      <Input
+                        placeholder="admin@example.com"
                         {...field}
                         className="border-[var(--text-secondary)] focus:border-[var(--text-secondary)] focus:ring-[var(--text-secondary)]"
                         style={{
-                          backgroundColor: 'var(--text-light)',
-                          color: 'var(--text-primary)'
+                          backgroundColor: "var(--text-light)",
+                          color: "var(--text-primary)",
                         }}
                       />
                     </FormControl>
-                    <FormMessage 
-                      className="text-red-500"
-                    />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
@@ -130,34 +124,30 @@ export function AdminLogin() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel
-                      style={{ color: 'var(--text-primary)' }}
-                    >
+                    <FormLabel style={{ color: "var(--text-primary)" }}>
                       Password
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        type="password" 
+                      <Input
+                        type="password"
                         {...field}
                         className="border-[var(--text-secondary)] focus:border-[var(--text-secondary)] focus:ring-[var(--text-secondary)]"
                         style={{
-                          backgroundColor: 'var(--text-light)',
-                          color: 'var(--text-primary)'
+                          backgroundColor: "var(--text-light)",
+                          color: "var(--text-primary)",
                         }}
                       />
                     </FormControl>
-                    <FormMessage 
-                      className="text-red-500"
-                    />
+                    <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full hover:opacity-90"
                 style={{
-                  backgroundColor: 'var(--text-secondary)',
-                  color: 'var(--text-light)'
+                  backgroundColor: "var(--text-secondary)",
+                  color: "var(--text-light)",
                 }}
                 disabled={isLoading}
               >
@@ -169,4 +159,4 @@ export function AdminLogin() {
       </Card>
     </div>
   );
-} 
+}

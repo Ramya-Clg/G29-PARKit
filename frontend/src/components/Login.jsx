@@ -31,7 +31,7 @@ export const Login = () => {
         {
           email: formData.email,
           password: formData.password,
-        }
+        },
       );
 
       if (response.data.success) {

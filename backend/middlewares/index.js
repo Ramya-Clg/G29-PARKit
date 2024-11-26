@@ -4,20 +4,20 @@ import { Admin } from "../db/index.js";
 export const authorizationMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
-        msg: "No token provided"
+        msg: "No token provided",
       });
     }
 
-    const token = authHeader.split(' ')[1];
-    
+    const token = authHeader.split(" ")[1];
+
     if (!token) {
       return res.status(401).json({
         success: false,
-        msg: "No token provided"
+        msg: "No token provided",
       });
     }
 
@@ -25,29 +25,29 @@ export const authorizationMiddleware = async (req, res, next) => {
     req.user = {
       _id: decoded._id,
       role: decoded.role,
-      email: decoded.email
+      email: decoded.email,
     };
-    
+
     console.log("User authenticated:", req.user);
-    
+
     next();
   } catch (error) {
     console.error("Auth middleware error:", error);
     return res.status(401).json({
       success: false,
-      msg: "Invalid token"
+      msg: "Invalid token",
     });
   }
 };
 
 export const adminAuthMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "No token provided"
+        message: "No token provided",
       });
     }
 
@@ -57,7 +57,7 @@ export const adminAuthMiddleware = async (req, res, next) => {
     if (!admin) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized"
+        message: "Not authorized",
       });
     }
 
@@ -67,7 +67,7 @@ export const adminAuthMiddleware = async (req, res, next) => {
     console.error("Auth middleware error:", error);
     res.status(500).json({
       success: false,
-      message: "Authentication failed"
+      message: "Authentication failed",
     });
   }
 };

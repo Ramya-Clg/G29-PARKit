@@ -20,17 +20,23 @@ import { AdminLogin } from "./components/AdminLogin";
 import { AdminRoute } from "./components/AdminRoute";
 
 function PrivateRoute({ element }) {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return <Navigate to="/login" replace />;
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
   return element;
 }
 
 function RootApp() {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/login", "/signup", "/credit","/admin/dashboard","/admin"];
+  const hideNavbarRoutes = [
+    "/login",
+    "/signup",
+    "/credit",
+    "/admin/dashboard",
+    "/admin",
+  ];
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
   return (

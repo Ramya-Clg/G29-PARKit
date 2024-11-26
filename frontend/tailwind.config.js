@@ -19,12 +19,12 @@ export default {
         },
       },
       colors: {
-        'primary-bg': 'var(--background-primary)',
-        'primary-text': 'var(--text-primary)',
-        'secondary-bg': 'var(--background-secondary)',
-        'secondary-text': 'var(--text-secondary)',
-        'light': 'var(--text-light)',
-      }
+        "primary-bg": "var(--background-primary)",
+        "primary-text": "var(--text-primary)",
+        "secondary-bg": "var(--background-secondary)",
+        "secondary-text": "var(--text-secondary)",
+        light: "var(--text-light)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

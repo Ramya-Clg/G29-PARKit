@@ -4,11 +4,11 @@
 
 :root {
   /* Base colors */
-  --background-primary: #EAE8FF;     /* Orange/Gold background */
-  --text-primary: #000a6a;           /* Navy blue text */
-  --background-secondary: #BCD15C;    /* Lime green */
-  --text-secondary: #0FA3B1;         /* Teal accent */
-  --text-light: #EAE8FF;            /* Light lavender */
+  --background-primary: #eae8ff; /* Orange/Gold background */
+  --text-primary: #000a6a; /* Navy blue text */
+  --background-secondary: #bcd15c; /* Lime green */
+  --text-secondary: #0fa3b1; /* Teal accent */
+  --text-light: #eae8ff; /* Light lavender */
   --radius: 0.5rem;
 }
 
@@ -16,8 +16,16 @@
   body {
     @apply bg-[var(--background-primary)] text-[var(--text-primary)];
   }
-  
-  h1, h2, h3, h4, h5, h6, p, span, div {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  div {
     color: var(--text-primary);
   }
 }

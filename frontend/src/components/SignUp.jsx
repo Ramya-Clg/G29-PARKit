@@ -5,15 +5,19 @@ import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 export const SignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [step, setStep] = useState(1); // 1: Initial form, 2: OTP verification
-  const [email, setEmail] = useState('');
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -27,10 +31,10 @@ export const SignUp = () => {
   const onSubmitInitial = async (data) => {
     setIsLoading(true);
     try {
-        console.log("here");
+      console.log("here");
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/signup/initiate`,
-        data
+        data,
       );
       setEmail(data.email);
       setStep(2);
@@ -54,16 +58,16 @@ export const SignUp = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/signup/verify`,
-        { email, otp }
+        { email, otp },
       );
-      
+
       if (response.data.success) {
-        localStorage.setItem('token', `Bearer ${response.data.data.token}`);
+        localStorage.setItem("token", `Bearer ${response.data.data.token}`);
         toast({
           title: "Success",
           description: "Signup successful!",
         });
-        navigate('/profile');
+        navigate("/profile");
       }
     } catch (error) {
       toast({
@@ -94,7 +98,7 @@ export const SignUp = () => {
                 <input
                   type="text"
                   name="name"
-                  {...register('name')}
+                  {...register("name")}
                   required
                   className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 />
@@ -111,7 +115,7 @@ export const SignUp = () => {
                 <input
                   type="email"
                   name="email"
-                  {...register('email')}
+                  {...register("email")}
                   required
                   className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 />
@@ -128,7 +132,7 @@ export const SignUp = () => {
                 <input
                   type="tel"
                   name="phone"
-                  {...register('phone')}
+                  {...register("phone")}
                   required
                   className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                   pattern="[\+]?[0-9]{1,4}?[ ]?[\(]?[0-9]{1,3}[\)]?[ ]?[\-]?[0-9]{1,4}?[ ]?[\-]?[0-9]{1,4}"
@@ -146,7 +150,7 @@ export const SignUp = () => {
                 <input
                   type="password"
                   name="password"
-                  {...register('password')}
+                  {...register("password")}
                   required
                   className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 />
@@ -163,7 +167,7 @@ export const SignUp = () => {
                 <input
                   type="password"
                   name="confirmPassword"
-                  {...register('confirmPassword')}
+                  {...register("confirmPassword")}
                   required
                   className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                 />
@@ -177,7 +181,7 @@ export const SignUp = () => {
                   <input
                     type="checkbox"
                     name="agreeToTerms"
-                    {...register('agreeToTerms')}
+                    {...register("agreeToTerms")}
                     className="form-checkbox"
                   />
                   <span>I agree to the Terms and Conditions</span>
@@ -205,11 +209,16 @@ export const SignUp = () => {
               </div>
             </form>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); onSubmitOTP(); }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onSubmitOTP();
+              }}
+            >
               <h2 className="text-[#2C3333] text-center mb-6 text-2xl font-semibold">
                 Verify OTP
               </h2>
-              
+
               <div className="space-y-4">
                 <div className="relative mb-6">
                   <Label className="block text-sm font-medium text-[#2C3333] mb-2">
@@ -224,9 +233,9 @@ export const SignUp = () => {
                     className="w-full pl-8 pb-1 bg-transparent border-b border-[#0E8388] text-black focus:outline-none focus:border-[#2E4F4F] transition-all duration-300"
                   />
                 </div>
-                
-                <Button 
-                  type="submit" 
+
+                <Button
+                  type="submit"
                   disabled={isLoading}
                   className="w-full py-2 bg-[#0E8388] text-[#CBE4DE] font-bold rounded-md transition duration-300 hover:bg-[#2E4F4F] disabled:opacity-50"
                 >
@@ -234,7 +243,7 @@ export const SignUp = () => {
                 </Button>
 
                 <p className="text-sm text-center text-[#2C3333] mt-4">
-                  Didn't receive OTP? {" "}
+                  Didn't receive OTP?{" "}
                   <button
                     type="button"
                     onClick={() => setStep(1)}

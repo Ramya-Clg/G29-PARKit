@@ -2,7 +2,6 @@ import { transporter } from "./mailTransporter.js";
 
 const sendMail = async ({ receiver, otp }) => {
   try {
-
     const mailDetails = {
       from: process.env.EMAIL_USER,
       to: receiver,
@@ -15,13 +14,12 @@ const sendMail = async ({ receiver, otp }) => {
           <br>
           <p>Thank you for using our parking service!</p>
         </div>
-      `
+      `,
     };
 
     const info = await transporter.sendMail(mailDetails);
     console.log("Email sent successfully:", info.response);
     return info;
-
   } catch (error) {
     console.error("Email sending failed:", error);
     throw error;

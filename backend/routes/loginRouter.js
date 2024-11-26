@@ -8,9 +8,9 @@ const loginRouter = Router();
 loginRouter.post("/", async (req, res) => {
   const parsedObj = LoginSchema.safeParse(req.body);
   if (!parsedObj.success) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       success: false,
-      msg: "Invalid Format" 
+      msg: "Invalid Format",
     });
   }
 
@@ -20,23 +20,23 @@ loginRouter.post("/", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        msg: "Invalid credentials" 
+        msg: "Invalid credentials",
       });
     }
 
     if (user.password !== password) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        msg: "Invalid credentials" 
+        msg: "Invalid credentials",
       });
     }
 
     const tokenPayload = {
       _id: user._id,
       role: user.role,
-      email: user.email
+      email: user.email,
     };
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
@@ -51,15 +51,15 @@ loginRouter.post("/", async (req, res) => {
           id: user._id,
           email: user.email,
           name: user.name,
-          role: user.role
-        }
-      }
+          role: user.role,
+        },
+      },
     });
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      msg: "Internal Server Error" 
+      msg: "Internal Server Error",
     });
   }
 });

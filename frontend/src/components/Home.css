@@ -127,8 +127,12 @@
 }
 
 @keyframes book_Now {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .aboutus {
@@ -209,7 +213,8 @@
     align-items: center;
   }
 
-  .left, .right {
+  .left,
+  .right {
     width: 90vw;
   }
 
