@@ -21,12 +21,12 @@ app.use(
 app.use(express.json());
 
 // Routes
-app.use("/login", loginRouter);
-app.use("/signup", signupRouter);
-app.use("/parking", parkingSlotRouter);
-app.use("/feedback", feedbackRouter); // Fixed typo: user -> use
-app.use("/user", userRouter);
-app.use("/admin", adminRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/signup", signupRouter);
+app.use("/api/parking", parkingSlotRouter);
+app.use("/api/feedback", feedbackRouter);
+app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
