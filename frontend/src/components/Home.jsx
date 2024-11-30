@@ -42,23 +42,7 @@ export const Home = () => {
         <div class="right">
           <h1> ABOUT US</h1>
           <div class="right_content">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel
-            consequuntur sequi repellendus? Illum facere quod quisquam, quia
-            laboriosam voluptatum sit possimus nemo exercitationem asperiores,
-            provident ab numquam laborum repellat accusantium vero consectetur,
-            perspiciatis esse corrupti rem impedit? Voluptatem enim quae eum
-            soluta quam maiores! Sit mollitia tempore quo voluptates in. Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Illum quis earum
-            sit, qui vero possimus ipsum odit provident minus nobis vel rerum
-            tempore excepturi quam nostrum fugiat odio commodi dolor. Libero,
-            quis sapiente, odio magnam necessitatibus iure tenetur dolor aperiam
-            expedita quos unde commodi explicabo nisi maiores aliquid provident
-            culpa. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Labore aut corporis inventore voluptatem? Temporibus vel rem in
-            consequuntur harum perferendis maxime voluptas aperiam aut neque
-            dignissimos sunt ut eum consectetur dolorum enim eaque ipsum illo
-            saepe quod iure et, quidem laborum. Itaque perspiciatis assumenda
-            consectetur numquam labore nostrum. Voluptate, molestias.
+          Parkit is designed to offer a seamless and efficient parking experience with a smart approach to managing spaces. Unlike traditional systems where users can select a specific parking slot, our platform takes a more dynamic approach by automatically assigning an available slot to the user upon arrival. This ensures quicker parking without the hassle of searching for an open space. Our solution focuses on enhancing user experience by providing an intelligent, optimized parking system that saves time and reduces the stress of finding parking. With a user-friendly interface and a reliable, randomized slot allocation system, we bring modern smart parking solutions to your fingertips, making parking simpler and more efficient.
           </div>
         </div>
       </div>
