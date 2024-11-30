@@ -155,25 +155,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding : 2vh;
 }
 
 #cars {
-  width: 80%;
-  max-height: 30vh;
+  width: 100%;              
+  height: 70%;             
+  object-fit: cover;        
+  max-width: 600px;         
 }
 
 .right {
+  margin-top: 10vh;
   width: 50vw;
   display: flex;
   flex-direction: column;
   gap: 2vh;
   justify-content: center;
   align-items: center;
+  height: 90vh;
+  position: relative;
+}
+
+.right h1{
+  position: absolute;
+  top: 5vh;
 }
 
 .right_content {
   width: 90%;
   font-size: clamp(0.9rem, 1.2vw, 1.5rem);
+  line-height: 1.6;      /* Adds line spacing for readability */
 }
 
 .right h1 {
@@ -252,3 +264,4 @@
 #root {
   overflow-x: hidden;
 }
+
