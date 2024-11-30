@@ -105,7 +105,7 @@
 }
 
 .des {
-  font-size: clamp(1rem, 2.5vw, 3rem);
+  font-size: clamp(1rem, 1.5vw, 1.8rem);
   margin-top: 2vh;
   font-family: "Inter", sans-serif;
   width: 70%;
@@ -236,7 +236,7 @@
   }
 
   .right_content {
-    font-size: clamp(0.9rem, 3.3vw, 1.2rem);
+    font-size: clamp(0.9rem, 4vw, 4rem);
     margin-bottom: 2vh;
     text-align: justify;
   }
@@ -244,24 +244,23 @@
 
 @media only screen and (max-width: 480px) {
   .parkit {
-    font-size: clamp(2.5rem, 15vw, 4rem);
+    font-size: 25vw !important;/* Increase font size for .parkit */
   }
 
   .welcome {
-    font-size: clamp(1rem, 6vw, 1.5rem);
+    font-size: clamp(1.5rem, 8vw, 2rem);  /* Increase font size for .welcome */
   }
 
   .des {
-    font-size: clamp(0.9rem, 4vw, 1.2rem);
+    font-size: clamp(1rem, 6vw, 1.5rem);  /* Increase font size for .des */
     width: 90%;
   }
 
   .booknow {
-    width: 55vw;
+    width: 60vw;  /* Increase width for the button */
   }
 }
 
 #root {
   overflow-x: hidden;
 }
-
