@@ -200,10 +200,10 @@ export function Profile() {
   const { user, reservations } = userData;
 
   return (
-    <div>
+   
 
     
-{showNavbar && <Navbar />}
+
     <div className="main_container_profile">
       <div className="container mx-auto px-4">
         <Card
@@ -305,6 +305,6 @@ export function Profile() {
         </Card>
       </div>
     </div>
-    </div>
+   
   );
 }
