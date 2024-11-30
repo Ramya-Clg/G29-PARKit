@@ -2,6 +2,7 @@ import { User } from "../db/index.js";
 import { LoginSchema } from "../types/index.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const loginRouter = Router();
 
@@ -10,26 +11,29 @@ loginRouter.post("/", async (req, res) => {
   if (!parsedObj.success) {
     return res.status(400).json({
       success: false,
-      msg: "Invalid Format",
+      msg: "Invalid email or password format",
     });
   }
 
   const { email, password } = parsedObj.data;
 
   try {
+    // Find user by email
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({
         success: false,
-        msg: "Invalid credentials",
+        msg: "Invalid email or password",
       });
     }
 
-    if (user.password !== password) {
+    // Verify password using bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(400).json({
         success: false,
-        msg: "Invalid credentials",
+        msg: "Invalid email or password",
       });
     }
 
@@ -59,7 +63,7 @@ loginRouter.post("/", async (req, res) => {
     console.error("Login error:", err);
     res.status(500).json({
       success: false,
-      msg: "Internal Server Error",
+      msg: "Something went wrong. Please try again later.",
     });
   }
 });

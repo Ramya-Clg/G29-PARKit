@@ -3,9 +3,10 @@ import { transporter } from "./mailTransporter.js";
 
 export const generateOTP = () => {
   return otpGenerator.generate(6, {
-    upperCase: false,
+    digits: true,
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
     specialChars: false,
-    alphabets: false,
   });
 };
 
