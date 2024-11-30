@@ -4,53 +4,84 @@ import { Router } from "express";
 import { generateOTP, sendOTP } from "../utils/sendOtp.js";
 import { storeOTP, verifyOTP } from "../utils/otpStorage.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { configDotenv } from "dotenv";
 configDotenv();
 
 const signupRouter = Router();
+const SALT_ROUNDS = 10;
 
 // Temporary storage for pending users
 const pendingUsers = new Map();
 
 // Step 1: Initial signup request
 signupRouter.post("/initiate", async (req, res) => {
-  const parsedObj = SignupSchema.safeParse(req.body);
-  if (!parsedObj.success) {
-    return res.status(400).json({ msg: "Invalid Format" });
-  }
-
-  const userData = parsedObj.data;
-  const { email } = userData;
-
   try {
+    // Validate request body against schema
+    console.log(req.body);
+    const parsedObj = SignupSchema.safeParse(req.body);
+    if (!parsedObj.success) {
+      return res.status(400).json({
+        success: false,
+        msg: "Validation failed",
+        errors: parsedObj.error.errors.map((err) => ({
+          field: err.path.join("."),
+          message: err.message,
+        })),
+      });
+    }
+
+    const userData = parsedObj.data;
+    const { email, password, confirmPassword, acceptTerms } = userData;
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ msg: "User Already Exists" });
+      return res.status(400).json({
+        success: false,
+        msg: "User already exists",
+      });
     }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+    // Create user data object without sensitive/unnecessary fields
+    const userDataToStore = {
+      name: userData.name,
+      email: userData.email,
+      password: hashedPassword,
+      phone: userData.phone,
+    };
 
     // Generate and send OTP
     const otp = generateOTP();
-    console.log("Generated OTP:", otp); // Debug log
-
     const sent = await sendOTP(email, otp);
-    console.log("OTP send status:", sent); // Debug log
-
     if (!sent) {
-      return res.status(500).json({ msg: "Failed to send OTP" });
+      return res.status(500).json({
+        success: false,
+        msg: "Failed to send OTP",
+      });
     }
 
     // Store OTP and user data
     storeOTP(email, otp);
-    pendingUsers.set(email, userData);
+    pendingUsers.set(email, {
+      ...userDataToStore,
+      timestamp: Date.now(),
+    });
 
     res.json({
+      success: true,
       msg: "OTP sent successfully",
-      email: email,
+      email,
     });
   } catch (error) {
     console.error("Signup initiate error:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({
+      success: false,
+      msg: "Internal server error",
+    });
   }
 });
 
@@ -59,27 +90,32 @@ signupRouter.post("/verify", async (req, res) => {
   const { email, otp } = req.body;
 
   if (!email || !otp) {
-    return res.status(400).json({ msg: "Email and OTP are required" });
+    return res.status(400).json({
+      success: false,
+      msg: "Email and OTP are required",
+    });
   }
 
   try {
     // Verify OTP
     const isValid = verifyOTP(email, otp);
-    console.log("OTP verification result:", isValid); // Debug log
-
     if (!isValid) {
-      return res.status(400).json({ msg: "Invalid or expired OTP" });
+      return res.status(400).json({
+        success: false,
+        msg: "Invalid or expired OTP",
+      });
     }
 
     // Get pending user data
     const userData = pendingUsers.get(email);
-    console.log("Retrieved user data:", userData); // Debug log
-
     if (!userData) {
-      return res.status(400).json({ msg: "No pending registration found" });
+      return res.status(400).json({
+        success: false,
+        msg: "No pending registration found",
+      });
     }
 
-    // Create user
+    // Create new user
     const newUser = new User(userData);
     await newUser.save();
 
@@ -101,27 +137,35 @@ signupRouter.post("/verify", async (req, res) => {
       success: true,
       data: {
         token,
+        user: {
+          name: newUser.name,
+          email: newUser.email,
+          role: newUser.role,
+        },
         msg: "Signup successful",
       },
     });
   } catch (error) {
     console.error("Signup verify error:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({
+      success: false,
+      msg: "Internal server error",
+    });
   }
 });
 
-// Optional: Cleanup old pending users periodically
+// Cleanup pending users every 5 minutes
 setInterval(
   () => {
     const now = Date.now();
-    for (const [email, timestamp] of pendingUsers.entries()) {
-      if (now - timestamp > 10 * 60 * 1000) {
-        // 10 minutes
-        pendingUsers.delete(email);
+    pendingUsers.forEach((userData, email, map) => {
+      if (now - userData.timestamp > 10 * 60 * 1000) {
+        // 10 minutes expiry
+        map.delete(email);
       }
-    }
+    });
   },
   5 * 60 * 1000,
-); // Run every 5 minutes
+);
 
 export default signupRouter;

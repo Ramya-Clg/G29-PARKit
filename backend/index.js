@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 import loginRouter from "./routes/loginRouter.js";
 import signupRouter from "./routes/signupRouter.js";
 import parkingSlotRouter from "./routes/parkingSlotRouter.js";
@@ -12,6 +13,12 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Connect to MongoDB
+mongoose
+  .connect(`${process.env.MONGODB_URL}testing`)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 // Middleware
 app.use(cors());
@@ -25,7 +32,7 @@ app.use("/api/feedback", feedbackRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 
-// Error handling middleware
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -34,12 +41,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Handle 404
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.listen(PORT, () => {
-  // Removed unnecessary async
-  console.log(`Server running on port ${PORT}`);
-});
+export default app;

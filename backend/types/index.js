@@ -6,10 +6,12 @@ const LoginSchema = z.object({
 });
 
 const SignupSchema = z.object({
-  name: z.string().min(2),
+  name: z.string().min(2, "Name must be at least 2 characters long"),
   email: z.string().email(),
   password: z.string(),
+  confirmPassword: z.string(),
   phone: z.string().optional(),
+  agreeToTerms: z.boolean(),
 });
 
 const ReservationSchema = z.object({
