@@ -87,7 +87,7 @@ export function Navbar() {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "/#home" },
+    { name: "Home", href: "/" },
     { name: "About", href: "/#about" },
     { name: "Contact", href: "/#contact" },
   ];
