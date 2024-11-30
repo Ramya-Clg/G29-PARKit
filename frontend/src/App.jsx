@@ -18,6 +18,7 @@ import Booking from "./components/Booking";
 import { Toaster } from "@/components/ui/toaster";
 import { AdminLogin } from "./components/AdminLogin";
 import { AdminRoute } from "./components/AdminRoute";
+import { ForgotPassword } from "@/components/ForgotPassword";
 
 function PrivateRoute({ element }) {
   const token = localStorage.getItem("token");
@@ -36,6 +37,7 @@ function RootApp() {
     "/credit",
     "/admin/dashboard",
     "/admin",
+    "/forgot-password",
   ];
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -69,6 +71,7 @@ function RootApp() {
             </AdminRoute>
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <Toaster />

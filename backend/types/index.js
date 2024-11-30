@@ -35,4 +35,23 @@ const FeedbackSchema = z.object({
   message: z.string().min(10),
 });
 
-export { LoginSchema, SignupSchema, ReservationSchema, FeedbackSchema };
+const ResetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(100, "Password cannot exceed 100 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export {
+  LoginSchema,
+  SignupSchema,
+  ReservationSchema,
+  FeedbackSchema,
+  ResetPasswordSchema,
+};
