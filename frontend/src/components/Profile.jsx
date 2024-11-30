@@ -203,7 +203,7 @@ export function Profile() {
     <div>
 
     
-    <Navbar/>
+{showNavbar && <Navbar />}
     <div className="main_container_profile">
       <div className="container mx-auto px-4">
         <Card
