@@ -7,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
+import { Navbar } from "./Navbar";
 
 export function Profile() {
   const [userData, setUserData] = useState(null);
@@ -199,6 +200,10 @@ export function Profile() {
   const { user, reservations } = userData;
 
   return (
+    <div>
+
+    
+    <Navbar/>
     <div className="main_container_profile">
       <div className="container mx-auto px-4">
         <Card
@@ -299,6 +304,7 @@ export function Profile() {
           </CardContent>
         </Card>
       </div>
+    </div>
     </div>
   );
 }
