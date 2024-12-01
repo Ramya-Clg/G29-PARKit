@@ -50,10 +50,20 @@ export const SignUp = () => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/signup/initiate`,
-        data,
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+          phone: data.phone,
+          agreeToTerms: data.agreeToTerms,
+        },
       );
-      setEmail(data.email);
-      setStep(2);
+
+      if (response.data.success) {
+        setEmail(data.email);
+        setStep(2);
+      }
     } catch (error) {
       console.error("Signup error:", error);
     } finally {

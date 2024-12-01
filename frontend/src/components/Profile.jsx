@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
-import { Navbar } from "./Navbar";
 
 export function Profile() {
   const [userData, setUserData] = useState(null);
@@ -115,7 +114,7 @@ export function Profile() {
   const renderReservationCard = (reservation) => (
     <div
       key={reservation.id}
-      className="reservation-card p-4 rounded-lg"
+      className="min-w-fit p-4 rounded-lg reservation-grid"
       style={{ backgroundColor: "var(--background-primary)" }}
     >
       <div className="space-y-2">
@@ -200,19 +199,9 @@ export function Profile() {
   const { user, reservations } = userData;
 
   return (
-   
-
-    
-
-    <div className="main_container_profile">
-      <div className="container mx-auto px-4">
-        <Card
-          className="profile-card w-full max-w-6xl mx-auto"
-          style={{
-            backgroundColor: "var(--background-primary)",
-            borderColor: "var(--text-primary)",
-          }}
-        >
+    <div className="profile">
+      <div className="container mx-auto px-4 flex justify-center items-center">
+        <Card className="card w-full max-w-[calc(100%-2rem)] sm:max-w-md bg-white bg-opacity-20 backdrop-blur-lg p-8 border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] rounded-lg">
           <CardHeader>
             <CardTitle
               className="text-2xl font-bold text-center"
@@ -289,7 +278,7 @@ export function Profile() {
                   Reservations
                 </Label>
                 {reservations && reservations.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {reservations.map((reservation) =>
                       renderReservationCard(reservation),
                     )}
@@ -305,6 +294,5 @@ export function Profile() {
         </Card>
       </div>
     </div>
-   
   );
 }

@@ -4,50 +4,64 @@
   box-sizing: border-box;
 }
 
-.main_container_profile {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+.profile {
+  margin-top: 3rem;
   min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--background-primary);
-  padding: 120px 2vh 2vh 2vh;
-  overflow-x: hidden;
+  padding: 2vh 2vw;
 }
 
-.profile-card {
-  animation: fade_in 1.5s ease;
-  background-color: var(--background-primary) !important;
-  border: 2px solid var(--text-primary) !important;
-  border-radius: var(--radius);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  max-width: 95vw;
+.profile .card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: fit-content;
+  min-width: 40vw;
+  max-width: 90vw;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 10px;
+  animation: card_ani 1.5s ease-in-out forwards;
+  transform-origin: center;
+  opacity: 0;
+  padding: 2vh 2vw;
 }
 
-@keyframes fade_in {
+@keyframes card_ani {
   0% {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.reservation-card {
-  background-color: var(--background-primary);
-  border: 1px solid var(--text-primary);
-  transition: all 0.3s ease;
+@media only screen and (max-width: 1024px) {
+  .profile .card {
+    max-width: 90vw;
+    min-width: 70vw;
+  }
 }
 
-.reservation-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+@media only screen and (max-width: 600px) {
+  .profile {
+    padding: 1vh;
+  }
 
-@media screen and (max-width: 768px) {
-  .main_container_profile {
-    padding: 100px 1vh 1vh 1vh;
+  .profile .card {
+    width: 95vw;
+    max-width: 95vw;
+    min-width: 95vw;
+    padding: 1.5vh 1.5vw;
   }
 }

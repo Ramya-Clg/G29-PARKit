@@ -1,7 +1,10 @@
 import "../components/Home.css";
 import { Footer } from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       {/* <Navbar/> */}
@@ -26,7 +29,9 @@ export const Home = () => {
                 A modern and user-friendly parking experience that saves you
                 time and stress.
               </div>
-              <button class="booknow">Get Started</button>
+              <button class="booknow" onClick={() => navigate("/booking")}>
+                Get Started
+              </button>
             </div>
             <img id="gaddi" src="../New_home_page_image.svg" alt="img" />
           </div>
@@ -42,7 +47,18 @@ export const Home = () => {
         <div class="right">
           <h1> ABOUT US</h1>
           <div class="right_content">
-          Parkit is designed to offer a seamless and efficient parking experience with a smart approach to managing spaces. Unlike traditional systems where users can select a specific parking slot, our platform takes a more dynamic approach by automatically assigning an available slot to the user upon arrival. This ensures quicker parking without the hassle of searching for an open space. Our solution focuses on enhancing user experience by providing an intelligent, optimized parking system that saves time and reduces the stress of finding parking. With a user-friendly interface and a reliable, randomized slot allocation system, we bring modern smart parking solutions to your fingertips, making parking simpler and more efficient.
+            Parkit is designed to offer a seamless and efficient parking
+            experience with a smart approach to managing spaces. Unlike
+            traditional systems where users can select a specific parking slot,
+            our platform takes a more dynamic approach by automatically
+            assigning an available slot to the user upon arrival. This ensures
+            quicker parking without the hassle of searching for an open space.
+            Our solution focuses on enhancing user experience by providing an
+            intelligent, optimized parking system that saves time and reduces
+            the stress of finding parking. With a user-friendly interface and a
+            reliable, randomized slot allocation system, we bring modern smart
+            parking solutions to your fingertips, making parking simpler and
+            more efficient.
           </div>
         </div>
       </div>

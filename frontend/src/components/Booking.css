@@ -4,69 +4,63 @@
   box-sizing: border-box;
 }
 
-.main_container_booking {
+.booking {
   min-height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--background-primary);
-  padding: 2vh;
-  position: relative;
+  padding: 2vh 2vw;
 }
 
-.card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: card_ani 1.5s ease;
-  width: min(40rem, 90%);
-  max-height: 90vh;
-  overflow-y: auto;
-  background: var(--text-light);
-  border: 2px solid var(--text-secondary);
-  border-radius: var(--radius);
-  padding: 2rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+.booking .card {
+  width: 90vw;
+  max-width: 40vw;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 10px;
+  animation: card_ani 1.5s ease-in-out forwards;
+  transform-origin: center;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  padding: 2vh 2vw;
+  margin: 0 auto;
 }
 
 @keyframes card_ani {
   0% {
     opacity: 0;
-    transform: translate(-50%, -45%);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-}
-
-@media only screen and (min-width: 1025px) {
-  .card {
-    width: 40rem;
+    transform: translateY(0);
   }
 }
 
 @media only screen and (max-width: 1024px) {
-  .card {
-    width: 70vw;
+  .booking .card {
+    max-width: 70vw;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .main_container_booking {
+  .booking {
     padding: 1vh;
   }
 
-  .card {
+  .booking .card {
     width: 95vw;
-    padding: 1.5rem;
+    max-width: 95vw;
+    padding: 1.5vh 1.5vw;
   }
 }
 
 @media screen and (max-height: 600px) {
-  .card {
+  .booking .card {
     max-height: 85vh;
   }
 }

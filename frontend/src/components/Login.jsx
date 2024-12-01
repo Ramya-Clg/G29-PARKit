@@ -94,7 +94,7 @@ export const Login = () => {
               </div>
 
               <div className="forget">
-                <label className="flex items-center gap-2 text-[#2C3333]">
+                <label className="flex items-center gap-2 text-[var(--text-primary)]">
                   <input
                     type="checkbox"
                     name="rememberMe"
@@ -106,7 +106,7 @@ export const Login = () => {
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-[#0E8388] hover:underline"
+                  className="text-[var(--text-primary)] hover:underline"
                 >
                   Forgot password?
                 </Link>

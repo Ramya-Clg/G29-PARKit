@@ -5,22 +5,14 @@
 }
 
 .feedback {
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 3rem;
-  background-color: var(--background-secondary);
-}
-
-.card {
-  animation: book_Now;
-  animation-duration: 1.5s;
-  animation-timing-function: ease;
-  background-color: var(--text-light);
-  border-radius: var(--radius);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background-color: var(--background-primary);
+  padding: 1rem;
+  animation: card_ani 1.5s ease-in-out;
 }
 
 @keyframes card_ani {
