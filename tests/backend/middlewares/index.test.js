@@ -55,8 +55,8 @@ describe("Authorization Middleware", () => {
   });
 });
 
-// Skip the adminAuthMiddleware tests that involve mongoose.Schema.Types.ObjectId
-describe.skip("Admin Authorization Middleware", () => {
+
+describe("Admin Authorization Middleware", () => {
   let req, res, next;
 
   beforeEach(() => {
