@@ -4,6 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "test": "jest",
+        "test:backend": "jest tests/backend",
+        "test:frontend": "jest tests/frontend",
+        "test:file": "jest",
         "preinstall": "npx only-allow pnpm",
         "start": "concurrently \"pnpm start:frontend\" \"pnpm start:backend\"",
         "start:frontend": "cd frontend && pnpm dev",
