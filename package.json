@@ -1,5 +1,5 @@
 {
-    "name": "G29-PARKit",
+    "name": "g29-parkit",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -11,16 +11,12 @@
         "preinstall": "npx only-allow pnpm",
         "start": "concurrently \"pnpm start:frontend\" \"pnpm start:backend\"",
         "start:frontend": "cd frontend && pnpm dev",
-        "start:backend": "cd backend && nodemon index.js",
-        "pretty": "prettier --write ."
+        "start:backend": "cd backend && nodemon index.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "concurrently": "^9.1.0"
-    },
-    "dependencies": {
-        "prettier": "3.3.3"
     }
 }

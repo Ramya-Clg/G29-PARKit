@@ -61,7 +61,7 @@ export function SecurityVerification() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--text-light)]">
-      <div className="w-full p-4 flex justify-end absolute right-[26vw] top-[33vh]">
+      <div className="w-full p-4 flex justify-end absolute top-[33vh] right-[26vw] mr-2">
         <Button
           onClick={handleLogout}
           variant="outline"
