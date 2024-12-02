@@ -43,7 +43,18 @@ import { format } from "date-fns";
 const formSchema = z.object({
   date: z.date({
     required_error: "Please select a date.",
-  }),
+  }).refine(
+    (date) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selectedDate = new Date(date);
+      selectedDate.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    },
+    {
+      message: "Please select today or a future date",
+    }
+  ),
   time: z.string({
     required_error: "Please select a time.",
   }),
@@ -252,9 +263,13 @@ export default function Component() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date < new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => {
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            const currentDate = new Date(date);
+                            currentDate.setHours(0, 0, 0, 0);
+                            return currentDate < today;
+                          }}
                           initialFocus
                         />
                       </PopoverContent>

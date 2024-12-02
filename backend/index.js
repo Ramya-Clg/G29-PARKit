@@ -9,11 +9,14 @@ import feedbackRouter from "./routes/feedbackRouter.js";
 import userRouter from "./routes/userRouter.js";
 import adminRouter from "./routes/adminRouter.js";
 import securityRouter from "./routes/securityRouter.js";
+import { ReminderService } from "./utils/sendReminderService.js";
 
 // Add this line with your other route configurations
 dotenv.config();
 
 const app = express();
+const reminderService = new ReminderService();
+reminderService.start();
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -45,5 +48,10 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Add cleanup on app shutdown
+process.on('SIGTERM', () => {
+  reminderService.stop();
+});
 
 export default app;

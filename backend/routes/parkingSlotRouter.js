@@ -40,6 +40,16 @@ parkingSlotRouter.post("/check-availability", async (req, res) => {
       startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
     );
 
+    // Check if the requested time is in the past
+    const currentTime = new Date();
+    if (startTime < currentTime) {
+      return res.json({
+        success: true,
+        available: false,
+        message: "Cannot book slots in the past",
+      });
+    }
+
     const availableSlot = await findAvailableSlot(startTime, endTime);
     const available = !!availableSlot;
 
@@ -81,6 +91,15 @@ parkingSlotRouter.post(
       const endTime = new Date(
         startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
       );
+
+      // Check if the requested time is in the past
+      const currentTime = new Date();
+      if (startTime < currentTime) {
+        return res.status(400).json({
+          success: false,
+          msg: "Cannot book slots in the past",
+        });
+      }
 
       if (isNaN(startTime.getTime()) || isNaN(endTime.getTime())) {
         return res.status(400).json({
