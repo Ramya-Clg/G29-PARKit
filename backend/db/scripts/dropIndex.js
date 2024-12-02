@@ -6,8 +6,6 @@ async function dropIndex() {
   try {
     await mongoose.connect(process.env.MONGODB_URL);
     console.log("Connected to MongoDB");
-
-    // Drop the problematic index
     await mongoose.connection
       .collection("reservations")
       .dropIndex("vehiclePlateNumber_1");

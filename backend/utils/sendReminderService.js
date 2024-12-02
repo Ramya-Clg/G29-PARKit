@@ -3,8 +3,8 @@ import { sendReminderEmail } from "../utils/sendReminderEmail.js";
 
 export class ReminderService {
   constructor() {
-    this.checkInterval = 5*60*1000; // Check every 5 minutes
-    this.remindersSent = new Set(); // Track sent reminders
+    this.checkInterval = 5*60*1000;
+    this.remindersSent = new Set(); 
   }
 
   async checkAndSendReminders() {
@@ -12,7 +12,6 @@ export class ReminderService {
       const now = new Date();
       const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
 
-      // Find reservations starting in about 1 hour
       const upcomingReservations = await Reservation.find({
         reservationTime: {
           $gt: now,
@@ -22,7 +21,6 @@ export class ReminderService {
       }).populate("user").populate("parkingSlot");
 
       for (const reservation of upcomingReservations) {
-        // Check if reminder already sent
         if (!this.remindersSent.has(reservation._id.toString())) {
           try {
             await sendReminderEmail({
@@ -30,7 +28,6 @@ export class ReminderService {
               reservationDetails: reservation
             });
             
-            // Mark reminder as sent
             this.remindersSent.add(reservation._id.toString());
           } catch (error) {
             console.error(`Failed to send reminder for reservation ${reservation._id}:`, error);

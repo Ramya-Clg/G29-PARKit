@@ -21,7 +21,6 @@ loginRouter.post("/", async (req, res) => {
   const { email, password } = parsedObj.data;
 
   try {
-    // Find user by email
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -31,7 +30,6 @@ loginRouter.post("/", async (req, res) => {
       });
     }
 
-    // Verify password using bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({
@@ -71,12 +69,10 @@ loginRouter.post("/", async (req, res) => {
   }
 });
 
-// Step 1: Initiate forgot password
 loginRouter.post("/forgot-password/initiate", async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
@@ -85,7 +81,6 @@ loginRouter.post("/forgot-password/initiate", async (req, res) => {
       });
     }
 
-    // Generate and send OTP
     const otp = generateOTP();
     const sent = await sendOTP(email, otp);
     if (!sent) {
@@ -95,7 +90,6 @@ loginRouter.post("/forgot-password/initiate", async (req, res) => {
       });
     }
 
-    // Store OTP
     storeOTP(email, otp);
 
     res.json({
@@ -112,12 +106,10 @@ loginRouter.post("/forgot-password/initiate", async (req, res) => {
   }
 });
 
-// Step 2: Verify OTP and reset password
 loginRouter.post("/forgot-password/reset", async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
 
-    // Validate password requirements
     const parsedObj = ResetPasswordSchema.safeParse({
       password: newPassword,
       confirmPassword: req.body.confirmPassword,
@@ -131,7 +123,6 @@ loginRouter.post("/forgot-password/reset", async (req, res) => {
       });
     }
 
-    // Verify OTP
     const isValid = verifyOTP(email, otp);
     if (!isValid) {
       return res.status(400).json({
@@ -140,10 +131,8 @@ loginRouter.post("/forgot-password/reset", async (req, res) => {
       });
     }
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
 
-    // Update user's password
     await User.findOneAndUpdate({ email }, { password: hashedPassword });
 
     res.json({
@@ -159,7 +148,6 @@ loginRouter.post("/forgot-password/reset", async (req, res) => {
   }
 });
 
-// Add this new endpoint to verify OTP before password reset
 loginRouter.post("/forgot-password/verify-otp", async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -171,7 +159,6 @@ loginRouter.post("/forgot-password/verify-otp", async (req, res) => {
       });
     }
 
-    // Verify OTP
     const isValid = verifyOTP(email, otp);
     if (!isValid) {
       return res.status(400).json({
@@ -180,7 +167,6 @@ loginRouter.post("/forgot-password/verify-otp", async (req, res) => {
       });
     }
 
-    // If OTP is valid, store it again for the password reset step
     storeOTP(email, otp);
 
     res.json({

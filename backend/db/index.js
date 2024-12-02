@@ -13,7 +13,6 @@ async function connectDB() {
 
 connectDB();
 
-// User Schema
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -62,7 +61,6 @@ const adminSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// Parking Slot Schema
 const parkingSlotSchema = new mongoose.Schema(
   {
     slotNumber: {
@@ -140,106 +138,98 @@ const ReservationSchema = new mongoose.Schema(
   },
 );
 
-// Add index for faster queries
 ReservationSchema.index({ reservationTime: 1, endTime: 1 });
 
-// Explicitly create a non-unique index
 ReservationSchema.index({ vehicleNumberPlate: 1 }, { unique: false });
 
-// Clear existing model if it exists
-mongoose.models = {};
 
-//Feedback Message
 const FeedbackSchema = new mongoose.Schema(
-  {
+    {
     name: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
       minlength: 2,
     },
     email: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     rating: {
-      type: String,
-      required: true,
-      enum: ["1", "2", "3", "4", "5"],
+        type: String,
+        required: true,
+        enum: ["1", "2", "3", "4", "5"],
     },
     message: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
       minlength: 10,
     },
-  },
+},
   { timestamps: true },
 );
 
-// Payment Schema
 const PaymentSchema = new mongoose.Schema(
-  {
-    reservation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Reservation",
-      required: true,
-    },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    amount: {
-      type: Number,
+    {
+        reservation: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Reservation",
+            required: true,
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+        amount: {
+            type: Number,
       required: true,
     },
     duration: {
-      type: Number,
-      required: true,
+        type: Number,
+        required: true,
     },
     status: {
-      type: String,
-      enum: ["completed", "failed"],
-      default: "completed",
+        type: String,
+        enum: ["completed", "failed"],
+        default: "completed",
     },
   },
   { timestamps: true },
 );
 
-// Admin Stats Schema
 const AdminStatsSchema = new mongoose.Schema(
-  {
+    {
     totalIncome: {
       type: Number,
       default: 0,
     },
     totalBookings: {
-      type: Number,
-      default: 0,
+        type: Number,
+        default: 0,
     },
-  },
+},
   { timestamps: true },
 );
 
 const SecuritySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    default: "security",
-  },
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        default: "security",
+    },
 });
-// Models
 const User = mongoose.model("User", UserSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
 const Reservation = mongoose.model("Reservation", ReservationSchema);
@@ -249,7 +239,6 @@ const Admin = mongoose.model("Admin", adminSchema);
 const Payment = mongoose.model("Payment", PaymentSchema);
 const AdminStats = mongoose.model("AdminStats", AdminStatsSchema);
 
-// Add this after your connection setup
 async function initializeAdminStats() {
   try {
     const statsExist = await AdminStats.findOne();
@@ -266,7 +255,6 @@ connectDB().then(() => {
   initializeAdminStats();
 });
 
-// Export Models
 export {
   User,
   ParkingSlot,

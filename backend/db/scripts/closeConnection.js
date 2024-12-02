@@ -13,5 +13,4 @@ async function closeMongoConnection() {
   }
 }
 
-// Run the function
 closeMongoConnection();

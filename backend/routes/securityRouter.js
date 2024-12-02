@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 
 const securityRouter = Router();
 
-// Security Login
 securityRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;

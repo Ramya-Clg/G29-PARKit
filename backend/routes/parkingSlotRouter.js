@@ -5,13 +5,10 @@ import { sendMail } from "../utils/sendBookingDetails.js";
 
 const parkingSlotRouter = Router();
 
-// Helper function to check slot availability and return an available slot
 const findAvailableSlot = async (startTime, endTime) => {
   try {
-    // Get all parking slots
     const allSlots = await ParkingSlot.find({}).sort({ slotNumber: 1 });
 
-    // For each slot, check if it has any overlapping reservations
     for (const slot of allSlots) {
       const overlappingReservation = await Reservation.findOne({
         parkingSlot: slot._id,
@@ -31,7 +28,6 @@ const findAvailableSlot = async (startTime, endTime) => {
   }
 };
 
-// Endpoint to check availability
 parkingSlotRouter.post("/check-availability", async (req, res) => {
   try {
     const { reservationDate, reservationTime, Duration } = req.body;
@@ -40,7 +36,6 @@ parkingSlotRouter.post("/check-availability", async (req, res) => {
       startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
     );
 
-    // Check if the requested time is in the past
     const currentTime = new Date();
     if (startTime < currentTime) {
       return res.json({
@@ -69,7 +64,6 @@ parkingSlotRouter.post("/check-availability", async (req, res) => {
   }
 });
 
-// Booking endpoint
 parkingSlotRouter.post(
   "/reserve",
   authorizationMiddleware,
@@ -92,7 +86,6 @@ parkingSlotRouter.post(
         startTime.getTime() + parseInt(Duration) * 60 * 60 * 1000,
       );
 
-      // Check if the requested time is in the past
       const currentTime = new Date();
       if (startTime < currentTime) {
         return res.status(400).json({
@@ -108,7 +101,6 @@ parkingSlotRouter.post(
         });
       }
 
-      // Check for existing vehicle reservation
       const existingVehicleReservation = await Reservation.findOne({
         vehicleNumberPlate: vehicleNumberPlate.toUpperCase(),
         status: "confirmed",
@@ -131,7 +123,6 @@ parkingSlotRouter.post(
         });
       }
 
-      // Create reservation
       const reservation = new Reservation({
         user: req.user._id,
         parkingSlot: availableSlot._id,
@@ -143,11 +134,9 @@ parkingSlotRouter.post(
       });
       await reservation.save();
 
-      // Update parking slot
       availableSlot.reservations.push(reservation._id);
       await availableSlot.save();
 
-      // Send confirmation email
       try {
         await sendMail({
           receiver: req.user.email,
@@ -180,7 +169,6 @@ parkingSlotRouter.post(
   },
 );
 
-// Checkout endpoint
 parkingSlotRouter.post(
   "/checkout",
   authorizationMiddleware,
@@ -205,7 +193,6 @@ parkingSlotRouter.post(
         });
       }
 
-      // Create payment record
       const payment = new Payment({
         reservation: reservationId,
         user: req.user._id,
@@ -214,13 +201,11 @@ parkingSlotRouter.post(
       });
       await payment.save();
 
-      // Update admin stats
       const adminStats = (await AdminStats.findOne()) || new AdminStats();
       adminStats.totalIncome += amount;
       adminStats.totalBookings += 1;
       await adminStats.save();
 
-      // Update reservation status
       reservation.status = "completed";
       await reservation.save();
 
@@ -257,14 +242,6 @@ parkingSlotRouter.post("/verify-entry", async (req, res) => {
       });
     }
 
-    // if (reservation.status !== "confirmed") {
-    //   return res.status(400).json({
-    //     success: false,
-    //     msg: "Invalid booking status",
-    //   });
-    // }
-
-    // If entry time doesn't exist, set it (entry)
     if (!reservation.actualEntryTime) {
       reservation.actualEntryTime = new Date();
       reservation.status = "active";
@@ -276,7 +253,6 @@ parkingSlotRouter.post("/verify-entry", async (req, res) => {
       });
     }
 
-    // If entry time exists but exit time doesn't, set exit time
     if (!reservation.actualExitTime) {
       reservation.actualExitTime = new Date();
       reservation.status = "completed";

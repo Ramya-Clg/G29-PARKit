@@ -51,8 +51,6 @@ export const adminAuthMiddleware = async (req, res, next) => {
       });
     }
 
-    // Verify the admin token (implement your token verification logic here)
-    // For example:
     const admin = await Admin.findOne({ token });
     if (!admin) {
       return res.status(403).json({

@@ -7,7 +7,6 @@ dotenv.config();
 
 const createAdmin = async () => {
   try {
-    // Connect to MongoDB
     async function connectDB() {
       try {
         await mongoose.connect(`${process.env.MONGODB_URL}testing`);
@@ -19,15 +18,13 @@ const createAdmin = async () => {
 
     await connectDB();
 
-    // Admin details
     const adminData = {
       name: "Admin User",
       email: "admin@example.com",
-      password: "admin123", // This will be hashed
+      password: "admin123", 
       role: "admin",
     };
 
-    // Check if admin already exists in either collection
     const [existingAdmin, existingUser] = await Promise.all([
       Admin.findOne({ email: adminData.email }),
       User.findOne({ email: adminData.email }),
@@ -38,11 +35,9 @@ const createAdmin = async () => {
       process.exit(0);
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(adminData.password, salt);
 
-    // Create new admin in both collections
     const adminDoc = new Admin({
       ...adminData,
       password: hashedPassword,
@@ -51,11 +46,10 @@ const createAdmin = async () => {
     const userDoc = new User({
       ...adminData,
       password: hashedPassword,
-      phoneNumber: "0000000000", // Add a default phone number
-      vehicleNumberPlate: "ADMIN000", // Add a default vehicle number
+      phoneNumber: "0000000000", 
+      vehicleNumberPlate: "ADMIN000", 
     });
 
-    // Save admin to both databases
     await Promise.all([adminDoc.save(), userDoc.save()]);
 
     console.log("Admin created successfully in both collections");
@@ -68,12 +62,10 @@ const createAdmin = async () => {
   } catch (error) {
     console.error("Error creating admin:", error);
   } finally {
-    // Close MongoDB connection
     await mongoose.connection.close();
     console.log("MongoDB connection closed");
     process.exit(0);
   }
 };
 
-// Run the script
 createAdmin();

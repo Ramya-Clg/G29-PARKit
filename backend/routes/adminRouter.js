@@ -12,7 +12,6 @@ import jwt from "jsonwebtoken";
 
 const adminRouter = Router();
 
-// Middleware to check if user is admin
 const isAdmin = async (req, res, next) => {
   try {
     const admin = await Admin.findById(req.user._id);
@@ -32,7 +31,6 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-// Admin Login
 adminRouter.post("/login", async (req, res) => {
   try {
     console.log(req.body);
@@ -82,14 +80,12 @@ adminRouter.post("/login", async (req, res) => {
   }
 });
 
-// Get dashboard overview
 adminRouter.get(
   "/dashboard",
   authorizationMiddleware,
   isAdmin,
   async (req, res) => {
     try {
-      // Get total income and payment stats
       const payments = await Payment.find({ status: "completed" });
       const totalIncome = payments.reduce(
         (sum, payment) => sum + payment.amount,
@@ -98,13 +94,11 @@ adminRouter.get(
       const totalPayments = payments.length;
       const averageAmount = totalPayments > 0 ? totalIncome / totalPayments : 0;
 
-      // Get recent payments with user details
       const recentPayments = await Payment.find()
         .sort({ createdAt: -1 })
         .limit(10)
         .populate("user", "name");
 
-      // Get daily income for the last 7 days
       const sevenDaysAgo = new Date();
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -124,7 +118,6 @@ adminRouter.get(
         { $sort: { _id: 1 } },
       ]);
 
-      // Get monthly distribution
       const monthlyDistribution = await Payment.aggregate([
         {
           $match: { status: "completed" },
@@ -164,7 +157,6 @@ adminRouter.get(
         },
       ]);
 
-      // Get parking stats
       const parkingStats = await ParkingSlot.aggregate([
         {
           $group: {
@@ -211,7 +203,6 @@ adminRouter.get(
   },
 );
 
-// Get all reservations
 adminRouter.get(
   "/reservations",
   authorizationMiddleware,
@@ -238,7 +229,6 @@ adminRouter.get(
   },
 );
 
-// Get parking slot statistics
 adminRouter.get(
   "/slots/stats",
   authorizationMiddleware,
@@ -287,7 +277,6 @@ adminRouter.get(
   },
 );
 
-// Get admin profile
 adminRouter.get(
   "/profile",
   authorizationMiddleware,
@@ -310,7 +299,6 @@ adminRouter.get(
   },
 );
 
-// Get admin stats
 adminRouter.get("/stats", authorizationMiddleware, async (req, res) => {
   try {
     const stats = (await AdminStats.findOne()) || new AdminStats();

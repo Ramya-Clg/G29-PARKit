@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { Feedback } from "../db/index.js"; // Feedback model from your database setup
-import { authorizationMiddleware } from "../middlewares/index.js"; // Middleware for authorization
-import { FeedbackSchema } from "../types/index.js"; // Validation schema for feedback
+import { Feedback } from "../db/index.js"; 
+import { authorizationMiddleware } from "../middlewares/index.js"; 
+import { FeedbackSchema } from "../types/index.js";
 
 const feedbackRouter = Router();
 
 feedbackRouter.post("/submit", async (req, res) => {
   try {
-    console.log("Received feedback data:", req.body); // Add logging
+    console.log("Received feedback data:", req.body);
 
     const parsedData = FeedbackSchema.safeParse(req.body);
     if (!parsedData.success) {

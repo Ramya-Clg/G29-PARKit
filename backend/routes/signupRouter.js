@@ -11,13 +11,10 @@ configDotenv();
 const signupRouter = Router();
 const SALT_ROUNDS = 10;
 
-// Temporary storage for pending users
 const pendingUsers = new Map();
 
-// Step 1: Initial signup request
 signupRouter.post("/initiate", async (req, res) => {
   try {
-    // Validate request body against schema
     console.log(req.body);
     const parsedObj = SignupSchema.safeParse(req.body);
     if (!parsedObj.success) {
@@ -34,7 +31,6 @@ signupRouter.post("/initiate", async (req, res) => {
     const userData = parsedObj.data;
     const { email, password, confirmPassword, acceptTerms } = userData;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -43,10 +39,8 @@ signupRouter.post("/initiate", async (req, res) => {
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    // Create user data object without sensitive/unnecessary fields
     const userDataToStore = {
       name: userData.name,
       email: userData.email,
@@ -54,7 +48,6 @@ signupRouter.post("/initiate", async (req, res) => {
       phone: userData.phone,
     };
 
-    // Generate and send OTP
     const otp = generateOTP();
     const sent = await sendOTP(email, otp);
     if (!sent) {
@@ -64,7 +57,6 @@ signupRouter.post("/initiate", async (req, res) => {
       });
     }
 
-    // Store OTP and user data
     storeOTP(email, otp);
     pendingUsers.set(email, {
       ...userDataToStore,
@@ -85,7 +77,6 @@ signupRouter.post("/initiate", async (req, res) => {
   }
 });
 
-// Step 2: Verify OTP and complete signup
 signupRouter.post("/verify", async (req, res) => {
   const { email, otp } = req.body;
 
@@ -97,7 +88,6 @@ signupRouter.post("/verify", async (req, res) => {
   }
 
   try {
-    // Verify OTP
     const isValid = verifyOTP(email, otp);
     if (!isValid) {
       return res.status(400).json({
@@ -106,7 +96,6 @@ signupRouter.post("/verify", async (req, res) => {
       });
     }
 
-    // Get pending user data
     const userData = pendingUsers.get(email);
     if (!userData) {
       return res.status(400).json({
@@ -115,14 +104,11 @@ signupRouter.post("/verify", async (req, res) => {
       });
     }
 
-    // Create new user
     const newUser = new User(userData);
     await newUser.save();
 
-    // Clear temporary data
     pendingUsers.delete(email);
 
-    // Generate JWT token
     const token = jwt.sign(
       {
         _id: newUser._id,
@@ -154,13 +140,11 @@ signupRouter.post("/verify", async (req, res) => {
   }
 });
 
-// Cleanup pending users every 5 minutes
 setInterval(
   () => {
     const now = Date.now();
     pendingUsers.forEach((userData, email, map) => {
       if (now - userData.timestamp > 10 * 60 * 1000) {
-        // 10 minutes expiry
         map.delete(email);
       }
     });
