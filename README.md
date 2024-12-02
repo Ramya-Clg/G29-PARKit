@@ -24,7 +24,6 @@ With its intuitive interface and robust functionality, ParkIt simplifies parking
 - Can Submit Feedback Form
 - Can Pay and Checkout
 - Logout
-- 
 
 ### Admin Features ⚙️  
 - Can Change Parking Rates
