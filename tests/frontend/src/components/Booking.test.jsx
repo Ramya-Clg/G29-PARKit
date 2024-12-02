@@ -19,7 +19,7 @@ describe("Booking Component", () => {
         <MemoryRouter>
           <Component />
         </MemoryRouter>
-      </ToastProvider>
+      </ToastProvider>,
     );
   };
 
@@ -34,7 +34,9 @@ describe("Booking Component", () => {
     expect(screen.getByLabelText(/select time/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/duration/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/vehicle number plate/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /book parking slot/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /book parking slot/i }),
+    ).toBeInTheDocument();
   });
 
   /**
@@ -85,7 +87,9 @@ describe("Booking Component", () => {
 
     // Wait for the error message
     await waitFor(() => {
-      expect(screen.getByText(/failed to check availability/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/failed to check availability/i),
+      ).toBeInTheDocument();
     });
   });
 
@@ -108,7 +112,9 @@ describe("Booking Component", () => {
     const timeSelect = screen.getByRole("combobox", { name: /select time/i });
     const durationSelect = screen.getByRole("combobox", { name: /duration/i });
     const numberPlateInput = screen.getByLabelText(/vehicle number plate/i);
-    const submitButton = screen.getByRole("button", { name: /book parking slot/i });
+    const submitButton = screen.getByRole("button", {
+      name: /book parking slot/i,
+    });
 
     // Simulate user input
     fireEvent.click(dateInput);
@@ -122,7 +128,9 @@ describe("Booking Component", () => {
 
     // Wait for the success message
     await waitFor(() => {
-      expect(screen.getByText(/slot 42 has been assigned to you/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/slot 42 has been assigned to you/i),
+      ).toBeInTheDocument();
     });
   });
 
@@ -140,7 +148,9 @@ describe("Booking Component", () => {
     const timeSelect = screen.getByRole("combobox", { name: /select time/i });
     const durationSelect = screen.getByRole("combobox", { name: /duration/i });
     const numberPlateInput = screen.getByLabelText(/vehicle number plate/i);
-    const submitButton = screen.getByRole("button", { name: /book parking slot/i });
+    const submitButton = screen.getByRole("button", {
+      name: /book parking slot/i,
+    });
 
     // Simulate user input
     fireEvent.click(dateInput);
@@ -154,7 +164,9 @@ describe("Booking Component", () => {
 
     // Wait for the error message and redirection
     await waitFor(() => {
-      expect(screen.getByText(/please login to book a parking slot/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/please login to book a parking slot/i),
+      ).toBeInTheDocument();
     });
   });
 });

@@ -19,6 +19,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { AdminLogin } from "./components/AdminLogin";
 import { AdminRoute } from "./components/AdminRoute";
 import { ForgotPassword } from "@/components/ForgotPassword";
+import { SecurityVerification } from "./components/SecurityVerification";
+import { SecurityLogin } from "./components/SecurityLogin";
+import { SecurityRoute } from "./components/SecurityRoute";
 
 function PrivateRoute({ element }) {
   const token = localStorage.getItem("token");
@@ -38,6 +41,7 @@ function RootApp() {
     "/admin/dashboard",
     "/admin",
     "/forgot-password",
+    "/security",
   ];
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -61,7 +65,10 @@ function RootApp() {
           element={<PrivateRoute element={<CreditFormMain />} />}
         />
         <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route
+          path="/booking"
+          element={<PrivateRoute element={<Booking />} />}
+        />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route
           path="/admin/dashboard"
@@ -72,6 +79,15 @@ function RootApp() {
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/security"
+          element={
+            <SecurityRoute>
+              <SecurityVerification />
+            </SecurityRoute>
+          }
+        />
+        <Route path="/security/login" element={<SecurityLogin />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <Toaster />

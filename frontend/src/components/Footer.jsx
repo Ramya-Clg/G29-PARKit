@@ -2,6 +2,22 @@ import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom"; // Use 'react-router-dom' for routing in React
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <footer
       id="contact"
@@ -41,13 +57,18 @@ export function Footer() {
             <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="hover:text-[#5B8F8F] transition-colors">
+                <Link
+                  to="/"
+                  onClick={scrollToTop}
+                  className="hover:text-[#5B8F8F] transition-colors"
+                >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/about"
+                  to="/#about"
+                  onClick={scrollToAbout}
                   className="hover:text-[#5B8F8F] transition-colors"
                 >
                   About Us
@@ -55,15 +76,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/services"
-                  className="hover:text-[#5B8F8F] transition-colors"
-                >
-                  Our Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
+                  to="/feedback"
                   className="hover:text-[#5B8F8F] transition-colors"
                 >
                   Contact Us

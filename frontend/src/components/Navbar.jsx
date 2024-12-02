@@ -24,17 +24,19 @@ const Button = ({ children, variant, size, onClick, className, ...props }) => (
 const NavItem = ({ name, href, className, onClick }) => {
   const handleClick = (e) => {
     if (href.startsWith("/#")) {
+      setIsMobileMenuOpen(false);
       e.preventDefault();
-      if (href === "/#home") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        const sectionId = href.replace("/#", "");
-        const section = document.querySelector(`#${sectionId}`);
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-        }
+      const sectionId = href.replace("/#", "");
+      const section = document.querySelector(`#${sectionId}`);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
       }
       if (onClick) onClick();
+    } else {
+      if (href === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
 
@@ -92,7 +94,10 @@ export function Navbar() {
     { name: "Contact", href: "/#contact" },
   ];
 
-  const handleBookNow = () => navigate("/booking");
+  const handleBookNow = () => {
+    setIsMobileMenuOpen(false);
+    navigate("/booking");
+  };
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const handleLogout = () => {
@@ -228,7 +233,7 @@ export function Navbar() {
           )}
           <div className="pt-2 space-y-2">
             <Button
-              className="w-full bg-[var(--text-secondary)] text-[var(--text-light)]"
+              className="w-full bg-[var(--text-secondary)] text-[var(--text-primary)]"
               onClick={handleBookNow}
             >
               BOOK NOW

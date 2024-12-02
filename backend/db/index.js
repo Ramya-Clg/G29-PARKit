@@ -123,9 +123,15 @@ const ReservationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    actualEntryTime: {
+      type: Date,
+    },
+    actualExitTime: {
+      type: Date,
+    },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled", "completed"],
+      enum: ["pending", "confirmed", "cancelled", "completed", "active"],
       default: "confirmed",
     },
   },
@@ -214,10 +220,30 @@ const AdminStatsSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+const SecuritySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    default: "security",
+  },
+});
 // Models
 const User = mongoose.model("User", UserSchema);
 const ParkingSlot = mongoose.model("ParkingSlot", parkingSlotSchema);
 const Reservation = mongoose.model("Reservation", ReservationSchema);
+const Security = mongoose.model("Security", SecuritySchema);
 const Feedback = mongoose.model("Feedback", FeedbackSchema);
 const Admin = mongoose.model("Admin", adminSchema);
 const Payment = mongoose.model("Payment", PaymentSchema);
@@ -241,4 +267,13 @@ connectDB().then(() => {
 });
 
 // Export Models
-export { User, ParkingSlot, Reservation, Feedback, Admin, Payment, AdminStats };
+export {
+  User,
+  ParkingSlot,
+  Reservation,
+  Feedback,
+  Admin,
+  Payment,
+  AdminStats,
+  Security,
+};

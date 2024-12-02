@@ -65,7 +65,12 @@ export const Login = () => {
               </h2>
 
               <div className="inputbox">
-                <ion-icon name="mail-outline" class="text-[#0E8388]"></ion-icon>
+                <div>
+                  <ion-icon
+                    name="mail-outline"
+                    className="text-black pb-2"
+                  ></ion-icon>
+                </div>
                 <input
                   type="email"
                   name="email"

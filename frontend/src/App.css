@@ -99,7 +99,7 @@ input:valid ~ label {
   right: 1vw;
   color: #000000;
   font-size: clamp(1.2rem, 3vw, 1.7rem);
-  top: 2vh;
+  top: 1.5vh;
 }
 
 ion-icon {

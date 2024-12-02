@@ -226,4 +226,60 @@ parkingSlotRouter.post(
   },
 );
 
+parkingSlotRouter.post("/verify-entry", async (req, res) => {
+  try {
+    const { bookingId } = req.body;
+
+    const reservation = await Reservation.findById(bookingId);
+    if (!reservation) {
+      return res.status(404).json({
+        success: false,
+        msg: "Booking not found",
+      });
+    }
+
+    // if (reservation.status !== "confirmed") {
+    //   return res.status(400).json({
+    //     success: false,
+    //     msg: "Invalid booking status",
+    //   });
+    // }
+
+    // If entry time doesn't exist, set it (entry)
+    if (!reservation.actualEntryTime) {
+      reservation.actualEntryTime = new Date();
+      reservation.status = "active";
+      await reservation.save();
+
+      return res.json({
+        success: true,
+        msg: "Entry time recorded successfully",
+      });
+    }
+
+    // If entry time exists but exit time doesn't, set exit time
+    if (!reservation.actualExitTime) {
+      reservation.actualExitTime = new Date();
+      reservation.status = "completed";
+      await reservation.save();
+
+      return res.json({
+        success: true,
+        msg: "Exit time recorded successfully",
+      });
+    }
+
+    return res.status(400).json({
+      success: false,
+      msg: "Booking already completed",
+    });
+  } catch (error) {
+    console.error("Verification error:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Failed to process verification",
+    });
+  }
+});
+
 export default parkingSlotRouter;

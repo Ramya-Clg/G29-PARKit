@@ -7,13 +7,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 jest.mock("axios");
 
 describe("SignUp Component", () => {
-
   // Test case 1: Check if the form renders correctly with the initial fields
   test("renders the SignUp form and submits correctly", async () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Check if the form fields are rendered correctly
@@ -22,24 +21,42 @@ describe("SignUp Component", () => {
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/phone number/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/I agree to the Terms & Conditions/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    ).toBeInTheDocument();
 
     // Fill out the form fields
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "1234567890" } });
-    fireEvent.click(screen.getByLabelText(/I agree to the Terms & Conditions/i));
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "1234567890" },
+    });
+    fireEvent.click(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    );
 
     // Submit the form
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Mock API response for successful submission
-    axios.post.mockResolvedValueOnce({ data: { success: true, data: { token: "test_token" } } });
+    axios.post.mockResolvedValueOnce({
+      data: { success: true, data: { token: "test_token" } },
+    });
 
     // Assert that the loading state is displayed
-    expect(screen.getByRole("button", { name: /sending otp.../i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sending otp.../i }),
+    ).toBeInTheDocument();
 
     // Wait for the next step (email verification form)
     await waitFor(() => {
@@ -52,22 +69,36 @@ describe("SignUp Component", () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Fill out the form with mismatched passwords
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "differentpassword" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "1234567890" } });
-    fireEvent.click(screen.getByLabelText(/I agree to the Terms & Conditions/i));
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "differentpassword" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "1234567890" },
+    });
+    fireEvent.click(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    );
 
     // Submit the form
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Wait for and assert the error message about password mismatch
-    expect(await screen.findByText(/passwords don't match/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/passwords don't match/i),
+    ).toBeInTheDocument();
   });
 
   // Test case 3: Check if the phone number format validation works
@@ -75,22 +106,36 @@ describe("SignUp Component", () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Fill out the form with an invalid phone number
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "12345" } });
-    fireEvent.click(screen.getByLabelText(/I agree to the Terms & Conditions/i));
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "12345" },
+    });
+    fireEvent.click(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    );
 
     // Submit the form
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Check for the phone number validation error message
-    expect(await screen.findByText(/phone number must be 10 digits/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/phone number must be 10 digits/i),
+    ).toBeInTheDocument();
   });
 
   // Test case 4: Check if the agree to terms checkbox is required
@@ -98,21 +143,33 @@ describe("SignUp Component", () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Fill out the form without checking the terms and conditions checkbox
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "1234567890" } });
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "1234567890" },
+    });
 
     // Submit the form
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Check for the error message about agreeing to terms
-    expect(await screen.findByText(/you must accept the terms and conditions/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/you must accept the terms and conditions/i),
+    ).toBeInTheDocument();
   });
 
   // Test case 5: Verify OTP submission and token storage
@@ -120,24 +177,40 @@ describe("SignUp Component", () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Step 1: Simulate submitting the initial signup form
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "1234567890" } });
-    fireEvent.click(screen.getByLabelText(/I agree to the Terms & Conditions/i));
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "1234567890" },
+    });
+    fireEvent.click(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    );
 
     // Mock the axios.post response for successful sign-up
-    axios.post.mockResolvedValueOnce({ data: { success: true, data: { token: "test_token" } } });
+    axios.post.mockResolvedValueOnce({
+      data: { success: true, data: { token: "test_token" } },
+    });
 
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Step 2: Verify OTP
-    fireEvent.change(screen.getByLabelText(/Enter OTP/i), { target: { value: "123456" } });
+    fireEvent.change(screen.getByLabelText(/Enter OTP/i), {
+      target: { value: "123456" },
+    });
 
     axios.post.mockResolvedValueOnce({
       data: { success: true, data: { token: "test_token" } },
@@ -154,25 +227,41 @@ describe("SignUp Component", () => {
     render(
       <Router>
         <SignUp />
-      </Router>
+      </Router>,
     );
 
     // Fill out the form and submit it
-    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: "John Doe" } });
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "johndoe@example.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/confirm password/i), { target: { value: "password123" } });
-    fireEvent.change(screen.getByLabelText(/phone number/i), { target: { value: "1234567890" } });
-    fireEvent.click(screen.getByLabelText(/I agree to the Terms & Conditions/i));
+    fireEvent.change(screen.getByLabelText(/name/i), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "johndoe@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "password123" },
+    });
+    fireEvent.change(screen.getByLabelText(/phone number/i), {
+      target: { value: "1234567890" },
+    });
+    fireEvent.click(
+      screen.getByLabelText(/I agree to the Terms & Conditions/i),
+    );
 
     // Mocking the axios call to simulate a loading state
-    axios.post.mockResolvedValueOnce({ data: { success: true, data: { token: "test_token" } } });
+    axios.post.mockResolvedValueOnce({
+      data: { success: true, data: { token: "test_token" } },
+    });
 
     // Submit the form
     fireEvent.click(screen.getByRole("button", { name: /sign up/i }));
 
     // Ensure the loading spinner is shown during the request
-    expect(screen.getByRole("button", { name: /sending otp.../i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sending otp.../i }),
+    ).toBeInTheDocument();
 
     // Wait for the form to move to the OTP verification step
     await waitFor(() => {

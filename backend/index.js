@@ -8,7 +8,9 @@ import parkingSlotRouter from "./routes/parkingSlotRouter.js";
 import feedbackRouter from "./routes/feedbackRouter.js";
 import userRouter from "./routes/userRouter.js";
 import adminRouter from "./routes/adminRouter.js";
+import securityRouter from "./routes/securityRouter.js";
 
+// Add this line with your other route configurations
 dotenv.config();
 
 const app = express();
@@ -26,6 +28,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/login", loginRouter);
+app.use("/api/security", securityRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/parking", parkingSlotRouter);
 app.use("/api/feedback", feedbackRouter);

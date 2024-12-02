@@ -1,5 +1,7 @@
-
-import { authorizationMiddleware, adminAuthMiddleware } from "../../../backend/middlewares/index.js";
+import {
+  authorizationMiddleware,
+  adminAuthMiddleware,
+} from "../../../backend/middlewares/index.js";
 import { Admin } from "../../../backend/db/index.js";
 import jwt from "jsonwebtoken";
 
@@ -18,9 +20,9 @@ describe("Authorization Middleware", () => {
 
   beforeEach(() => {
     req = { headers: {} };
-    res = { 
-      status: jest.fn().mockReturnThis(), 
-      json: jest.fn() 
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
     };
     next = jest.fn();
   });
@@ -28,42 +30,60 @@ describe("Authorization Middleware", () => {
   test("Should respond with 401 if no token is provided", async () => {
     await authorizationMiddleware(req, res, next);
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ success: false, msg: "No token provided" });
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      msg: "No token provided",
+    });
     expect(next).not.toHaveBeenCalled();
   });
 
   test("Should proceed with valid token", async () => {
     req.headers.authorization = "Bearer validToken";
-    jwt.verify.mockReturnValue({ _id: "123", role: "user", email: "test@example.com" });
+    jwt.verify.mockReturnValue({
+      _id: "123",
+      role: "user",
+      email: "test@example.com",
+    });
 
     await authorizationMiddleware(req, res, next);
 
-    expect(jwt.verify).toHaveBeenCalledWith("validToken", process.env.JWT_SECRET);
-    expect(req.user).toEqual({ _id: "123", role: "user", email: "test@example.com" });
+    expect(jwt.verify).toHaveBeenCalledWith(
+      "validToken",
+      process.env.JWT_SECRET,
+    );
+    expect(req.user).toEqual({
+      _id: "123",
+      role: "user",
+      email: "test@example.com",
+    });
     expect(next).toHaveBeenCalled();
   });
 
   test("Should respond with 401 for invalid token", async () => {
     req.headers.authorization = "Bearer invalidToken";
-    jwt.verify.mockImplementation(() => { throw new Error("Invalid token"); });
+    jwt.verify.mockImplementation(() => {
+      throw new Error("Invalid token");
+    });
 
     await authorizationMiddleware(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ success: false, msg: "Invalid token" });
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      msg: "Invalid token",
+    });
     expect(next).not.toHaveBeenCalled();
   });
 });
-
 
 describe("Admin Authorization Middleware", () => {
   let req, res, next;
 
   beforeEach(() => {
     req = { headers: {} };
-    res = { 
-      status: jest.fn().mockReturnThis(), 
-      json: jest.fn() 
+    res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
     };
     next = jest.fn();
   });
@@ -71,7 +91,10 @@ describe("Admin Authorization Middleware", () => {
   test("Should respond with 401 if no token is provided", async () => {
     await adminAuthMiddleware(req, res, next);
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ success: false, message: "No token provided" });
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "No token provided",
+    });
     expect(next).not.toHaveBeenCalled();
   });
 
@@ -93,7 +116,10 @@ describe("Admin Authorization Middleware", () => {
     await adminAuthMiddleware(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(403);
-    expect(res.json).toHaveBeenCalledWith({ success: false, message: "Not authorized" });
+    expect(res.json).toHaveBeenCalledWith({
+      success: false,
+      message: "Not authorized",
+    });
     expect(next).not.toHaveBeenCalled();
   });
 });

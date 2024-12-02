@@ -10,7 +10,6 @@ jest.mock("../../../backend/mailTransporter", () => ({
 }));
 
 describe("OTP Service", () => {
-  
   // Test for OTP generation
   describe("generateOTP", () => {
     test("should generate a 6-digit OTP", () => {
@@ -33,9 +32,11 @@ describe("OTP Service", () => {
     test("should send OTP email successfully", async () => {
       const email = "test@example.com";
       const otp = "123456";
-      
+
       // Mock the behavior of sendMail to simulate email sending success
-      transporter.sendMail.mockResolvedValue({ response: "Email sent successfully" });
+      transporter.sendMail.mockResolvedValue({
+        response: "Email sent successfully",
+      });
 
       const result = await sendOTP(email, otp);
 
@@ -52,7 +53,7 @@ describe("OTP Service", () => {
     test("should return false if sendMail fails", async () => {
       const email = "test@example.com";
       const otp = "123456";
-      
+
       // Simulate an error from sendMail
       transporter.sendMail.mockRejectedValue(new Error("Failed to send email"));
 

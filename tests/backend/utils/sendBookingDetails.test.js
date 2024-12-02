@@ -11,9 +11,11 @@ describe("sendMail", () => {
   test("should send a confirmation email successfully", async () => {
     const receiver = "test@example.com";
     const otp = "123456";
-    
+
     // Mock sendMail to resolve successfully
-    transporter.sendMail.mockResolvedValue({ response: "Email sent successfully" });
+    transporter.sendMail.mockResolvedValue({
+      response: "Email sent successfully",
+    });
 
     const result = await sendMail({ receiver, otp });
 
@@ -30,7 +32,7 @@ describe("sendMail", () => {
   test("should throw an error if email sending fails", async () => {
     const receiver = "test@example.com";
     const otp = "123456";
-    
+
     // Mock sendMail to simulate an error
     transporter.sendMail.mockRejectedValue(new Error("Failed to send email"));
 

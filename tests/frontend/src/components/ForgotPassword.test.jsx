@@ -23,7 +23,9 @@ describe("ForgotPassword Component", () => {
     render(<ForgotPassword />);
 
     const emailInput = screen.getByPlaceholderText("Enter your email");
-    const submitButton = screen.getByRole("button", { name: /send reset code/i });
+    const submitButton = screen.getByRole("button", {
+      name: /send reset code/i,
+    });
 
     // Simulate entering email
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
@@ -48,7 +50,9 @@ describe("ForgotPassword Component", () => {
     render(<ForgotPassword />);
 
     const emailInput = screen.getByPlaceholderText("Enter your email");
-    const submitButton = screen.getByRole("button", { name: /send reset code/i });
+    const submitButton = screen.getByRole("button", {
+      name: /send reset code/i,
+    });
 
     // Simulate entering an invalid email
     fireEvent.change(emailInput, { target: { value: "invalid-email" } });
@@ -57,7 +61,9 @@ describe("ForgotPassword Component", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/please enter a valid email address/i),
+      ).toBeInTheDocument();
     });
   });
 
@@ -121,8 +127,12 @@ describe("ForgotPassword Component", () => {
     fireEvent.click(screen.getByRole("button", { name: /verify code/i }));
 
     const passwordInput = screen.getByPlaceholderText("New password");
-    const confirmPasswordInput = screen.getByPlaceholderText("Confirm new password");
-    const submitButton = screen.getByRole("button", { name: /reset password/i });
+    const confirmPasswordInput = screen.getByPlaceholderText(
+      "Confirm new password",
+    );
+    const submitButton = screen.getByRole("button", {
+      name: /reset password/i,
+    });
 
     // Simulate entering new password
     fireEvent.change(passwordInput, { target: { value: "NewPass123" } });
@@ -152,11 +162,15 @@ describe("ForgotPassword Component", () => {
     fireEvent.click(screen.getByRole("button", { name: /verify code/i }));
 
     const passwordInput = screen.getByPlaceholderText("New password");
-    const confirmPasswordInput = screen.getByPlaceholderText("Confirm new password");
+    const confirmPasswordInput = screen.getByPlaceholderText(
+      "Confirm new password",
+    );
 
     // Simulate entering mismatched passwords
     fireEvent.change(passwordInput, { target: { value: "NewPass123" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "WrongPass123" } });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: "WrongPass123" },
+    });
 
     // Simulate form submission
     fireEvent.click(screen.getByRole("button", { name: /reset password/i }));
