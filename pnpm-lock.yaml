@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      prettier:
-        specifier: 3.3.3
-        version: 3.3.3
     devDependencies:
       concurrently:
         specifier: ^9.1.0
