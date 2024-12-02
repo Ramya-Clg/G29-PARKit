@@ -120,8 +120,13 @@ export default function Component() {
   };
 
   useEffect(() => {
-    const subscription = form.watch((value, { name, type }) => {
-      if (value.date && value.time && value.duration) {
+    const subscription = form.watch((value, { name }) => {
+      if (
+        (name === "date" || name === "time" || name === "duration") &&
+        value.date && 
+        value.time && 
+        value.duration
+      ) {
         checkAvailability(value.date, value.time, value.duration);
       }
     });
